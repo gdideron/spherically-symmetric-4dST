@@ -48,13 +48,10 @@ sim.set_derived_params()
 ### for slurm script
 ##############################################################################
 sim.walltime= '4:00:00' ### (hh:mm:ss)
-sim.memory=   '100' ### MB 
+sim.memory=   '200' ### MB 
 ##############################################################################
 if (sim.run_type == "basic_run"):
-	sim.make_output_dir()
-	sim.write_sim_params()
-	sim.write_slurm_script()
-	subprocess.call("sbatch run.slurm", shell="True")
+	sim.launch()
 ##############################################################################
 else:
 	raise ValueError("run_type = "+str(sim.run_type)) 
