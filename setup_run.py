@@ -9,8 +9,8 @@ sim= Sim(args)
 #-----------------------------------------------------------------------------
 sim.compactification_length= float(100) 
 #-----------------------------------------------------------------------------
-sim.evolve_time=   float(200) ### in units of initial black hole mass for ze field 
-sim.num_saved_times= int(500)
+sim.evolve_time=   float(10)  ### in units of initial black hole mass for ze field 
+sim.num_saved_times= int(100)
 sim.cfl= 0.25
 #-----------------------------------------------------------------------------
 ### scalar field potentials
@@ -35,7 +35,7 @@ sim.bh_mass= float(10.0)
 sim.charge= float(0.004)
 #-----------------------------------------------------------------------------
 ### for the Gaussian-like pulse
-sim.amp= float(1e-9)
+sim.amp= float(1e-2)
 sim.r_l= float(25.0)
 sim.r_u= float(45.0)
 #-----------------------------------------------------------------------------
@@ -45,11 +45,18 @@ sim.set_derived_params()
 ##############################################################################
 ### for slurm script
 ##############################################################################
-sim.walltime= '4:00:00' ### (hh:mm:ss)
-sim.memory=   '200' ### MB 
+sim.walltime= '2:00:00' ### (hh:mm:ss)
+sim.memory=   '20' ### MB 
 ##############################################################################
 if (sim.run_type == "basic_run"):
 	sim.launch()
+##############################################################################
+if (sim.run_type == "convergence_test"):
+	num_res= int(input("number of resolutions"))
+	for i in range(num_res):	
+		sim.launch()
+		sim.nx= 2*(sim.nx-1)+1 
+		time.sleep(1)
 ##############################################################################
 else:
 	raise ValueError("run_type = "+str(sim.run_type)) 

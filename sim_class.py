@@ -57,10 +57,10 @@ class Sim:
 		self.output_dir= str(
 			data_dir+'/'
 		+	'_'.join('_'.join(time.asctime().split(' ')).split(':'))
-		+	'_nx'+str(self.nx)
-		+	'_mu'+str(self.mu)
-		+	'_la'+str(self.la)
-		+	'_gbc2'+str(self.gbc2)
+		+	'_nx_'+str(self.nx)
+		+	'_mu_'+str(self.mu)
+		+	'_la_'+str(self.la)
+		+	'_gbc2_'+str(self.gbc2)
 		)
 		os.makedirs(self.output_dir)
 ##############################################################################

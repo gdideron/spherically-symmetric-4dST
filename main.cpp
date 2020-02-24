@@ -104,6 +104,11 @@ int main(int argc, char **argv)
 	sdf.write(grid_time,  ingoing_c);
 	sdf.write(grid_time, outgoing_c);
 /*--------------------------------------------------------------------------*/		
+	cout<<setw(10)<<0<<"\t";
+	cout<<setw(10)<<rp.r[sp.nx-8]*pow(ze.np1[sp.nx-8],2)/2<<"\t";
+	cout<<setw(10)<<phi_f.np1[sp.phi_pt]<<"\t";
+	cout<<endl;
+/*--------------------------------------------------------------------------*/		
 /* 	evolve in time and write to file */
 /*--------------------------------------------------------------------------*/		
 	for (int tC=0; tC<sp.nt; ++tC) {
