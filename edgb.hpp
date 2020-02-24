@@ -43,6 +43,14 @@ public:
 		const vector<double>  &p_v, const vector<double>  &q_v,
 		vector<double> &eom_rr
 	);
+	void compute_ncc(
+		const int exc_i,
+		const int nx, const double dx, const double cl, 
+		const vector<double> &r_v, 
+		const vector<double> &al, const vector<double> &ze,
+		const vector<double> &p,  const vector<double> &q,
+		vector<double> &ncc
+	);
 private:
 	const double dt;
 	const double dx;

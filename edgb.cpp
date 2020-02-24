@@ -851,3 +851,46 @@ void EdGB::compute_eom_rr(
 	}
 	return;
 }
+/*===========================================================================*/
+/* Ricci tensor contracted on two outgoing null vectors */
+/*===========================================================================*/
+void EdGB::compute_ncc(
+	const int exc_i,
+	const int nx, const double dx, const double cl, 
+	const vector<double> &r_v, 
+	const vector<double> &al_v, const vector<double> &ze_v,
+	const vector<double> &p_v,  const vector<double> &q_v,
+	vector<double> &ncc)
+{
+	for (int i=exc_i+2; i<nx-3; ++i) {
+		double r= r_v[i];
+		double cf= 1/(1+r/cl);
+		
+		double Al= al_v[i];
+		double Ze= ze_v[i];
+		double P=  p_v[i];
+		double Q=  q_v[i];
+		
+		double V=   V_v[i];
+		double Vp=  Vp_v[i];
+		double Wp=  Wp_v[i];
+		double Wpp= Wpp_v[i];
+		
+		double r_Der_Al= pow(cf,2)*Dx_ptc_4th(al_v[i+2],al_v[i+1],al_v[i-1],al_v[i-2],dx);
+		double r_Der_Ze= pow(cf,2)*Dx_ptc_4th(ze_v[i+2],ze_v[i+1],ze_v[i-1],ze_v[i-2],dx);
+		double r_Der_P=  pow(cf,2)*Dx_ptc_4th( p_v[i+2], p_v[i+1], p_v[i-1], p_v[i-2],dx);
+		double r_Der_Q=  pow(cf,2)*Dx_ptc_4th( q_v[i+2], q_v[i+1], q_v[i-1], q_v[i-2],dx);
+		
+		double t_Der_Ze= compute_ze_free_k(
+			r,
+			Al, Ze,
+			P,  Q,
+			V,  Vp, Wp, Wpp,
+			r_Der_Al, r_Der_Ze,
+			r_Der_P,  r_Der_Q
+		);
+		
+		ncc[i]= (2*t_Der_Ze*Al)/r + r_Der_Al*((2*Al)/r - (4*Al*Ze)/r + (2*Al*pow(Ze,2))/r);
+	}
+	return;
+}

@@ -9,19 +9,19 @@ sim= Sim(args)
 #-----------------------------------------------------------------------------
 sim.compactification_length= float(100) 
 #-----------------------------------------------------------------------------
-sim.evolve_time=   float(10)  ### in units of initial black hole mass for ze field 
-sim.num_saved_times= int(100)
+sim.evolve_time=   float(200)  ### in units of initial black hole mass for ze field 
+sim.num_saved_times= int(2000)
 sim.cfl= 0.25
 #-----------------------------------------------------------------------------
 ### scalar field potentials
 #-----------------------------------------------------------------------------
-sim.mu= 0.0
-sim.la= 0.0
+sim.mu= 0.015
+sim.la= 0.003
 
 sim.gbc1= 0.0
-sim.gbc2= 0.0
+sim.gbc2= 250.0
 #-----------------------------------------------------------------------------
-sim.phi_r= 20  ### where measuring phi
+sim.phi_r= 21  ### where measuring phi
 #-----------------------------------------------------------------------------
 ### initial data
 #-----------------------------------------------------------------------------
@@ -37,26 +37,26 @@ sim.charge= float(0.004)
 ### for the Gaussian-like pulse
 sim.amp= float(1e-2)
 sim.r_l= float(25.0)
-sim.r_u= float(45.0)
+sim.r_u= float(30.0)
 #-----------------------------------------------------------------------------
-sim.nx= pow(2,10)+1 
+sim.nx= pow(2,9)+1 
 #-----------------------------------------------------------------------------
 sim.set_derived_params()
 ##############################################################################
 ### for slurm script
 ##############################################################################
-sim.walltime= '2:00:00' ### (hh:mm:ss)
+sim.walltime= '118:00:00' ### (hh:mm:ss)
 sim.memory=   '20' ### MB 
 ##############################################################################
 if (sim.run_type == "basic_run"):
 	sim.launch()
 ##############################################################################
-if (sim.run_type == "convergence_test"):
-	num_res= int(input("number of resolutions"))
+elif (sim.run_type == "convergence_test"):
+	num_res= int(input("number of resolutions "))
 	for i in range(num_res):	
 		sim.launch()
 		sim.nx= 2*(sim.nx-1)+1 
-		time.sleep(1)
+		time.sleep(5)
 ##############################################################################
 else:
 	raise ValueError("run_type = "+str(sim.run_type)) 

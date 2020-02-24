@@ -53,6 +53,8 @@ int main(int argc, char **argv)
 
 	Field  ingoing_c( "ingoing_c",sp.nx,0);
 	Field outgoing_c("outgoing_c",sp.nx,0);
+
+	Field ncc("ncc",sp.nx,0);
 /*--------------------------------------------------------------------------*/		
 /* initial data */
 /*--------------------------------------------------------------------------*/		
@@ -94,6 +96,16 @@ int main(int argc, char **argv)
 	);
 	sdf.write(grid_time, res_q);
 	sdf.write(grid_time, eom_rr);
+	
+	edgb.compute_ncc(
+		exc_i,
+		sp.nx, sp.dx, sp.cl, 
+		rp.r, 
+		al.np1,       ze.np1,
+		phi_p.np1, phi_q.np1,
+		ncc.np1
+	);
+	sdf.write(grid_time, ncc);
 
 	edgb.compute_radial_characteristics(
 		exc_i,
@@ -143,6 +155,15 @@ int main(int argc, char **argv)
 				phi_f.np1, phi_p.np1, phi_q.np1,
 				eom_rr.np1
 			);
+	
+			edgb.compute_ncc(
+				exc_i,
+				sp.nx, sp.dx, sp.cl, 
+				rp.r, 
+				al.np1,       ze.np1,
+				phi_p.np1, phi_q.np1,
+				ncc.np1
+			);
 /*--------------------------------------------------------------------------*/		
 			phi_f.set_to_val(0,exc_i-1,0);
 			phi_p.set_to_val(0,exc_i-1,0);
@@ -153,6 +174,8 @@ int main(int argc, char **argv)
 
 			res_q.set_to_val( 0,exc_i-1,0);
 			eom_rr.set_to_val(0,exc_i-1,0);
+
+			ncc.set_to_val( 0,exc_i-1,0);
 
 			ingoing_c.set_to_val( 0,exc_i-1,0);
 			outgoing_c.set_to_val(0,exc_i-1,0);
@@ -166,7 +189,8 @@ int main(int argc, char **argv)
 
 			sdf.write(grid_time, res_q);
 			sdf.write(grid_time, eom_rr);
-
+			
+			sdf.write(grid_time, ncc);
 			sdf.write(grid_time,  ingoing_c);
 			sdf.write(grid_time, outgoing_c);
 /*--------------------------------------------------------------------------*/		
