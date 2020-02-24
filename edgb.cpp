@@ -2,7 +2,6 @@
 using std::pow;
 using std::exp;
 using std::fabs;
-using std::isnan;
 #include <iomanip>
 using std::setprecision;
 using std::setw;

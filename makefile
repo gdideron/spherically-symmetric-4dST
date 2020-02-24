@@ -1,16 +1,13 @@
-CC=clang++#g++#
+CC=g++#clang++#
 
 ifeq ($(CC),g++)
-	CFLAGS= -Wall -Wextra -g -O3 -std=c++14 -fmax-errors=5   
+	CFLAGS= -Wall -Wextra -g -O3 -std=c++11 -fmax-errors=5   
 else
-	CFLAGS= -Wall -Wextra -g -O3 -std=c++14 -ferror-limit=5
+	CFLAGS= -Wall -Wextra -g -O3 -std=c++11 -ferror-limit=5
 endif
 
-LIBS= -lm \
-	-lbbhutil ### to save to sdf 
-#	-lhdf5 -L/usr/lib/x86_64-linux-gnu/hdf5/serial/ ### to save to hdf5
-	
-LDFLAGS= #-I /usr/include/hdf5/serial/ ### to save to hdf5 
+LDFLAGS = -I/home/jripley/rnpletal/include -L/home/jripley/rnpletal/lib \
+	-lbbhutil -lm 
 
 OBJECTS= main.o \
 	edgb.o \
@@ -52,10 +49,10 @@ DEPS_INDEP_RES= indep_res.hpp \
 	field.hpp
 
 run: $(OBJECTS)
-	$(CC) -o run $(OBJECTS) $(LDFLAGS) $(LIBS) $(CFLAGS)
+	$(CC) -o run $(OBJECTS) $(LDFLAGS) $(CFLAGS)
 
 test: $(OBJECTS)
-	$(CC) -o test $(OBJECTS) $(LDFLAGS) $(LIBS) $(CFLAGS)
+	$(CC) -o test $(OBJECTS) $(LDFLAGS) $(CFLAGS)
 
 main.o: main.cpp $(DEPS_MAIN)
 	$(CC) -c main.cpp $(LDFLAGS) $(CFLAGS)
