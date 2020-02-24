@@ -36,10 +36,8 @@ public:
 	double charge;
 
 	double amp;
-	double r_c;
 	double r_l;
 	double r_u;
-	double r_w;	
 
 	Sim_params(const string output_dir);
 	~Sim_params(void);	

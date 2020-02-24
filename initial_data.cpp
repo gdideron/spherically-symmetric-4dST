@@ -24,37 +24,12 @@ void set_initial_data(
 	double amp= sp.amp;
 	double r_l= sp.r_l;
 	double r_u= sp.r_u;
-	double r_c= sp.r_c;
-	double r_w= sp.r_w;
+	
+	double max_val= 0;
 	
 	double charge= sp.charge;
 
 	assert(r_u>r_l);
-/*-------------------------------------------------------------------------*/
-	if (sp.initial_data_type=="bump") {	
-		for (int i=0; i<sp.nx-1; ++i) {
-			double r= rvec[i];
-			if ((r>r_l)&&(r<r_u)) {
-				double bump= amp*exp(-pow((r-r_l)*(r_u-r),-1))*exp(-pow(r-r_c,2)*pow(r_w,-2)/2); 
-
-				f.n[i]= pow(r-r_l,2)*pow(r_u-r,2)*bump; 
-				p.n[i]= 0;
-				q.n[i]= (
-					2*(r-r_l)*pow(r_u-r,2)
-				-	2*pow(r-r_l,2)*(r_u-r)
-				-	(2*r-r_u-r_l)
-				-	pow(r-r_l,2)*pow(r_u-r,2)*((r-r_c)*pow(r_w,-2))
-				)*bump;
-			} else {
-				f.n[i]= 0;
-				p.n[i]= 0;
-				q.n[i]= 0;
-			}
-			f.np1[i]= f.n[i]; 
-			p.np1[i]= p.n[i];
-			q.np1[i]= q.n[i];
-		}
-	} else 	
 /*-------------------------------------------------------------------------*/
 	if (sp.initial_data_type=="bump_with_bh") {
 		for (int i=sp.initial_exc_i; i<sp.nx-1; ++i) {
@@ -62,24 +37,22 @@ void set_initial_data(
 			if ((r>r_l)
 			&&  (r<r_u)
 			) {
-				double bump= amp*exp(-pow((r-r_l)*(r_u-r),-1))*exp(-pow(r-r_c,2)*pow(r_w,-2)/2); 
+				double bump= exp(-1./(r_u-r))*exp(-1./(r-r_l)); 
 
 				f.n[i]= pow(r-r_l,2)*pow(r_u-r,2)*bump; 
 				p.n[i]= 0;
 				q.n[i]= (
 					2*(r-r_l)*pow(r_u-r,2)
 				-	2*pow(r-r_l,2)*(r_u-r)
-				-	(2*r-r_u-r_l)
-				-	pow(r-r_l,2)*pow(r_u-r,2)*((r-r_c)*pow(r_w,-2))
+				+	pow(r_u-r,2)
+				-	pow(r-r_l,2)
 				)*bump;
 			} else {
 				f.n[i]= 0;
 				p.n[i]= 0;
 				q.n[i]= 0;
 			}
-			f.np1[i]= f.n[i]; 
-			p.np1[i]= p.n[i];
-			q.np1[i]= q.n[i];
+			max_val= (fabs(f.n[i])>max_val) ? fabs(f.n[i]) : max_val;
 
 			al.n[i]= 1;
 			ze.n[i]= pow(2*sp.bh_mass/r,0.5);
@@ -93,6 +66,16 @@ void set_initial_data(
 			ze.inter_3[i]= ze.n[i];
 			ze.inter_4[i]= ze.n[i];
 			ze.np1[i]=     ze.n[i];
+		}
+/* rescale so amp is actual maximum val */
+		for (int i=0; i<sp.nx-1; ++i) {
+			f.n[i]*= amp/max_val;
+			q.n[i]*= amp/max_val;
+			p.n[i]*= amp/max_val;
+
+			f.np1[i]= f.n[i]; 
+			p.np1[i]= p.n[i];
+			q.np1[i]= q.n[i];
 		}
 /*-------------------------------------------------------------------------*/
 	} else 	

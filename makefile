@@ -1,10 +1,6 @@
-CC=g++#clang++#
+CC=g++
 
-ifeq ($(CC),g++)
-	CFLAGS= -Wall -Wextra -g -O3 -std=c++11 -fmax-errors=5   
-else
-	CFLAGS= -Wall -Wextra -g -O3 -std=c++11 -ferror-limit=5
-endif
+CFLAGS= -Wall -Wextra -g -O2 -std=c++11 -fmax-errors=5   
 
 LDFLAGS = -I/home/jripley/rnpletal/include -L/home/jripley/rnpletal/lib \
 	-lbbhutil -lm 

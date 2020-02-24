@@ -57,10 +57,8 @@ Sim_params::Sim_params(const string output_dir)
 	charge= stod(read_sim_params(output_dir,"charge"));
 
 	amp= stod(read_sim_params(output_dir,"amp"));
-	r_c= stod(read_sim_params(output_dir,"r_c"));
 	r_l= stod(read_sim_params(output_dir,"r_l"));
 	r_u= stod(read_sim_params(output_dir,"r_u"));
-	r_w= stod(read_sim_params(output_dir,"r_w"));
 }
 /*===========================================================================*/
 Sim_params::~Sim_params(void)
