@@ -1,0 +1,15 @@
+Evolution codes for EdGB gravity in spherical symmetry.
+------------------------------------------------------------------------------
+For help please contact Justin Ripley at jripley@princeton.edu. 
+------------------------------------------------------------------------------
+The code ouputs to ``sdf'' files; see 
+http://laplace.physics.ubc.ca/Group/Software.html
+for more information.
+It should be straightforward to alter the code to save to other file types. 
+------------------------------------------------------------------------------
+This setup files (setup.py and sim_class.py)
+are configured to run on the Feynman cluster at Princeton University.
+They do so by writing a slurm script given certain input data
+(for information on slurm: https://slurm.schedmd.com/documentation.html).
+With minor modifications the setup files can run the code on a personal
+computer. 
