@@ -123,10 +123,8 @@ class Sim:
 		while ((gbc2_range[1]-gbc2_range[0])/(gbc2_range[1]+gbc2_range[0])>1e-3): 
 			self.gbc2= (gbc2_range[1]+gbc2_range[0])/2.
 
-			if not first_time:
-				self.mu= mu_hat/pow(self.gbc,0.5)
-				self.la= la_hat/self.gbc
-			first_time= False
+			self.mu= self.mu_hat/pow(self.gbc2,0.5)
+			self.la= self.la_hat/self.gbc2
 
 			self.launch()
 
