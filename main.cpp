@@ -209,7 +209,7 @@ int main(int argc, char **argv)
 	}
 	clock_t end= std::clock();
 	cout<<endl;
-	cout<<"run finished successfully"<<endl;
+	cout<<"run_finished_successfully"<<endl;
 	cout<<"time (to run, in sec): "<<difftime(end,start)/CLOCKS_PER_SEC<<endl;
 	cout<<"initial asymptotic mass: "<<initial_asymptotic_mass<<endl;
 	cout<<"time T: "<<sp.nt*sp.dt/initial_asymptotic_mass<<endl;

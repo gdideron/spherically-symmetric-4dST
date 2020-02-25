@@ -35,9 +35,9 @@ sim.bh_mass= float(10.0)
 sim.charge= float(0.004)
 #-----------------------------------------------------------------------------
 ### for the Gaussian-like pulse
-sim.amp= float(1e-3)
-sim.r_l= float(25.0)
-sim.r_u= float(30.0)
+sim.amp= float(16.0e-3)
+sim.r_l= float(24.0)
+sim.r_u= float(32.0)
 #-----------------------------------------------------------------------------
 sim.nx= pow(2,10)+1 
 #-----------------------------------------------------------------------------
@@ -61,7 +61,11 @@ elif (sim.run_type == "convergence_test"):
 ### varying eta with a fixed initial phi amplitude
 ###############################################################################
 elif (sim.run_type == "search_for_elliptic"):
-	gbc2_range=[350.0,500.0]
+	gbc2_range=[100.0,625.0]
+
+	sim.mu_hat= 0.5
+	sim.la_hat= 3.0
+
 	sim.search_for_elliptic(gbc2_range)
 ##############################################################################
 else:
