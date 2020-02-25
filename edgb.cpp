@@ -793,6 +793,10 @@ void EdGB::compute_radial_characteristics(
 		outgoing[i]= outgoing_c;
 	}
 	exc_i= new_exc_i;
+
+	if (outgoing[exc_i+1]>0) {
+		cout<<"NAKED_ELLIPTIC_REGION"<<endl;
+	}
 	return;
 }
 /*===========================================================================*/

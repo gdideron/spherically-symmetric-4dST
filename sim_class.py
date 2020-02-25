@@ -58,6 +58,7 @@ class Sim:
 			data_dir+'/'
 		+	'_'.join('_'.join(time.asctime().split(' ')).split(':'))
 		+	'_nx_'+str(self.nx)
+		+	'_amp_'+str(self.amp)
 		+	'_mu_'+str(self.mu)
 		+	'_la_'+str(self.la)
 		+	'_gbc2_'+str(self.gbc2)
@@ -88,6 +89,22 @@ class Sim:
 			'{}/run.slurm'.format(home_dir),
 			'{}/run.slurm'.format(self.output_dir)
 		)
+##############################################################################
+	def search_for_elliptic(self,gbc2_range):
+		while ((gbc2_range[1]-gbc2_range[0])/(gbc2_range[1]+gbc2_range[0])>1e-3): 
+			self.gbc2= (gbc2_range[1]+gbc2_range[0])/2.
+			self.launch()
+			done= False
+			while not done:
+				time.sleep(10)
+				with open(self.output_dir+'/output.out','r') as f:
+					for line in f:
+						if line.startswith("NAKED_ELLIPTIC_REGION"):
+							gbc2_range[1]= self.gbc2
+							done= True
+						if line.startswith("run finished successfully"):
+							gbc2_range[0]= self.gbc2
+							done= True	
 ##############################################################################
 	def launch(self):
 		self.make_output_dir()
