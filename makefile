@@ -3,7 +3,7 @@ CC=g++
 CFLAGS= -Wall -Wextra -g -O2 -std=c++11 -fmax-errors=5   
 
 LDFLAGS = -I/home/jripley/rnpletal/include -L/home/jripley/rnpletal/lib \
-	-lbbhutil -lm 
+	-lbbhutil -lm
 
 OBJECTS= main.o \
 	edgb.o \

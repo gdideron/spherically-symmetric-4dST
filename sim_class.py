@@ -91,14 +91,14 @@ class Sim:
 		)
 ##############################################################################
 	def init_record(self):
-		record= (
+		self.record= (
 			data_dir
 		+	'/record_amp_'+str(self.amp)
 		+	'_muhat_'+str(self.mu_hat)
 		+	'_lahat_'+str(self.la_hat)
 		+	'.txt'
 		)
-		with open(record,'w') as rec:
+		with open(self.record,'w') as rec:
 			rec.write('nx ' +str(self.nx)+'\n')
 			rec.write('amp '+str(self.amp)+'\n')
 			rec.write('r_l '+str(self.r_l)+'\n')
@@ -108,7 +108,7 @@ class Sim:
 			rec.write('bh_mass '+str(self.bh_mass)+'\n')	
 ##############################################################################
 	def write_to_record(self,result):
-		with open(record,'w') as rec:
+		with open(self.record,'w') as rec:
 			rec.write('gbc2 '+str(self.gbc2)+' '+str(result))
 ##############################################################################
 	def delete_output_dir(self):
