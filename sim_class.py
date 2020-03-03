@@ -96,6 +96,7 @@ class Sim:
 		+	'/record_amp_'+str(self.amp)
 		+	'_muhat_'+str(self.mu_hat)
 		+	'_lahat_'+str(self.la_hat)
+		+	'_nx_'+str(self.nx)
 		+	'.txt'
 		)
 		with open(self.record,'w') as rec:
@@ -103,13 +104,13 @@ class Sim:
 			rec.write('amp '+str(self.amp)+'\n')
 			rec.write('r_l '+str(self.r_l)+'\n')
 			rec.write('r_u '+str(self.r_u)+'\n')
-			rec.write('mu_hat'+str(self.mu_hat)+'\n')
-			rec.write('la_hat'+str(self.la_hat)+'\n')
+			rec.write('mu_hat '+str(self.mu_hat)+'\n')
+			rec.write('la_hat '+str(self.la_hat)+'\n')
 			rec.write('bh_mass '+str(self.bh_mass)+'\n')	
 ##############################################################################
-	def write_to_record(self,result):
-		with open(self.record,'w') as rec:
-			rec.write('gbc2 '+str(self.gbc2)+' '+str(result))
+	def write_gbc2_to_record(self,result):
+		with open(self.record,'a') as rec:
+			rec.write('gbc2 '+str(self.gbc2)+' '+str(result)+'\n')
 ##############################################################################
 	def delete_output_dir(self):
 		subprocess.call('rm -rf '+self.output_dir, shell='True')
@@ -120,7 +121,7 @@ class Sim:
 
 		first_time= True
 
-		while ((gbc2_range[1]-gbc2_range[0])/(gbc2_range[1]+gbc2_range[0])>1e-3): 
+		while ((gbc2_range[1]-gbc2_range[0])/(gbc2_range[1]+gbc2_range[0])>1e-2): 
 			self.gbc2= (gbc2_range[1]+gbc2_range[0])/2.
 
 			self.mu= self.mu_hat/pow(self.gbc2,0.5)
@@ -136,11 +137,11 @@ class Sim:
 						if line.startswith('naked_elliptic_region'):
 							gbc2_range[1]= self.gbc2
 							done= True
-							self.write_to_record('naked_elliptic_region')
+							self.write_gbc2_to_record('naked_elliptic_region')
 						if line.startswith('run_finished_successfully'):
 							gbc2_range[0]= self.gbc2
 							done= True	
-							self.write_to_record('run_finished_successfully')
+							self.write_gbc2_to_record('run_finished_successfully')
 ##############################################################################
 	def launch(self):
 		self.make_output_dir()

@@ -9,7 +9,7 @@ sim= Sim(args)
 #-----------------------------------------------------------------------------
 sim.compactification_length= float(100) 
 #-----------------------------------------------------------------------------
-sim.evolve_time=   float(300)  ### in units of initial black hole mass for ze field 
+sim.evolve_time=   float(150)  ### in units of initial black hole mass for ze field 
 sim.num_saved_times= int(1000)
 sim.cfl= 0.25
 #-----------------------------------------------------------------------------
@@ -39,14 +39,14 @@ sim.amp= float(16.0e-3)
 sim.r_l= float(24.0)
 sim.r_u= float(32.0)
 #-----------------------------------------------------------------------------
-sim.nx= pow(2,10)+1 
+sim.nx= pow(2,12)+1 
 #-----------------------------------------------------------------------------
 sim.set_derived_params()
 ##############################################################################
 ### for slurm script
 ##############################################################################
 sim.walltime= '120:00:00' ### (hh:mm:ss)
-sim.memory=   '10' ### MB 
+sim.memory=   '40' ### MB 
 ##############################################################################
 if (sim.run_type == "basic_run"):
 	sim.launch()
@@ -61,10 +61,10 @@ elif (sim.run_type == "convergence_test"):
 ### varying eta with a fixed initial phi amplitude
 ###############################################################################
 elif (sim.run_type == "search_for_elliptic"):
-	gbc2_range=[100.0,625.0]
+	gbc2_range=[160.0,175.0]
 
-	sim.mu_hat= 0.5
-	sim.la_hat= 3.0
+	sim.mu_hat= 0.0
+	sim.la_hat= 0.0
 
 	sim.search_for_elliptic(gbc2_range)
 ##############################################################################
