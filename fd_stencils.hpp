@@ -2,14 +2,12 @@
 #define _FD_STENCILS_H_
 
 #include <vector>
-using std::vector;
 #include <string>
-using std::string;
 
 /*===========================================================================*/
 void KO_filter(
 	const int exc_i, const int nx,
-	const string type, vector<double> &vec);
+	const std::string type, std::vector<double> &vec);
 /*===========================================================================*/
 inline double Dx_ptm1_4th(
 	const double vp1, const double v0, const double vm1,

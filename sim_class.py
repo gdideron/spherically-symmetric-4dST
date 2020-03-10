@@ -33,7 +33,7 @@ class Sim:
 			self.nt/float(self.num_saved_times)
 		)	
 		self.initial_exc_i= 0
-		if (self.initial_data_type=='bump_with_bh'):
+		if (self.initial_data_type.endswith('bh')):
 			self.initial_exc_i= int(
 			(
 				(1.8*self.bh_mass)/(1+(1.8*self.bh_mass/self.compactification_length))
@@ -90,7 +90,7 @@ class Sim:
 			'{}/run.slurm'.format(self.output_dir)
 		)
 ##############################################################################
-	def init_record(self):
+	def init_record(self,gbc2_range):
 		self.record= (
 			data_dir
 		+	'/record_amp_'+str(self.amp)
@@ -107,6 +107,7 @@ class Sim:
 			rec.write('mu_hat '+str(self.mu_hat)+'\n')
 			rec.write('la_hat '+str(self.la_hat)+'\n')
 			rec.write('bh_mass '+str(self.bh_mass)+'\n')	
+			rec.write('gbc2 initial range '+str(gbc2_range)+'\n')	
 ##############################################################################
 	def write_gbc2_to_record(self,result):
 		with open(self.record,'a') as rec:
@@ -117,11 +118,11 @@ class Sim:
 ##############################################################################
 	def search_for_elliptic(self,gbc2_range):
 
-		self.init_record()
+		self.init_record(gbc2_range)
 
 		first_time= True
 
-		while ((gbc2_range[1]-gbc2_range[0])/(gbc2_range[1]+gbc2_range[0])>1e-2): 
+		while ((gbc2_range[1]-gbc2_range[0])/(gbc2_range[1]+gbc2_range[0])>1e-3): 
 			self.gbc2= (gbc2_range[1]+gbc2_range[0])/2.
 
 			self.mu= self.mu_hat/pow(self.gbc2,0.5)

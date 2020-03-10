@@ -2,7 +2,6 @@
 #define _SIM_PARAMS_HPP_
 
 #include <string>
-using std::string;
 
 /*===========================================================================*/
 class Sim_params
@@ -29,7 +28,7 @@ public:
 	double gbc2;
 /*---------------------------------------------------------------------------*/
 /* for the initial data */
-	string initial_data_type;
+	std::string initial_data_type;
 
 	double bh_mass;
 
@@ -39,9 +38,9 @@ public:
 	double r_l;
 	double r_u;
 
-	Sim_params(const string output_dir);
+	Sim_params(const std::string output_dir);
 	~Sim_params(void);	
 private:
-	string read_sim_params(const string output_dir, const string find_this_var);
+	std::string read_sim_params(const std::string output_dir, const std::string find_this_var);
 };
 #endif

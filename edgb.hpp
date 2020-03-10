@@ -2,7 +2,6 @@
 #define _EDGB_HPP_
 
 #include <vector>
-using std::vector;
 
 #include "radial_pts.hpp"
 #include "field.hpp"
@@ -14,7 +13,7 @@ public:
 	EdGB(	const double dt, const double dx, const double cl, const int nx,
 		const double mu, const double la,
 		const double gbc1, const double gbc2,
-		const vector<double> &rp
+		const std::vector<double> &rp
 	);
 	~EdGB(void);
 
@@ -30,26 +29,26 @@ public:
 
 	void compute_radial_characteristics(
 		int &exc_i,
-		const vector<double> &al_v, const vector<double> &ze_v,
-		const vector<double>  &f_v, 
-		const vector<double>  &p_v, const vector<double>  &q_v,
-		vector<double> &ingoing,
-		vector<double> &outgoing
+		const std::vector<double> &al_v, const std::vector<double> &ze_v,
+		const std::vector<double>  &f_v, 
+		const std::vector<double>  &p_v, const std::vector<double>  &q_v,
+		std::vector<double> &ingoing,
+		std::vector<double> &outgoing
 	);
 	void compute_eom_rr(
 		const int exc_i,
-		const vector<double> &al_v, const vector<double> &ze_v,
-		const vector<double>  &f_v, 
-		const vector<double>  &p_v, const vector<double>  &q_v,
-		vector<double> &eom_rr
+		const std::vector<double> &al_v, const std::vector<double> &ze_v,
+		const std::vector<double>  &f_v, 
+		const std::vector<double>  &p_v, const std::vector<double>  &q_v,
+		std::vector<double> &eom_rr
 	);
 	void compute_ncc(
 		const int exc_i,
 		const int nx, const double dx, const double cl, 
-		const vector<double> &r_v, 
-		const vector<double> &al, const vector<double> &ze,
-		const vector<double> &p,  const vector<double> &q,
-		vector<double> &ncc
+		const std::vector<double> &r_v, 
+		const std::vector<double> &al, const std::vector<double> &ze,
+		const std::vector<double> &p,  const std::vector<double> &q,
+		std::vector<double> &ncc
 	);
 private:
 	const double dt;
@@ -64,7 +63,7 @@ private:
 
 	const double cl;
 
-	vector<double> r_v;
+	std::vector<double> r_v;
 
 	double ze_free_k;
 	double ze_free_k1;
@@ -72,38 +71,38 @@ private:
 	double ze_free_k3;
 	double ze_free_k4;
 
-	vector<double> f_k;
-	vector<double> p_k;
-	vector<double> q_k;
+	std::vector<double> f_k;
+	std::vector<double> p_k;
+	std::vector<double> q_k;
 
-	vector<double> f_k1;
-	vector<double> p_k1;
-	vector<double> q_k1;
+	std::vector<double> f_k1;
+	std::vector<double> p_k1;
+	std::vector<double> q_k1;
 
-	vector<double> f_k2;
-	vector<double> p_k2;
-	vector<double> q_k2;
+	std::vector<double> f_k2;
+	std::vector<double> p_k2;
+	std::vector<double> q_k2;
 
-	vector<double> f_k3;
-	vector<double> p_k3;
-	vector<double> q_k3;
+	std::vector<double> f_k3;
+	std::vector<double> p_k3;
+	std::vector<double> q_k3;
 
-	vector<double> f_k4;
-	vector<double> p_k4;
-	vector<double> q_k4;
+	std::vector<double> f_k4;
+	std::vector<double> p_k4;
+	std::vector<double> q_k4;
 
 	double ingoing_c;
 	double outgoing_c;
 
-	vector<double> V_v;
-	vector<double> Vp_v;
+	std::vector<double> V_v;
+	std::vector<double> Vp_v;
 
-	vector<double> W_v;
-	vector<double> Wp_v;
-	vector<double> Wpp_v;
+	std::vector<double> W_v;
+	std::vector<double> Wp_v;
+	std::vector<double> Wpp_v;
 /*---------------------------------------------------------------------------*/
 	void rescale(
-		vector<double> &vec
+		std::vector<double> &vec
 	);
 	double compute_p_k(
 		const double r,
@@ -118,13 +117,13 @@ private:
 	void compute_alma_ki(
 		const int loc,
 		const int val,
-		const vector<double> &r3,
+		const std::vector<double> &r3,
 		const double al,
 		const double ze,
-		const vector<double> &p3,
-		const vector<double> &q3,
-		const vector<double> &r_Der_p3,
-		const vector<double> &r_Der_q3
+		const std::vector<double> &p3,
+		const std::vector<double> &q3,
+		const std::vector<double> &r_Der_p3,
+		const std::vector<double> &r_Der_q3
 	);
 	double compute_ze_free_k(
 		const double r,
@@ -138,13 +137,13 @@ private:
 	);
 	void solve_for_metric_relaxation(
 		const int exc_i,
-		const vector<double> &f_v,
-		const vector<double> &p_v,
-		const vector<double> &q_v,
-		vector<double> &al_v,
-		vector<double> &ze_v
+		const std::vector<double> &f_v,
+		const std::vector<double> &p_v,
+		const std::vector<double> &q_v,
+		std::vector<double> &al_v,
+		std::vector<double> &ze_v
 	);
-	void compute_scalar_potentials(const vector<double> &f_v);
+	void compute_scalar_potentials(const std::vector<double> &f_v);
 	double compute_res_al(
 		const double r,
 		const double Al, const double Ze,
@@ -166,11 +165,11 @@ private:
 	void compute_fpq_ki(
 		const int val,
 		const int exc_i,
-		const vector<double> &al,
-		const vector<double> &ze,
-		const vector<double> &f, 
-		const vector<double> &p, 
-		const vector<double> &q
+		const std::vector<double> &al,
+		const std::vector<double> &ze,
+		const std::vector<double> &f, 
+		const std::vector<double> &p, 
+		const std::vector<double> &q
 	);
 
 	int compute_radial_characteristic(

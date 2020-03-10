@@ -2,9 +2,7 @@
 #define _IO_SDF_HPP_
 
 #include <string>
-using std::string;
 #include <vector>
-using std::vector; 
 
 #include "field.hpp"
 
@@ -18,10 +16,10 @@ class Sdf
 public:
 	void write(const double grid_time, const class Field &field);
 	
-	Sdf(const string output, const int nx, const vector<double> &x_pts);
+	Sdf(const std::string output, const int nx, const std::vector<double> &x_pts);
 	~Sdf(void);
 private:
-	string output_dir;
+	std::string output_dir;
 
 	int nx; 
 

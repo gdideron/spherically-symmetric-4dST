@@ -136,11 +136,11 @@ int main(int argc, char **argv)
 
 		if (tC%(sp.t_step_save)==0) {
 /*--------------------------------------------------------------------------*/		
-			al.check_isfinite();
-			ze.check_isfinite();
-			phi_f.check_isfinite();
-			phi_p.check_isfinite();
-			phi_q.check_isfinite();
+			al.check_isfinite(grid_time);
+			ze.check_isfinite(grid_time);
+			phi_f.check_isfinite(grid_time);
+			phi_p.check_isfinite(grid_time);
+			phi_q.check_isfinite(grid_time);
 /*--------------------------------------------------------------------------*/		
 			compute_indep_res_q(
 				exc_i,

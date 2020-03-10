@@ -48,23 +48,32 @@ void Field::set_to_val(const int min, const int max, const double val)
 	}
 }
 /*===========================================================================*/
-void Field::check_field_isfinite(const string message, vector<double> &vec)
+void Field::check_field_isfinite(
+	const double time, const string level,
+	const vector<double> &vec)
 {
+	size_t index=0;
 	for (auto x: vec) {
 		if (!isfinite(x)) {
-			cout << name << " " << message << " has NaN" <<endl;
+			cout<<"NaN("<<endl;
+			cout<<name<<" ";
+			cout<<level<<" ";
+			cout<<"time "<<time;
+			cout<<"index "<<index;
+			cout<<endl;
 			std::quick_exit(0);
 		}
+		index++;
 	}	
 }
 /*===========================================================================*/
-void Field::check_isfinite(void)
+void Field::check_isfinite(const double time)
 {
-	check_field_isfinite("n",  n);
+	check_field_isfinite(time,"n",n);
 
-	check_field_isfinite("inter_2",inter_2);
-	check_field_isfinite("inter_3",inter_3);
-	check_field_isfinite("inter_4",inter_4);
+	check_field_isfinite(time,"inter_2",inter_2);
+	check_field_isfinite(time,"inter_3",inter_3);
+	check_field_isfinite(time,"inter_4",inter_4);
 	
-	check_field_isfinite("np1",np1);
+	check_field_isfinite(time,"np1",np1);
 } 
