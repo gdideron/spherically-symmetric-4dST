@@ -20,6 +20,9 @@ class Sim:
 			self.debug=False
 ##############################################################################
 	def set_derived_params(self):
+		self.mu= self.muhat/pow(self.gbc2,0.5)
+		self.la= self.lahat/self.gbc2
+		
 		self.dx= float(
 			self.compactification_length/(self.nx-1)
 		)
@@ -75,7 +78,7 @@ class Sim:
 			f.write('#!/bin/sh\n')
 			f.write('#SBATCH -N 1\t\t# nodes=1\n')
 			f.write('#SBATCH --ntasks-per-node=1\t\t# ppn=1\n')
-			f.write('#SBATCH -J {}\t\t# job name\n'.format('edgb'))
+			f.write('#SBATCH -J {}\t\t# job name\n'.format('gbs'))
 			f.write('#SBATCH -t {}\t\t# walltime (dd:hh:mm:ss)\n'.format(self.walltime))
 			f.write('#SBATCH -p dept\t\t# partition/queue name\n')
 			f.write('#SBATCH --mem={}MB\t\t# memory in MB\n'.format(self.memory))

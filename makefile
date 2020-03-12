@@ -50,6 +50,9 @@ run: $(OBJECTS)
 test: $(OBJECTS)
 	$(CC) -o test $(OBJECTS) $(LDFLAGS) $(CFLAGS)
 
+scalarized_bh: $(OBJECTS)
+	$(CC) -o scalarized_bh $(OBJECTS) $(LDFLAGS) $(CFLAGS)
+
 main.o: main.cpp $(DEPS_MAIN)
 	$(CC) -c main.cpp $(LDFLAGS) $(CFLAGS)
 
