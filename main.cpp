@@ -118,7 +118,7 @@ int main(int argc, char **argv)
 /*--------------------------------------------------------------------------*/		
 	cout<<setw(10)<<0<<"\t";
 	cout<<setw(10)<<rp.r[sp.nx-8]*pow(ze.np1[sp.nx-8],2)/2<<"\t";
-	cout<<setw(10)<<phi_f.np1[sp.phi_pt]<<"\t";
+	cout<<setw(10)<<rp.r[sp.nx-8]*phi_f.np1[sp.nx-8]<<"\t";
 	cout<<endl;
 /*--------------------------------------------------------------------------*/		
 /* 	evolve in time and write to file */
@@ -196,7 +196,7 @@ int main(int argc, char **argv)
 /*--------------------------------------------------------------------------*/		
 			cout<<setw(10)<<tC*sp.dt/initial_asymptotic_mass<<"\t";
 			cout<<setw(10)<<rp.r[sp.nx-8]*pow(ze.np1[sp.nx-8],2)/2<<"\t";
-			cout<<setw(10)<<phi_f.np1[sp.phi_pt]<<"\t";
+			cout<<setw(10)<<rp.r[sp.nx-8]*phi_f.np1[sp.nx-8]<<"\t";
 			cout<<endl;
 /*--------------------------------------------------------------------------*/		
 		}

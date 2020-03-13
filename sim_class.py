@@ -1,13 +1,13 @@
 ##############################################################################
 import os, time, shutil, subprocess
 
-home_dir= '/home/jripley/codes_general_edgb_feynman'
-data_dir= '/mnt/grtheory/jripley-data/general_edgb'
 
 ##############################################################################
 class Sim:
 ##############################################################################
 	def __init__(self,args):
+		self.data_dir= '/mnt/grtheory/jripley-data/general_edgb'
+
 		self.home_dir= str(os.getcwd())
 
 		assert len(args) > 1, (
@@ -58,7 +58,7 @@ class Sim:
 ##############################################################################
 	def make_output_dir(self):
 		self.output_dir= str(
-			data_dir+'/'
+			self.data_dir+'/'
 		+	'_'.join('_'.join(time.asctime().split(' ')).split(':'))
 		+	'_nx_'+str(self.nx)
 		+	'_amp_'+str(self.amp)
@@ -74,7 +74,7 @@ class Sim:
 			pass
 ##############################################################################
 	def write_slurm_script(self):
-		with open('{}/run.slurm'.format(home_dir), 'w') as f:
+		with open('{}/run.slurm'.format(self.home_dir), 'w') as f:
 			f.write('#!/bin/sh\n')
 			f.write('#SBATCH -N 1\t\t# nodes=1\n')
 			f.write('#SBATCH --ntasks-per-node=1\t\t# ppn=1\n')
@@ -89,13 +89,13 @@ class Sim:
 			f.write('\n./run {}\n\n'.format(self.output_dir))
 
 		shutil.copyfile(
-			'{}/run.slurm'.format(home_dir),
+			'{}/run.slurm'.format(self.home_dir),
 			'{}/run.slurm'.format(self.output_dir)
 		)
 ##############################################################################
 	def init_record(self,gbc2_range):
 		self.record= (
-			data_dir
+			self.data_dir
 		+	'/record_amp_'+str(self.amp)
 		+	'_muhat_'+str(self.mu_hat)
 		+	'_lahat_'+str(self.la_hat)
