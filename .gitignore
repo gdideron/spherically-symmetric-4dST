@@ -1,5 +1,2 @@
-*.o
 *.swp
 *.pyc
-run*
-test

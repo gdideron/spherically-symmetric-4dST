@@ -52,20 +52,20 @@ if (sim.run_type == "basic_run"):
 	sim.launch()
 ##############################################################################
 elif (sim.run_type == "scan"):
-	muhat=0.05
+	muhat=0.1
 #-----------------------------------------------------------------------------
 	if (muhat==0.01):
 		sim.data_dir+= '_muhat_0.01'
 	elif (muhat==0.05):
 		sim.data_dir+= '_muhat_0.05'
 
-	elif (muhat==0.05):
+	elif (muhat==0.1):
 		sim.data_dir+= '_muhat_0.1'
 	else:
 		pass
 #-----------------------------------------------------------------------------
 	for lahat in [0,0.2,0.4,0.6,0.8]:
-		for gbc2 in [270,275,280,285,290,295,300,305,310,315,320,325]:
+		for gbc2 in [300,305,310,315,317.5,320,322.5,325]:
 			sim.muhat= muhat
 			sim.lahat= lahat
 			sim.gbc2=  gbc2 
@@ -83,10 +83,10 @@ elif (sim.run_type == "convergence_test"):
 ### varying eta with a fixed initial phi amplitude
 ###############################################################################
 elif (sim.run_type == "search_for_elliptic"):
-	gbc2_range=[160.0,175.0]
+	gbc2_range=[100.0,350.0]
 
-	sim.mu_hat= 0.0
-	sim.la_hat= 0.0
+	sim.mu_hat= 0.01
+	sim.la_hat= 0.4
 
 	sim.search_for_elliptic(gbc2_range)
 ##############################################################################
