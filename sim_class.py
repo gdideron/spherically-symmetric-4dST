@@ -86,7 +86,7 @@ class Sim:
 			f.write('#SBATCH --mail-user=jripley@princeton.edu\t\t# Mail  id of the user\n')
 	#		f.write('#SBATCH --mail-type=begin\t\t# Slurm will send mail at the beginning of the job\n')
 	#		f.write('#SBATCH --mail-type=end\t\t# Slurm will send at the completion of your job\n')
-			f.write('\n./run {}\n\n'.format(self.output_dir))
+			f.write('\n./bin/run {}\n\n'.format(self.output_dir))
 
 		shutil.copyfile(
 			'{}/run.slurm'.format(self.home_dir),
