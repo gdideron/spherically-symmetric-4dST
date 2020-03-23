@@ -1,3 +1,0 @@
-sacct --format='JobID,Elapsed,MaxRSS' --units=M
-
-seff job_id

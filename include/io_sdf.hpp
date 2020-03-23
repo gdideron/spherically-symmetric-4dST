@@ -17,6 +17,7 @@ public:
 	void write(const double grid_time, const class Field &field);
 	
 	Sdf(const std::string output, const int nx, const std::vector<double> &x_pts);
+	Sdf(const Sdf &input);
 	~Sdf(void);
 private:
 	std::string output_dir;

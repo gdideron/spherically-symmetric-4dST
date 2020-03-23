@@ -32,6 +32,22 @@ Sdf::Sdf(const string output, const int nx, const vector<double> &x_pts)
 	}
 }
 /*===========================================================================*/
+Sdf::Sdf(const Sdf &input)
+: output_dir{input.output_dir},
+  nx{input.nx},
+  rank{1},
+  shape{nx},
+  coords((double*)calloc(nx,sizeof(double))),
+  vals(  (double*)calloc(nx,sizeof(double)))
+{
+	coord_names= (char *)"x";
+	
+	for (int i=0; i<nx; ++i) {
+		vals[i]=   input.vals[i];
+		coords[i]= input.coords[i];
+	}
+}
+/*===========================================================================*/
 Sdf::~Sdf(void)
 {
 	free(coords);
