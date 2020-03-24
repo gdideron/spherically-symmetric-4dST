@@ -10,7 +10,7 @@ SYSLIB= -lm -lbbhutil
 INCBBHUTIL= /home/jripley/rnpletal/include 
 LIBBBHUTIL= /home/jripley/rnpletal/lib 
 
-VPATH= $(BIN):$(SRC):$(INC):$(OBJDIR)
+VPATH= $(BIN) $(SRC) $(INC) $(OBJDIR)
 #############################################################################
 CC=g++
 CFLAGS= -Wall -Wextra -g -O2 -std=c++11 -fmax-errors=5   

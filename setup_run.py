@@ -39,7 +39,7 @@ sim.amp= float(5.0e-3)
 sim.r_l= float(24.0)
 sim.r_u= float(32.0)
 #-----------------------------------------------------------------------------
-sim.nx= pow(2,11)+1 
+sim.nx= pow(2,10)+1 
 #-----------------------------------------------------------------------------
 sim.set_derived_params()
 ##############################################################################
@@ -75,9 +75,15 @@ elif (sim.run_type == "scan"):
 ##############################################################################
 elif (sim.run_type == "convergence_test"):
 	num_res= int(input("number of resolutions "))
+	sim.data_dir= '/mnt/grtheory/jripley-data/convergence_test'
+	sim.muhat=0.05
+	sim.lahat=0.4
+	sim.gbc2= 278 
+	sim.set_derived_params()
 	for i in range(num_res):	
 		sim.launch()
 		sim.nx= 2*(sim.nx-1)+1 
+		sim.set_derived_params()
 		time.sleep(5)
 ###############################################################################
 ### varying eta with a fixed initial phi amplitude
