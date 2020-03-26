@@ -13,7 +13,6 @@ using std::vector;
 #include "initial_data.hpp"
 #include "sim_params.hpp"
 #include "field.hpp"
-
 /*===========================================================================*/
 void set_initial_data(
 	const Sim_params &sp,
