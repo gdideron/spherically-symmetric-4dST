@@ -83,15 +83,16 @@ void set_initial_data(
 			double r= rvec[i];
 
 			f.n[i]= charge/r; 
-			p.n[i]= 0;
 			q.n[i]= -charge/pow(r,2);
 
 			f.np1[i]= f.n[i]; 
-			p.np1[i]= p.n[i];
 			q.np1[i]= q.n[i];
 
 			al.n[i]= 1;
 			ze.n[i]= pow(2*sp.bh_mass/r,0.5);
+
+			p.n[i]= -ze.n[i]*q.n[i];
+			p.np1[i]= p.n[i];
 
 			al.inter_2[i]= al.n[i];
 			al.inter_3[i]= al.n[i];

@@ -6,7 +6,7 @@ import os, time, shutil, subprocess
 class Sim:
 ##############################################################################
 	def __init__(self,args):
-		self.data_dir= '/mnt/grtheory/jripley-data/elliptic_pt_search'
+		self.data_dir= '/mnt/grtheory/jripley-data/elliptic_search_v2'
 
 		self.home_dir= str(os.getcwd())
 

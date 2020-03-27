@@ -45,7 +45,7 @@ sim.set_derived_params()
 ##############################################################################
 ### for slurm script
 ##############################################################################
-sim.walltime= '120:00:00' ### (hh:mm:ss)
+sim.walltime= '48:00:00' ### (hh:mm:ss)
 sim.memory=   '8' ### MB 
 ##############################################################################
 if (sim.run_type == "basic_run"):
@@ -89,10 +89,10 @@ elif (sim.run_type == "convergence_test"):
 ### varying eta with a fixed initial phi amplitude
 ###############################################################################
 elif (sim.run_type == "search_for_elliptic"):
-	gbc2_range=[100.0,350.0]
+	gbc2_range=[200.0,500.0]
 
-	sim.mu_hat= 0.05
-	sim.la_hat= 1.6
+	sim.mu_hat= 0.1
+	sim.la_hat= 3.2
 
 	sim.search_for_elliptic(gbc2_range)
 ##############################################################################
