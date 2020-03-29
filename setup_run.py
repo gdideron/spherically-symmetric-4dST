@@ -39,7 +39,7 @@ sim.amp= float(5.0e-3)
 sim.r_l= float(24.0)
 sim.r_u= float(32.0)
 #-----------------------------------------------------------------------------
-sim.nx= pow(2,10)+1 
+sim.nx= pow(2,11)+1 
 #-----------------------------------------------------------------------------
 sim.set_derived_params()
 ##############################################################################
@@ -96,9 +96,9 @@ elif (sim.run_type == "convergence_test"):
 elif (sim.run_type == "search_for_elliptic"):
 	sim.data_dir= '/mnt/grtheory/jripley-data/elliptic_search'
 
-	sim.charge_hat= 0.1
+	sim.charge_hat= 0.01
 
-	sim.mu_hat= 0.1
+	sim.mu_hat= 0.05
 	sim.la_hat= 3.2
 
 	gbc2_range=[100.0,330.0]
