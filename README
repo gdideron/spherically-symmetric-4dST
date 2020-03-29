@@ -8,9 +8,9 @@ http://laplace.physics.ubc.ca/Group/Software.html
 for more information.
 See also src/io_sdf.cpp 
 
-This setup files (``setup.py``, ``sim_class.py``, and the ``Makefile``)
+This setup files (``setup.py`` and ``sim_class.py``)
 are configured to run on the Feynman cluster at Princeton University.
-They do so by writing a slurm script 
-(for information on slurm: https://slurm.schedmd.com/documentation.html),
-which launches the ``run`` binary.
-The ``run`` binary can be run on a personal computer. 
+They write and run a slurm script
+(see https://slurm.schedmd.com/documentation.html),
+which launches the ``run`` binary (see the ``Makefile``).
+The ``run`` binary also can be run on a personal computer. 
