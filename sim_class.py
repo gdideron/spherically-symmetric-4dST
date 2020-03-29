@@ -1,12 +1,10 @@
 ##############################################################################
 import os, time, shutil, subprocess
-
-
 ##############################################################################
 class Sim:
 ##############################################################################
 	def __init__(self,args):
-		self.data_dir= '/mnt/grtheory/jripley-data/elliptic_search_v2'
+		self.data_dir= '/mnt/grtheory/jripley-data'
 
 		self.home_dir= str(os.getcwd())
 
@@ -20,8 +18,9 @@ class Sim:
 			self.debug=False
 ##############################################################################
 	def set_derived_params(self):
-		self.mu= self.muhat/pow(self.gbc2,0.5)
-		self.la= self.lahat/self.gbc2
+		self.mu= self.mu_hat/pow(self.gbc2,0.5)
+		self.la= self.la_hat/self.gbc2
+		self.charge= self.charge_hat*pow(self.gbc2,0.5)
 		
 		self.dx= float(
 			self.compactification_length/(self.nx-1)
@@ -39,7 +38,8 @@ class Sim:
 		if (self.initial_data_type.endswith('bh')):
 			self.initial_exc_i= int(
 			(
-				(1.8*self.bh_mass)/(1+(1.8*self.bh_mass/self.compactification_length))
+				(1.8*self.bh_mass)
+			/	(1+(1.8*self.bh_mass/self.compactification_length))
 			)/self.dx
 			)
 		if (self.t_step_save==0):
@@ -104,6 +104,8 @@ class Sim:
 		)
 		with open(self.record,'w') as rec:
 			rec.write('nx ' +str(self.nx)+'\n')
+			rec.write('initial_data_type '+str(self.initial_data_type)+'\n')
+			rec.write('charge '+str(self.charge)+'\n')
 			rec.write('amp '+str(self.amp)+'\n')
 			rec.write('r_l '+str(self.r_l)+'\n')
 			rec.write('r_u '+str(self.r_u)+'\n')
@@ -130,6 +132,7 @@ class Sim:
 
 			self.mu= self.mu_hat/pow(self.gbc2,0.5)
 			self.la= self.la_hat/self.gbc2
+			self.charge= self.charge_hat*pow(self.gbc2,0.5)
 
 			self.launch()
 

@@ -15,8 +15,8 @@ sim.cfl= 0.25
 #-----------------------------------------------------------------------------
 ### scalar field potentials
 #-----------------------------------------------------------------------------
-sim.muhat= 0.01
-sim.lahat= 0.2
+sim.mu_hat= 0.01
+sim.la_hat= 0.2
 
 sim.gbc1= 0.0
 sim.gbc2= 300.0
@@ -32,14 +32,14 @@ sim.initial_data_type= str("bump_with_bh")
 sim.bh_mass= float(10.0)
 #-----------------------------------------------------------------------------
 ### for the noncompact scalar profile
-sim.charge= float(0.0)
+sim.charge_hat= float(0.0)
 #-----------------------------------------------------------------------------
 ### for the Gaussian-like pulse
 sim.amp= float(5.0e-3)
 sim.r_l= float(24.0)
 sim.r_u= float(32.0)
 #-----------------------------------------------------------------------------
-sim.nx= pow(2,11)+1 
+sim.nx= pow(2,10)+1 
 #-----------------------------------------------------------------------------
 sim.set_derived_params()
 ##############################################################################
@@ -52,22 +52,22 @@ if (sim.run_type == "basic_run"):
 	sim.launch()
 ##############################################################################
 elif (sim.run_type == "scan"):
-	muhat=0.1
+	mu_hat=0.1
 #-----------------------------------------------------------------------------
-	if (muhat==0.01):
+	if (mu_hat==0.01):
 		sim.data_dir+= '_muhat_0.01'
-	elif (muhat==0.05):
+	elif (mu_hat==0.05):
 		sim.data_dir+= '_muhat_0.05'
 
-	elif (muhat==0.1):
+	elif (mu_hat==0.1):
 		sim.data_dir+= '_muhat_0.1'
 	else:
 		pass
 #-----------------------------------------------------------------------------
-	for lahat in [0,0.2,0.4,0.6,0.8]:
+	for la_hat in [0,0.2,0.4,0.6,0.8]:
 		for gbc2 in [300,305,310,315,317.5,320,322.5,325]:
-			sim.muhat= muhat
-			sim.lahat= lahat
+			sim.mu_hat= mu_hat
+			sim.la_hat= la_hat
 			sim.gbc2=  gbc2 
 			sim.set_derived_params()
 			sim.launch()
@@ -76,9 +76,14 @@ elif (sim.run_type == "scan"):
 elif (sim.run_type == "convergence_test"):
 	num_res= int(input("number of resolutions "))
 	sim.data_dir= '/mnt/grtheory/jripley-data/convergence_test'
-	sim.muhat=0.05
-	sim.lahat=0.4
+
+	sim.charge_hat=0.05
+
+	sim.mu_hat=0.05
+	sim.la_hat=0.4
+
 	sim.gbc2= 278 
+
 	sim.set_derived_params()
 	for i in range(num_res):	
 		sim.launch()
@@ -89,10 +94,14 @@ elif (sim.run_type == "convergence_test"):
 ### varying eta with a fixed initial phi amplitude
 ###############################################################################
 elif (sim.run_type == "search_for_elliptic"):
-	gbc2_range=[200.0,500.0]
+	sim.data_dir= '/mnt/grtheory/jripley-data/elliptic_search'
+
+	sim.charge_hat= 0.1
 
 	sim.mu_hat= 0.1
 	sim.la_hat= 3.2
+
+	gbc2_range=[100.0,330.0]
 
 	sim.search_for_elliptic(gbc2_range)
 ##############################################################################
