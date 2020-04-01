@@ -70,17 +70,16 @@ int main(int argc, char **argv)
 /*--------------------------------------------------------------------------*/		
 /* write to file */
 /*--------------------------------------------------------------------------*/		
-	Sdf sdf(output_dir, sp.nx, rp.x);
+	Csv csv(output_dir);
 	
 	double grid_time= 0;
 
-	sdf.write(grid_time, phi_f);
-	sdf.write(grid_time, phi_p);
-	sdf.write(grid_time, phi_q);
+	csv.write(phi_f);
+	csv.write(phi_p);
+	csv.write(phi_q);
 
-	sdf.write(grid_time, al);
-	sdf.write(grid_time, ze);
-
+	csv.write(al);
+	csv.write(ze);
 /*--------------------------------------------------------------------------*/		
 	compute_indep_res_q(
 		exc_i,
@@ -95,8 +94,8 @@ int main(int argc, char **argv)
 		phi_f.np1, phi_p.np1, phi_q.np1,
 		eom_rr.np1
 	);
-	sdf.write(grid_time, res_q);
-	sdf.write(grid_time, eom_rr);
+	csv.write(res_q);
+	csv.write(eom_rr);
 	
 	edgb.compute_ncc(
 		exc_i,
@@ -106,7 +105,7 @@ int main(int argc, char **argv)
 		phi_p.np1, phi_q.np1,
 		ncc.np1
 	);
-	sdf.write(grid_time, ncc);
+	csv.write(ncc);
 
 	edgb.compute_radial_characteristics(
 		exc_i,
@@ -114,8 +113,8 @@ int main(int argc, char **argv)
 		phi_f.np1, phi_p.np1, phi_q.np1,
 		ingoing_c.np1, outgoing_c.np1
 	);
-	sdf.write(grid_time,  ingoing_c);
-	sdf.write(grid_time, outgoing_c);
+	csv.write(ingoing_c);
+	csv.write(outgoing_c);
 /*--------------------------------------------------------------------------*/		
 	cout<<setw(10)<<0<<"\t";
 	cout<<setw(10)<<rp.r[sp.nx-8]*pow(ze.np1[sp.nx-8],2)/2<<"\t";
@@ -181,19 +180,19 @@ int main(int argc, char **argv)
 			ingoing_c.set_to_val( 0,exc_i-1,0);
 			outgoing_c.set_to_val(0,exc_i-1,0);
 /*--------------------------------------------------------------------------*/		
-			sdf.write(grid_time, phi_f);
-			sdf.write(grid_time, phi_p);
-			sdf.write(grid_time, phi_q);
+			csv.write(phi_f);
+			csv.write(phi_p);
+			csv.write(phi_q);
 
-			sdf.write(grid_time, al);
-			sdf.write(grid_time, ze);
+			csv.write(al);
+			csv.write(ze);
 
-			sdf.write(grid_time, res_q);
-			sdf.write(grid_time, eom_rr);
+			csv.write(res_q);
+			csv.write(eom_rr);
 			
-			sdf.write(grid_time, ncc);
-			sdf.write(grid_time,  ingoing_c);
-			sdf.write(grid_time, outgoing_c);
+			csv.write(ncc);
+			csv.write( ingoing_c);
+			csv.write(outgoing_c);
 /*--------------------------------------------------------------------------*/		
 			cout<<setw(10)<<tC*sp.dt/initial_asymptotic_mass<<"\t";
 			cout<<setw(10)<<rp.r[sp.nx-8]*pow(ze.np1[sp.nx-8],2)/2<<"\t";
