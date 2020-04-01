@@ -2,11 +2,13 @@ Evolution codes for EdGB gravity in spherical symmetry.
 ------------------------------------------------------------------------------
 For help please contact jripley AT princeton.edu. 
 
-The code ouputs to ``sdf`` files, using routines imported from the
-``bbhutil`` library; see 
+The code ouputs to ``csv`` files.
+
+There is also a ``.cpp`` and ``.hpp`` file for saving to ``.sdf`` files
+using the  ``bbhutil`` library; see 
 http://laplace.physics.ubc.ca/Group/Software.html
-for more information.
-See also src/io_sdf.cpp 
+for more information. Remove the bbhutil headers if you do not want to save
+to ``.sdf``. 
 
 This setup files (``setup.py`` and ``sim_class.py``)
 are configured to run on the Feynman cluster at Princeton University.
