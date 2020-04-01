@@ -22,6 +22,7 @@ OBJ= $(addprefix $(OBJDIR), \
 	radial_pts.o \
 	field.o \
 	io_sdf.o \
+	io_csv.o \
 	sim_params.o \
 	initial_data.o \
 	fd_stencils.o \
@@ -31,6 +32,7 @@ DEPS= 	edgb.hpp \
 	radial_pts.hpp \
 	field.hpp \
 	io_sdf.hpp \
+	io_csv.hpp \
 	sim_params.hpp \
 	initial_data.hpp \
 	fd_stencils.hpp 

@@ -99,7 +99,7 @@ elif (sim.run_type == "search_for_elliptic"):
 	sim.charge_hat= 0.01
 
 	sim.mu_hat= 0.05
-	sim.la_hat= 3.2
+	sim.la_hat= 6.4
 
 	gbc2_range=[100.0,330.0]
 
