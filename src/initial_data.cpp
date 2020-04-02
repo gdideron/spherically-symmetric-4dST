@@ -82,8 +82,8 @@ void set_initial_data(
 		for (int i=sp.initial_exc_i; i<sp.nx-1; ++i) {
 			double r= rvec[i];
 
-			f.n[i]= charge/r; 
-			q.n[i]= -charge/pow(r,2);
+			f.n[i]= (charge/r)+(0.5*charge*sp.bh_mass/pow(r,2)); 
+			q.n[i]= -charge/pow(r,2)-(charge*sp.bh_mass/pow(r,3));
 
 			f.np1[i]= f.n[i]; 
 			q.np1[i]= q.n[i];
