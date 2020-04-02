@@ -28,9 +28,9 @@ void set_initial_data(
 	
 	double charge= sp.charge;
 
-	assert(r_u>r_l);
 /*-------------------------------------------------------------------------*/
 	if (sp.initial_data_type=="bump_with_bh") {
+		assert(r_u>r_l);
 		for (int i=sp.initial_exc_i; i<sp.nx-1; ++i) {
 			double r= rvec[i];
 			if ((r>r_l)

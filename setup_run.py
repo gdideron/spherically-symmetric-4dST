@@ -25,19 +25,18 @@ sim.phi_r= 21  ### where measuring phi
 #-----------------------------------------------------------------------------
 ### initial data
 #-----------------------------------------------------------------------------
-#sim.initial_data_type= str("scalarized_bh")
-sim.initial_data_type= str("bump_with_bh")
-#sim.initial_data_type= str("bump")
-#-----------------------------------------------------------------------------
 sim.bh_mass= float(10.0)
 #-----------------------------------------------------------------------------
 ### for the noncompact scalar profile
+sim.initial_data_type= str("scalarized_bh")
 sim.charge_hat= float(0.0)
 #-----------------------------------------------------------------------------
 ### for the Gaussian-like pulse
-sim.amp= float(5.0e-3)
-sim.r_l= float(24.0)
-sim.r_u= float(32.0)
+#sim.initial_data_type= str("bump")
+#sim.initial_data_type= str("bump_with_bh")
+sim.amp= 0#float(5.0e-3)
+sim.r_l= 0#float(24.0)
+sim.r_u= 0#float(32.0)
 #-----------------------------------------------------------------------------
 sim.nx= pow(2,10)+1 
 #-----------------------------------------------------------------------------
@@ -95,12 +94,12 @@ elif (sim.run_type == "convergence_test"):
 ### varying eta with a fixed initial phi amplitude
 ###############################################################################
 elif (sim.run_type == "search_for_elliptic"):
-	sim.data_dir= '/mnt/grtheory/jripley-data/elliptic_search'
+	sim.data_dir= '/mnt/grtheory/jripley-data/elliptic_search_approx_scalarized'
 
-	sim.charge_hat= 0.01
+	sim.charge_hat= 0.1
 
-	sim.mu_hat= 0.05
-	sim.la_hat= 6.4
+	sim.mu_hat= 0.1
+	sim.la_hat= 3.2
 
 	gbc2_range=[100.0,330.0]
 
