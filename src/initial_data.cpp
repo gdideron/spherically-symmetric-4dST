@@ -27,7 +27,6 @@ void set_initial_data(
 	double max_val= 0;
 	
 	double charge= sp.charge;
-
 /*-------------------------------------------------------------------------*/
 	if (sp.initial_data_type=="bump_with_bh") {
 		assert(r_u>r_l);
@@ -109,5 +108,18 @@ void set_initial_data(
 		ze.np1[i]=     ze.n[i];
 	}
 /*-------------------------------------------------------------------------*/
+	return;
+}
+/*===========================================================================*/	
+void time_symmetric_p(const Sim_params &sp,const Field &ze,const Field &q, Field &p)
+{
+	for (int i=0; i<sp.nx; ++i) {
+		p.n[i]= -ze.n[i]*q.n[i];
+
+		p.inter_2[i]= p.n[i];
+		p.inter_3[i]= p.n[i];
+		p.inter_4[i]= p.n[i];
+		p.np1[i]=     p.n[i];
+	}
 	return;
 }

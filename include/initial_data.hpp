@@ -10,3 +10,5 @@ void set_initial_data(
 	Field &al,Field &ze,
 	Field &f, Field &p, Field &q
 );
+/*===========================================================================*/
+void time_symmetric_p(const Sim_params &sp,const Field &ze,const Field &q, Field &p);

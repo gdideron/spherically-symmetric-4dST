@@ -66,6 +66,8 @@ int main(int argc, char **argv)
 	);
 	int exc_i= sp.initial_exc_i;
 
+	time_symmetric_p(sp,ze,phi_q,phi_p);
+
 	double initial_asymptotic_mass= rp.r[sp.nx-8]*pow(ze.np1[sp.nx-8],2)/2; 
 /*--------------------------------------------------------------------------*/		
 /* write to file */
