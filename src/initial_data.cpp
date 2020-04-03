@@ -55,26 +55,12 @@ void set_initial_data(
 
 			al.n[i]= 1;
 			ze.n[i]= pow(2*sp.bh_mass/r,0.5);
-
-			al.inter_2[i]= al.n[i];
-			al.inter_3[i]= al.n[i];
-			al.inter_4[i]= al.n[i];
-			al.np1[i]=     al.n[i];
-
-			ze.inter_2[i]= ze.n[i];
-			ze.inter_3[i]= ze.n[i];
-			ze.inter_4[i]= ze.n[i];
-			ze.np1[i]=     ze.n[i];
 		}
 /* rescale so amp is actual maximum val */
 		for (int i=0; i<sp.nx-1; ++i) {
 			f.n[i]*= amp/max_val;
 			q.n[i]*= amp/max_val;
 			p.n[i]*= amp/max_val;
-
-			f.np1[i]= f.n[i]; 
-			p.np1[i]= p.n[i];
-			q.np1[i]= q.n[i];
 		}
 /*-------------------------------------------------------------------------*/
 	} else 	
@@ -82,32 +68,46 @@ void set_initial_data(
 		for (int i=sp.initial_exc_i; i<sp.nx-1; ++i) {
 			double r= rvec[i];
 
-			f.n[i]= (charge/r)+(0.5*charge*sp.bh_mass/pow(r,2)); 
-			q.n[i]= -charge/pow(r,2)-(charge*sp.bh_mass/pow(r,3));
-
-			f.np1[i]= f.n[i]; 
-			q.np1[i]= q.n[i];
+			f.n[i]= (charge/r)+(charge*sp.bh_mass/pow(r,2)); 
+			q.n[i]= -charge/pow(r,2)-(2*charge*sp.bh_mass/pow(r,3));
 
 			al.n[i]= 1;
 			ze.n[i]= pow(2*sp.bh_mass/r,0.5);
 
 			p.n[i]= -ze.n[i]*q.n[i];
-			p.np1[i]= p.n[i];
-
-			al.inter_2[i]= al.n[i];
-			al.inter_3[i]= al.n[i];
-			al.inter_4[i]= al.n[i];
-			al.np1[i]=     al.n[i];
-
-			ze.inter_2[i]= ze.n[i];
-			ze.inter_3[i]= ze.n[i];
-			ze.inter_4[i]= ze.n[i];
-			ze.np1[i]=     ze.n[i];
 		}
 /*-------------------------------------------------------------------------*/
 	} else {
 		cout << "ERROR: initial_data_type " << sp.initial_data_type << " did not match" << endl;
 		std::quick_exit(0);
 	}
+/*-------------------------------------------------------------------------*/
+	for (int i=0; i<sp.nx; ++i) {
+		f.inter_2[i]= f.n[i];
+		f.inter_3[i]= f.n[i];
+		f.inter_4[i]= f.n[i];
+		f.np1[i]=     f.n[i];
+
+		p.inter_2[i]= p.n[i];
+		p.inter_3[i]= p.n[i];
+		p.inter_4[i]= p.n[i];
+		p.np1[i]=     p.n[i];
+
+		q.inter_2[i]= q.n[i];
+		q.inter_3[i]= q.n[i];
+		q.inter_4[i]= q.n[i];
+		q.np1[i]=     q.n[i];
+
+		al.inter_2[i]= al.n[i];
+		al.inter_3[i]= al.n[i];
+		al.inter_4[i]= al.n[i];
+		al.np1[i]=     al.n[i];
+
+		ze.inter_2[i]= ze.n[i];
+		ze.inter_3[i]= ze.n[i];
+		ze.inter_4[i]= ze.n[i];
+		ze.np1[i]=     ze.n[i];
+	}
+/*-------------------------------------------------------------------------*/
 	return;
 }
