@@ -77,10 +77,10 @@ elif (sim.run_type == "convergence_test"):
 	num_res= int(input("number of resolutions "))
 	sim.data_dir= '/mnt/grtheory/jripley-data/convergence_test'
 
-	sim.charge_hat=0.05
+	sim.charge_hat= 0.1
 
-	sim.mu_hat=0.0
-	sim.la_hat=0.0
+	sim.mu_hat= 0.01
+	sim.la_hat= 1.6
 
 	sim.gbc2= 278 
 
@@ -96,7 +96,7 @@ elif (sim.run_type == "convergence_test"):
 elif (sim.run_type == "search_for_elliptic"):
 	sim.data_dir= '/mnt/grtheory/jripley-data/elliptic_search_approx_scalarized'
 
-	sim.charge_hat= 0.05
+	sim.charge_hat= 0.1
 
 	sim.mu_hat= 0.1
 	sim.la_hat= 0.8

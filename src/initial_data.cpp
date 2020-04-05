@@ -20,15 +20,14 @@ void set_initial_data(
 	Field &al,Field &ze,
 	Field &f, Field &p, Field &q)
 {
-	double amp= sp.amp;
-	double r_l= sp.r_l;
-	double r_u= sp.r_u;
-	
-	double max_val= 0;
-	
-	double charge= sp.charge;
 /*-------------------------------------------------------------------------*/
 	if (sp.initial_data_type=="bump_with_bh") {
+		double amp= sp.amp;
+		double r_l= sp.r_l;
+		double r_u= sp.r_u;
+		
+		double max_val= 0;
+	
 		assert(r_u>r_l);
 		for (int i=sp.initial_exc_i; i<sp.nx-1; ++i) {
 			double r= rvec[i];
@@ -64,12 +63,20 @@ void set_initial_data(
 /*-------------------------------------------------------------------------*/
 	} else 	
 	if (sp.initial_data_type=="scalarized_bh") {
+
+		double charge= sp.charge;
+
 		for (int i=sp.initial_exc_i; i<sp.nx-1; ++i) {
 			double r= rvec[i];
 
-			f.n[i]= (charge/r)+(charge*sp.bh_mass/pow(r,2)); 
-			q.n[i]= -charge/pow(r,2)-(2*charge*sp.bh_mass/pow(r,3));
-
+			f.n[i]= 
+				(charge/r)
+			+	(2*charge*sp.bh_mass/pow(r,2))
+			; 
+			q.n[i]= 
+			-	charge/pow(r,2)
+			-	2*(2*charge*sp.bh_mass/pow(r,3))
+			;
 			al.n[i]= 1;
 			ze.n[i]= pow(2*sp.bh_mass/r,0.5);
 
