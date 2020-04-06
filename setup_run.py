@@ -45,7 +45,13 @@ sim.set_derived_params()
 ### for slurm script
 ##############################################################################
 sim.walltime= '48:00:00' ### (hh:mm:ss)
-sim.memory=   '8' ### MB 
+sim.memory=   '4' ### MB 
+if (sim.nx>(pow(2,10)+1)):
+	sim.memory= '8' 
+if (sim.nx>(pow(2,11)+1)):
+	sim.memory= '12' 
+if (sim.nx>(pow(2,12)+1)):
+	sim.memory= '16' 
 ##############################################################################
 if (sim.run_type == "basic_run"):
 	sim.data_dir= '/mnt/grtheory/jripley-data/test'
@@ -94,14 +100,17 @@ elif (sim.run_type == "convergence_test"):
 ### varying eta with a fixed initial phi amplitude
 ###############################################################################
 elif (sim.run_type == "search_for_elliptic"):
+	sim.charge_hat= 0.05
+
+	sim.mu_hat= 0.05
+	sim.la_hat= 3.2
+
 	sim.data_dir= '/mnt/grtheory/jripley-data/elliptic_search_approx_scalarized'
+	sim.data_dir+= '/chargehat_'+str(sim.charge_hat)
+	sim.data_dir+= '_muhat_'+str(sim.mu_hat)
+	sim.data_dir+= '_lahat_'+str(sim.la_hat)
 
-	sim.charge_hat= 0.1
-
-	sim.mu_hat= 0.1
-	sim.la_hat= 0.8
-
-	gbc2_range=[100.0,330.0]
+	gbc2_range=[100.0,350.0]
 
 	sim.search_for_elliptic(gbc2_range)
 ##############################################################################
