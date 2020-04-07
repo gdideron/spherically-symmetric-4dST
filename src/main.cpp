@@ -64,6 +64,12 @@ int main(int argc, char **argv)
 	edgb.solve_metric_fields(sp.initial_exc_i,
 		phi_f, phi_p, phi_q, al, ze
 	);
+	if (sp.initial_data_type=="scalarized_bh") {
+		time_symmetric(edgb,sp,
+			phi_f, phi_q,
+			al,ze,
+			phi_p);
+	}
 	int exc_i= sp.initial_exc_i;
 	double initial_asymptotic_mass= rp.r[sp.nx-8]*pow(ze.np1[sp.nx-8],2)/2; 
 /*--------------------------------------------------------------------------*/		

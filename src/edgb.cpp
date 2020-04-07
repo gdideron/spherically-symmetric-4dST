@@ -235,8 +235,15 @@ void EdGB::solve_metric_fields(
 		al.n,ze.n
 	);
 	for (int i=0; i<nx; ++i) {
-		al.np1[i]= al.n[i];
-		ze.np1[i]= ze.n[i];
+		al.inter_2[i]= al.n[i];
+		al.inter_3[i]= al.n[i];
+		al.inter_4[i]= al.n[i];
+		al.np1[i]=     al.n[i];
+
+		ze.inter_2[i]= ze.n[i];
+		ze.inter_3[i]= ze.n[i];
+		ze.inter_4[i]= ze.n[i];
+		ze.np1[i]=     ze.n[i];
 	}	
 	return;
 }

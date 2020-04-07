@@ -38,7 +38,7 @@ sim.amp= 0#float(5.0e-3)
 sim.r_l= 0#float(24.0)
 sim.r_u= 0#float(32.0)
 #-----------------------------------------------------------------------------
-sim.nx= pow(2,10)+1 
+sim.nx= pow(2,11)+1 
 #-----------------------------------------------------------------------------
 sim.set_derived_params()
 ##############################################################################
@@ -103,7 +103,7 @@ elif (sim.run_type == "search_for_elliptic"):
 	sim.charge_hat= 0.05
 
 	sim.mu_hat= 0.05
-	sim.la_hat= 3.2
+	sim.la_hat= 0.0
 
 	sim.data_dir= '/mnt/grtheory/jripley-data/elliptic_search_approx_scalarized'
 	sim.data_dir+= '/chargehat_'+str(sim.charge_hat)
