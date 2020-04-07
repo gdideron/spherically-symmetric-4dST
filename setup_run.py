@@ -9,8 +9,8 @@ sim= Sim(args)
 #-----------------------------------------------------------------------------
 sim.compactification_length= float(100) 
 #-----------------------------------------------------------------------------
-sim.evolve_time=   float(200)  ### in units of initial black hole mass for ze field 
-sim.num_saved_times= int(500)
+sim.evolve_time=   float(300)  ### in units of initial black hole mass for ze field 
+sim.num_saved_times= int(600)
 sim.cfl= 0.25
 #-----------------------------------------------------------------------------
 ### scalar field potentials
@@ -38,7 +38,7 @@ sim.amp= 0#float(5.0e-3)
 sim.r_l= 0#float(24.0)
 sim.r_u= 0#float(32.0)
 #-----------------------------------------------------------------------------
-sim.nx= pow(2,11)+1 
+sim.nx= pow(2,10)+1 
 #-----------------------------------------------------------------------------
 sim.set_derived_params()
 ##############################################################################
@@ -58,16 +58,18 @@ if (sim.run_type == "basic_run"):
 	sim.launch()
 ##############################################################################
 elif (sim.run_type == "scan"):
-	mu_hat=0.1
 #-----------------------------------------------------------------------------
-	if (mu_hat==0.01):
-		sim.data_dir+= '_muhat_0.01'
-	elif (mu_hat==0.05):
-		sim.data_dir+= '_muhat_0.05'
-
-	elif (mu_hat==0.1):
-		sim.data_dir+= '_muhat_0.1'
-	else:
+	mu_hat=0.01
+#-----------------------------------------------------------------------------
+	sim.charge_hat= 0.05
+#-----------------------------------------------------------------------------
+	sim.data_dir= '/mnt/grtheory/jripley-data/approx_scalarized'
+#-----------------------------------------------------------------------------
+	sim.data_dir+= '/scan_muhat_'+str(mu_hat)
+#-----------------------------------------------------------------------------
+	try:
+		os.makedirs(self.data_dir)
+	except FileExistsError:
 		pass
 #-----------------------------------------------------------------------------
 	for la_hat in [0,0.2,0.4,0.6,0.8]:
@@ -77,7 +79,7 @@ elif (sim.run_type == "scan"):
 			sim.gbc2=  gbc2 
 			sim.set_derived_params()
 			sim.launch()
-			time.sleep(5)
+			time.sleep(2*60*60)
 ##############################################################################
 elif (sim.run_type == "convergence_test"):
 	num_res= int(input("number of resolutions "))
@@ -102,15 +104,15 @@ elif (sim.run_type == "convergence_test"):
 elif (sim.run_type == "search_for_elliptic"):
 	sim.charge_hat= 0.05
 
-	sim.mu_hat= 0.05
-	sim.la_hat= 0.0
+	sim.mu_hat= 0.1
+	sim.la_hat= 3.2
 
 	sim.data_dir= '/mnt/grtheory/jripley-data/elliptic_search_approx_scalarized'
 	sim.data_dir+= '/chargehat_'+str(sim.charge_hat)
 	sim.data_dir+= '_muhat_'+str(sim.mu_hat)
 	sim.data_dir+= '_lahat_'+str(sim.la_hat)
 
-	gbc2_range=[100.0,350.0]
+	gbc2_range=[200.0,350.0]
 
 	sim.search_for_elliptic(gbc2_range)
 ##############################################################################

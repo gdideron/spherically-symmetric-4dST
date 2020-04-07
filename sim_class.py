@@ -38,8 +38,8 @@ class Sim:
 		if (self.initial_data_type.endswith('bh')):
 			self.initial_exc_i= int(
 			(
-				(1.85*self.bh_mass)
-			/	(1+(1.85*self.bh_mass/self.compactification_length))
+				(1.80*self.bh_mass)
+			/	(1+(1.80*self.bh_mass/self.compactification_length))
 			)/self.dx
 			)
 		if (self.t_step_save==0):

@@ -97,23 +97,23 @@ void EdGB::compute_scalar_potentials(const vector<double> &f_v)
 {
 	for (int i=0; i<nx; ++i) {
 		V_v[i]= 
-			pow(mu,2)*pow(f_v[i],2)
-		+	(2.)*la*pow(f_v[i],4)
+			(1./2.)*pow(mu,2)*pow(f_v[i],2)
+		+	la*pow(f_v[i],4)
 		;
 		Vp_v[i]= 
-			(2.)*pow(mu,2)*f_v[i]
-		+	(8.)*la*pow(f_v[i],3)
+			pow(mu,2)*f_v[i]
+		+	(4.)*la*pow(f_v[i],3)
 		;
 		W_v[i]=
 			gbc1*f_v[i]
-		+	(1./4.)*gbc2*pow(f_v[i],2)
+		+	(1./8.)*gbc2*pow(f_v[i],2)
 		;
 		Wp_v[i]=
 			gbc1
-		+	(1./2.)*gbc2*f_v[i]
+		+	(1./4.)*gbc2*f_v[i]
 		;
 		Wpp_v[i]=
-			(1./2.)*gbc2
+			(1./4.)*gbc2
 		;
 	}
 	return;
