@@ -9,8 +9,8 @@ sim= Sim(args)
 #-----------------------------------------------------------------------------
 sim.compactification_length= float(100) 
 #-----------------------------------------------------------------------------
-sim.evolve_time=   float(300)  ### in units of initial black hole mass for ze field 
-sim.num_saved_times= int(600)
+sim.evolve_time=   float(200)  ### in units of initial black hole mass for ze field 
+sim.num_saved_times= int(500)
 sim.cfl= 0.25
 #-----------------------------------------------------------------------------
 ### scalar field potentials
@@ -28,15 +28,15 @@ sim.phi_r= 21  ### where measuring phi
 sim.bh_mass= float(10.0)
 #-----------------------------------------------------------------------------
 ### for the noncompact scalar profile
-sim.initial_data_type= str("scalarized_bh")
+#sim.initial_data_type= str("scalarized_bh")
 sim.charge_hat= float(0.0)
 #-----------------------------------------------------------------------------
 ### for the Gaussian-like pulse
 #sim.initial_data_type= str("bump")
-#sim.initial_data_type= str("bump_with_bh")
-sim.amp= 0#float(5.0e-3)
-sim.r_l= 0#float(24.0)
-sim.r_u= 0#float(32.0)
+sim.initial_data_type= str("bump_with_bh")
+sim.amp= float(5.0e-3)
+sim.r_l= float(24.0)
+sim.r_u= float(32.0)
 #-----------------------------------------------------------------------------
 sim.nx= pow(2,10)+1 
 #-----------------------------------------------------------------------------
@@ -102,17 +102,17 @@ elif (sim.run_type == "convergence_test"):
 ### varying eta with a fixed initial phi amplitude
 ###############################################################################
 elif (sim.run_type == "search_for_elliptic"):
-	sim.charge_hat= 0.05
+	sim.charge_hat= 0.00
 
 	sim.mu_hat= 0.1
 	sim.la_hat= 3.2
 
-	sim.data_dir= '/mnt/grtheory/jripley-data/elliptic_search_approx_scalarized'
+	sim.data_dir= '/mnt/grtheory/jripley-data/elliptic_search_bump'
 	sim.data_dir+= '/chargehat_'+str(sim.charge_hat)
 	sim.data_dir+= '_muhat_'+str(sim.mu_hat)
 	sim.data_dir+= '_lahat_'+str(sim.la_hat)
 
-	gbc2_range=[200.0,350.0]
+	gbc2_range=[200.0,600.0]
 
 	sim.search_for_elliptic(gbc2_range)
 ##############################################################################
