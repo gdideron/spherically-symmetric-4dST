@@ -49,6 +49,17 @@ class Sim:
 			/	(1+(self.phi_r/self.compactification_length))
 			)/self.dx
 		)
+#-----------------------------------------------------------------------------
+### memory to give each run (for slurm script)
+		self.memory=   '8' ### MB 
+		if (self.nx>(pow(2,10)+1)):
+			self.memory= '10' 
+		if (self.nx>(pow(2,11)+1)):
+			self.memory= '12' 
+		if (self.nx>(pow(2,12)+1)):
+			self.memory= '14' 
+		if (self.nx>(pow(2,13)+1)):
+			self.memory= '16' 
 ##############################################################################
 	def write_sim_params(self):
 		with open(self.output_dir+'/sim_params.txt','w') as f:
@@ -155,6 +166,7 @@ class Sim:
 							self.write_gbc2_to_record('run_finished_successfully')
 ##############################################################################
 	def launch(self):
+		self.set_derived_params()
 		self.make_output_dir()
 		self.make_output_file()
 		self.write_sim_params()

@@ -9,7 +9,7 @@ sim= Sim(args)
 #-----------------------------------------------------------------------------
 sim.compactification_length= float(100) 
 #-----------------------------------------------------------------------------
-sim.evolve_time=   float(200)  ### in units of initial black hole mass for ze field 
+sim.evolve_time=   float(3000)  ### in units of initial black hole mass for ze field 
 sim.num_saved_times= int(500)
 sim.cfl= 0.25
 #-----------------------------------------------------------------------------
@@ -29,7 +29,7 @@ sim.bh_mass= float(10.0)
 #-----------------------------------------------------------------------------
 ### for the noncompact scalar profile
 #sim.initial_data_type= str("scalarized_bh")
-sim.charge_hat= float(0.0)
+sim.charge_hat= float(0.05)
 #-----------------------------------------------------------------------------
 ### for the Gaussian-like pulse
 #sim.initial_data_type= str("bump")
@@ -38,20 +38,13 @@ sim.amp= float(5.0e-3)
 sim.r_l= float(24.0)
 sim.r_u= float(32.0)
 #-----------------------------------------------------------------------------
-sim.nx= pow(2,10)+1 
+sim.nx= pow(2,9)+1 
 #-----------------------------------------------------------------------------
 sim.set_derived_params()
 ##############################################################################
 ### for slurm script
 ##############################################################################
-sim.walltime= '48:00:00' ### (hh:mm:ss)
-sim.memory=   '4' ### MB 
-if (sim.nx>(pow(2,10)+1)):
-	sim.memory= '8' 
-if (sim.nx>(pow(2,11)+1)):
-	sim.memory= '12' 
-if (sim.nx>(pow(2,12)+1)):
-	sim.memory= '16' 
+sim.walltime= '480:00:00' ### (hh:mm:ss)
 ##############################################################################
 if (sim.run_type == "basic_run"):
 	sim.data_dir= '/mnt/grtheory/jripley-data/test'
@@ -83,14 +76,14 @@ elif (sim.run_type == "scan"):
 ##############################################################################
 elif (sim.run_type == "convergence_test"):
 	num_res= int(input("number of resolutions "))
-	sim.data_dir= '/mnt/grtheory/jripley-data/convergence_test'
+	sim.data_dir= '/mnt/grtheory/jripley-data/convergence_test_indefinite'
 
-	sim.charge_hat= 0.1
+	sim.charge_hat= 0.0
 
-	sim.mu_hat= 0.01
-	sim.la_hat= 1.6
+	sim.mu_hat= 0.05
+	sim.la_hat= 3.2
 
-	sim.gbc2= 278 
+	sim.gbc2= 300 
 
 	sim.set_derived_params()
 	for i in range(num_res):	
@@ -102,17 +95,18 @@ elif (sim.run_type == "convergence_test"):
 ### varying eta with a fixed initial phi amplitude
 ###############################################################################
 elif (sim.run_type == "search_for_elliptic"):
-	sim.charge_hat= 0.00
+	sim.charge_hat= 0.05
 
 	sim.mu_hat= 0.1
 	sim.la_hat= 3.2
 
-	sim.data_dir= '/mnt/grtheory/jripley-data/elliptic_search_bump'
+	sim.data_dir= '/mnt/grtheory/jripley-data/elliptic_search_approx_scalarized'
+#	sim.data_dir= '/mnt/grtheory/jripley-data/elliptic_search_bump'
 	sim.data_dir+= '/chargehat_'+str(sim.charge_hat)
 	sim.data_dir+= '_muhat_'+str(sim.mu_hat)
 	sim.data_dir+= '_lahat_'+str(sim.la_hat)
 
-	gbc2_range=[200.0,600.0]
+	gbc2_range=[300.0,500.0]
 
 	sim.search_for_elliptic(gbc2_range)
 ##############################################################################

@@ -126,9 +126,16 @@ int main(int argc, char **argv)
 	cout<<setw(10)<<rp.r[sp.nx-8]*phi_f.np1[sp.nx-8]<<"\t";
 	cout<<endl;
 /*--------------------------------------------------------------------------*/		
-/* 	evolve in time and write to file */
+/* 	evolve in time and write to file:
+ *  	stop once scalar field has settled down and have evolved
+ *  	for minimum number of time steps  */
 /*--------------------------------------------------------------------------*/		
-	for (int tC=0; tC<sp.nt; ++tC) {
+	int tC= 0;
+	while (
+		(tC<sp.nt) 
+	|| 	(((phi_f.np1[exc_i+10]-phi_f.n[exc_i+10])/sp.dt)>1e-12)
+	) {
+		tC+= 1;
 		grid_time+= sp.dt/initial_asymptotic_mass;
 
 		edgb.compute_radial_characteristics(
@@ -202,6 +209,7 @@ int main(int argc, char **argv)
 			cout<<setw(10)<<tC*sp.dt/initial_asymptotic_mass<<"\t";
 			cout<<setw(10)<<rp.r[sp.nx-8]*pow(ze.np1[sp.nx-8],2)/2<<"\t";
 			cout<<setw(10)<<rp.r[sp.nx-8]*phi_f.np1[sp.nx-8]<<"\t";
+			cout<<setw(10)<<((phi_f.np1[exc_i+10]-phi_f.n[exc_i+10])/sp.dt)<<"\t";
 			cout<<endl;
 /*--------------------------------------------------------------------------*/		
 		}
