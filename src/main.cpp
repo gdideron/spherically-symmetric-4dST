@@ -133,7 +133,7 @@ int main(int argc, char **argv)
 	int tC= 0;
 	while (
 		(tC<sp.nt) 
-	|| 	(((phi_f.np1[exc_i+10]-phi_f.n[exc_i+10])/sp.dt)>1e-12)
+	|| 	(((phi_f.np1[exc_i+10]-phi_f.n[exc_i+10])/sp.dt)>1e-16)
 	) {
 		tC+= 1;
 		grid_time+= sp.dt/initial_asymptotic_mass;

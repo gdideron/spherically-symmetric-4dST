@@ -9,8 +9,8 @@ sim= Sim(args)
 #-----------------------------------------------------------------------------
 sim.compactification_length= float(100) 
 #-----------------------------------------------------------------------------
-sim.evolve_time=   float(3000)  ### in units of initial black hole mass for ze field 
-sim.num_saved_times= int(500)
+sim.evolve_time=   float(10000)  ### in units of initial black hole mass for ze field 
+sim.num_saved_times= int(1000)
 sim.cfl= 0.25
 #-----------------------------------------------------------------------------
 ### scalar field potentials
@@ -28,15 +28,15 @@ sim.phi_r= 21  ### where measuring phi
 sim.bh_mass= float(10.0)
 #-----------------------------------------------------------------------------
 ### for the noncompact scalar profile
-#sim.initial_data_type= str("scalarized_bh")
+sim.initial_data_type= str("scalarized_bh")
 sim.charge_hat= float(0.05)
 #-----------------------------------------------------------------------------
 ### for the Gaussian-like pulse
 #sim.initial_data_type= str("bump")
-sim.initial_data_type= str("bump_with_bh")
-sim.amp= float(5.0e-3)
-sim.r_l= float(24.0)
-sim.r_u= float(32.0)
+#sim.initial_data_type= str("bump_with_bh")
+sim.amp= 0#float(5.0e-3)
+sim.r_l= 0#float(24.0)
+sim.r_u= 0#float(32.0)
 #-----------------------------------------------------------------------------
 sim.nx= pow(2,9)+1 
 #-----------------------------------------------------------------------------
@@ -76,14 +76,14 @@ elif (sim.run_type == "scan"):
 ##############################################################################
 elif (sim.run_type == "convergence_test"):
 	num_res= int(input("number of resolutions "))
-	sim.data_dir= '/mnt/grtheory/jripley-data/convergence_test_indefinite'
+	sim.data_dir= '/mnt/grtheory/jripley-data/convergence_test_long_scalarized'
 
-	sim.charge_hat= 0.0
+	sim.charge_hat= 0.05
 
 	sim.mu_hat= 0.05
 	sim.la_hat= 3.2
 
-	sim.gbc2= 300 
+	sim.gbc2= 340 
 
 	sim.set_derived_params()
 	for i in range(num_res):	
