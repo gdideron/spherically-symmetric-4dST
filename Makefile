@@ -7,8 +7,8 @@ OBJDIR= $(TOP)obj/
 
 SYSLIB= -lm -lbbhutil
 
-## libraries for bbhutil; comment this out if you do not
-## want to save to .sdf
+## libraries for bbhutil (to save output as .sdf)
+
 INCBBHUTIL= $(HOME)/rnpletal/include 
 LIBBBHUTIL= $(HOME)/rnpletal/lib 
 
