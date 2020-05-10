@@ -7,8 +7,10 @@ OBJDIR= $(TOP)obj/
 
 SYSLIB= -lm -lbbhutil
 
-INCBBHUTIL= /home/jripley/rnpletal/include 
-LIBBBHUTIL= /home/jripley/rnpletal/lib 
+## libraries for bbhutil; comment this out if you do not
+## want to save to .sdf
+INCBBHUTIL= $(HOME)/rnpletal/include 
+LIBBBHUTIL= $(HOME)/rnpletal/lib 
 
 VPATH= $(BIN) $(SRC) $(INC) $(OBJDIR)
 #############################################################################
