@@ -14,8 +14,10 @@ There is also a .cpp and .hpp file for saving to .sdf files
 using the  bbhutil library; see 
 http://laplace.physics.ubc.ca/Group/Software.html
 for more information. Remove the bbhutil headers if you do not want to save
-to .sdf. 
+to .sdf.
 
 If you use this code in any way, please cite the
-[original paper](https://inspirehep.net/literature/1795898)
-that introduces it. 
+original paper that introduces it:
+ 
+https://inspirehep.net/literature/1795898
+ 
