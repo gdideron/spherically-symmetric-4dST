@@ -1,5 +1,5 @@
-Evolution codes for EdGB gravity in spherical symmetry.
-------------------------------------------------------------------------------
+# Evolution codes for EdGB gravity in spherical symmetry.
+
 For help please contact jripley [at] princeton [dot] edu. 
 
 This setup files (setup.py and sim_class.py)
@@ -16,8 +16,9 @@ http://laplace.physics.ubc.ca/Group/Software.html
 for more information. Remove the bbhutil headers if you do not want to save
 to .sdf.
 
+# Citation
+
 If you use this code in any way, please cite the
 original paper that introduces it:
  
-https://inspirehep.net/literature/1795898
- 
+https://inspirehep.net/literature/1795898 
