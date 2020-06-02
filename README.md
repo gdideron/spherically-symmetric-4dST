@@ -18,6 +18,8 @@ to .sdf.
 
 # Citation
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3873503.svg)](https://doi.org/10.5281/zenodo.3873503)
+
 If you use this code in any way, please cite the
 original paper that introduces it:
  
