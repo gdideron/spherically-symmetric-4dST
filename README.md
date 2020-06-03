@@ -16,11 +16,11 @@ http://laplace.physics.ubc.ca/Group/Software.html
 for more information. Remove the bbhutil headers if you do not want to save
 to .sdf.
 
-# Citation
-
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3873503.svg)](https://doi.org/10.5281/zenodo.3873503)
-
 If you use this code in any way, please cite the
 original paper that introduces it:
  
-https://inspirehep.net/literature/1795898 
+https://inspirehep.net/literature/1795898
+
+the code also has a doi
+
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3873503.svg)](https://doi.org/10.5281/zenodo.3873503) 
