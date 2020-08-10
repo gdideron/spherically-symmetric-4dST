@@ -1,3 +1,10 @@
+#!/usr/bin/env python
+#############################################################################
+##
+## Parameter file
+## Usage: 
+## ./setup [run_type] (e.g. ./setup basic_run)
+##
 import sys, time
 from sim_class import Sim
 #############################################################################

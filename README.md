@@ -1,26 +1,39 @@
 # Evolution codes for EdGB gravity in spherical symmetry.
 
-For help please contact jripley [at] princeton [dot] edu. 
-
-This setup files (setup.py and sim_class.py)
-are configured to run on the Feynman cluster at Princeton University.
-They write and run a slurm script
-(see https://slurm.schedmd.com/documentation.html),
-which launches the 'run' binary (see the Makefile).
-The run binary also can be run on a personal computer.
-
-The code ouputs to csv files.
-There is also a .cpp and .hpp file for saving to .sdf files
-using the  bbhutil library; see 
-http://laplace.physics.ubc.ca/Group/Software.html
-for more information. Remove the bbhutil headers if you do not want to save
-to .sdf.
-
-If you use this code in any way, please cite the
-original paper that introduces it:
- 
-https://inspirehep.net/literature/1795898
-
-the code also has a doi
-
+[![arXiv](https://img.shields.io/badge/arXiv-2005.05417%20-green.svg)](https://arxiv.org/abs/2005.05417)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3873503.svg)](https://doi.org/10.5281/zenodo.3873503) 
+
+Codes to run EdGB gravity models in spherical symmetry.
+The parameter file to begin runs is: ``setup_run.py''.
+
+## Visualization
+
+I use pyqtgraph-graph derived software
+(see [here](https://github.com/JLRipley314/sci-vis))
+to visualize the output data (radial field values as a function of time),
+which are saved as csv files. 
+
+## Citation
+
+If you use this code, please cite this paper:
+```
+@article{Ripley:2020vpk,
+    author = "Ripley, Justin L. and Pretorius, Frans",
+    title = "{Dynamics of a Z2 symmetric EdGB gravity in spherical symmetry}",
+    eprint = "2005.05417",
+    archivePrefix = "arXiv",
+    primaryClass = "gr-qc",
+    doi = "10.1088/1361-6382/ab9bbb",
+    journal = "Class. Quant. Grav.",
+    volume = "37",
+    number = "15",
+    pages = "155003",
+    year = "2020"
+}
+```
+
+## Contact	
+
+For any quesitons about the code please contact
+
+Justin Ripley: lloydripley [at] gmail [dot] com
