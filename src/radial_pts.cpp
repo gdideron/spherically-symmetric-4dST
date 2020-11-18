@@ -11,12 +11,12 @@ Radial_pts::Radial_pts(
 
   cl{cl}
 {
-	for (int i=0; i<nx-1; ++i) {
-		x[i]=  dx*i;
-		r[i]=  x[i]/(1-x[i]/cl);
-	}
-	x[ nx-1]= cl;
-	r[ nx-1]= 1e100;
+   for (int i=0; i<nx-1; ++i) {
+      x[i]=  dx*i;
+      r[i]=  x[i]/(1-x[i]/cl);
+   }
+   x[nx-1]= cl;
+   r[nx-1]= 1e100;
 }
 /*===========================================================================*/
 Radial_pts::~Radial_pts(void)
