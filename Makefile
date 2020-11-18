@@ -15,7 +15,7 @@ LIBBBHUTIL= $(HOME)/rnpletal/lib
 VPATH= $(BIN) $(SRC) $(INC) $(OBJDIR)
 #############################################################################
 CC=g++
-CFLAGS= -Wall -Wextra -g -O2 -std=c++11 -fmax-errors=5   
+CFLAGS= -Wall -Wextra -g -O2 -std=c++14 -fmax-errors=5   
 #############################################################################
 OBJ= $(addprefix $(OBJDIR), \
 	main.o \
@@ -39,23 +39,16 @@ DEPS= 	edgb.hpp \
 	initial_data.hpp \
 	fd_stencils.hpp 
 #############################################################################
-RUN= $(BIN)run
-TEST= $(BIN)test
-all: $(RUN)
+all: default.run
 test: $(TEST)
 #############################################################################
-$(RUN): $(OBJ)
-	$(CC) $^ -o $@ -I$(INC) -I$(INCBBHUTIL) $(SYSLIB) -L$(LIBBBHUTIL) $(CFLAGS)
-$(TEST): $(OBJ)
-	$(CC) $^ -o $@ -I$(INC) -I$(INCBBHUTIL) $(SYSLIB) -L$(LIBBBHUTIL) $(CFLAGS)
+%.run: $(OBJ)
+	$(CC) $^ -o $(BIN)$@ -I$(INC) -I$(INCBBHUTIL) $(SYSLIB) -L$(LIBBBHUTIL) $(CFLAGS)
 #############################################################################
 $(OBJDIR)%.o: %.cpp $(DEPS)
 	$(CC) $(CFLAGS) -I$(INC) -I$(INCBBHUTIL) -c -o $@ $<
 #############################################################################
 .PHONY: clean_o clean_run clean_test
-clean_o:
-	@rm $(OBJDIR)*.o 
-clean_run:
-	@rm $(BIN)run 
-clean_test:
-	@rm -r $(BIN)test 
+clean:
+	$(RM) $(OBJDIR)*.o 
+	$(RM) $(BIN)*.run 
