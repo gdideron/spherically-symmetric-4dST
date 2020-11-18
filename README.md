@@ -1,10 +1,9 @@
-# Evolution codes for EdGB gravity in spherical symmetry.
+# Evolution codes for 4dST gravity in spherical symmetry.
 
 [![arXiv](https://img.shields.io/badge/arXiv-2005.05417%20-green.svg)](https://arxiv.org/abs/2005.05417)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3873503.svg)](https://doi.org/10.5281/zenodo.3873503) 
 
-Codes to run EdGB gravity models in spherical symmetry.
-The parameter file to begin runs is: ``setup_run.py''.
+Codes to run 4dST gravity models in spherical symmetry.
 
 ## Visualization
 
