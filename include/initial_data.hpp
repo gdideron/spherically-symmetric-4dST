@@ -9,17 +9,17 @@
 
 /*===========================================================================*/
 void set_initial_data(
-	const Sim_params &sp,
-	const std::vector<double> &rvec,
-	Field &al,Field &ze,
-	Field &f, Field &p, Field &q
+   const Sim_params &sp,
+   const std::vector<double> &rvec,
+   Field &N,Field &S,
+   Field &f, Field &p, Field &q
 );
 /*===========================================================================*/
 void time_symmetric(EdGB &edgb,
-	const Sim_params &sp,
-	const Field &f, const Field &q,
-	Field &al,Field &ze,
-	Field &p)
+   const Sim_params &sp,
+   const Field &f, const Field &q,
+   Field &N,Field &S,
+   Field &p)
 ;
 
 #endif /* __INITIAL_DATA_HPP__ */

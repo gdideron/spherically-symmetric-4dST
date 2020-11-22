@@ -14,23 +14,23 @@
 class Sdf 
 {
 public:
-	void write(const double grid_time, const class Field &field);
+   void write(const double grid_time, const class Field &field);
 	
-	Sdf(const std::string output, const int nx, const std::vector<double> &x_pts);
-	Sdf(const Sdf &input);
-	~Sdf(void);
+   Sdf(const std::string output, const int nx, const std::vector<double> &x_pts);
+   Sdf(const Sdf &input);
+   ~Sdf(void);
 private:
-	std::string output_dir;
+   std::string output_dir;
 
-	int nx; 
+   int nx; 
 
-	int rank;
-	int shape[1];
+   int rank;
+   int shape[1];
 
-	char *coord_names;
+   char *coord_names;
 
-	double *coords;
-	double *vals;
+   double *coords;
+   double *vals;
 };
 
 #endif

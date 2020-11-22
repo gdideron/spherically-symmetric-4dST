@@ -14,7 +14,7 @@ using std::vector;
 using std::string;
 
 #include "edgb.hpp"
-#include "radin_pts.hpp"
+#include "radial_pts.hpp"
 #include "field.hpp"
 #include "fd_stencils.hpp"
 
@@ -39,11 +39,11 @@ EdGB::EdGB(
  
   r_v(nx),
 
-  s_free_k{0},
-  s_free_k1{0},
-  s_free_k2{0},
-  s_free_k3{0},
-  s_free_k4{0},
+  S_free_k{0},
+  S_free_k1{0},
+  S_free_k2{0},
+  S_free_k3{0},
+  S_free_k4{0},
 
   f_k(nx,0),
   p_k(nx,0),
@@ -87,7 +87,7 @@ EdGB::~EdGB(void)
 {
 }
 /*===========================================================================*/
-void EdGB::rescne(vector<double> &vec)
+void EdGB::rescale(vector<double> &vec)
 {
    double vn= vec[nx-1];
    for (int i=0; i<nx; ++i) {
@@ -110,6 +110,9 @@ void EdGB::compute_potentials(const vector<double> &f_v)
       Al_v[i]=
          0.0
       ;
+      Alp_v[i]=
+         0.0
+      ;
       Be_v[i]=
          gbc1*f_v[i]
       +  (1./8.)*gbc2*pow(f_v[i],2)
@@ -125,12 +128,11 @@ void EdGB::compute_potentials(const vector<double> &f_v)
    return;
 }
 /*===========================================================================*/
-double EdGB::compute_res_n(
+double EdGB::compute_res_N(
    const double r,
    const double N, const double S,
    const double P, const double Q,
    const double V,  
-   const double Z,
    const double Al,
    const double Bep, const double Bepp,
    const double r_Der_N,
@@ -142,7 +144,7 @@ double EdGB::compute_res_n(
    ;
 }
 /*===========================================================================*/
-double EdGB::compute_res_s(
+double EdGB::compute_res_S(
    const double r,
    const double S,
    const double P,  const double Q,
@@ -219,14 +221,14 @@ void EdGB::solve_for_metric_relaxation(
             1/(2.*r) - (4*Bep*Q)/pow(r,2) + 5*Bep*pow(P,2)*Q + (9*Al*Bep*pow(P,4)*Q)/2. - (4*Bepp*pow(Q,2))/r - Bep*pow(Q,3) + (32*Bep*Bepp*pow(Q,3))/pow(r,2) - 5*Al*Bep*pow(P,2)*pow(Q,3) + (Al*Bep*pow(Q,5))/2. + (r*pow(P,2))/(4.*pow(S,2)) + (3*Al*r*pow(P,4))/(8.*pow(S,2)) - (2*Bep*pow(P,2)*Q)/pow(S,2) - (3*Al*Bep*pow(P,4)*Q)/pow(S,2) + (r*pow(Q,2))/(4.*pow(S,2)) - (Al*r*pow(P,2)*pow(Q,2))/(4.*pow(S,2)) - (2*Bep*pow(Q,3))/pow(S,2) + (2*Al*Bep*pow(P,2)*pow(Q,3))/pow(S,2) - (Al*r*pow(Q,4))/(8.*pow(S,2)) + (Al*Bep*pow(Q,5))/pow(S,2) - (8*Bep*P*S)/pow(r,2) - (8*Bepp*P*Q*S)/r + (128*Bep*Bepp*P*pow(Q,2)*S)/pow(r,2) + (6*Bep*Q*pow(S,2))/pow(r,2) + (144*Bep*Bepp*pow(P,2)*Q*pow(S,2))/pow(r,2) - (48*Bep*Bepp*pow(Q,3)*pow(S,2))/pow(r,2) + r_Der_S*((-20*Bep*P)/r + (160*pow(Bep,2)*P*Q)/pow(r,2) + (192*pow(Bep,2)*pow(P,2)*S)/pow(r,2)) + r_Der_P*((-8*Bep*S)/r + (64*pow(Bep,2)*Q*S)/pow(r,2) + (144*pow(Bep,2)*P*pow(S,2))/pow(r,2)) + (2 - (32*Bep*Q)/r + (128*pow(Bep,2)*pow(Q,2))/pow(r,2) - (40*Bep*P*S)/r + (320*pow(Bep,2)*P*Q*S)/pow(r,2) + (192*pow(Bep,2)*pow(P,2)*pow(S,2))/pow(r,2))/dr + r_Der_Q*((-4*Bep)/r + (32*pow(Bep,2)*Q)/pow(r,2) + (64*pow(Bep,2)*P*S)/pow(r,2) - (48*pow(Bep,2)*Q*pow(S,2))/pow(r,2)) - 2*Bep*Q*V + (r*V)/(2.*pow(S,2)) - (4*Bep*Q*V)/pow(S,2)
          ;
 /*---------------------------------------------------------------------------*/
-         n_v[i+1]-= res_n/jac_n;
-         s_v[i+1]-= res_s/jac_s;
-         err+= fabs(res_n);
-         err+= fabs(res_s);
+         n_v[i+1]-= res_N/jac_N;
+         s_v[i+1]-= res_S/jac_S;
+         err+= fabs(res_N);
+         err+= fabs(res_S);
       }
       n_v[nx-1]= n_v[nx-2];
       s_v[nx-1]= 0;
-      rescne(n_v);
+      rescale(n_v);
       err/= nx;
    } while (err>err_tolerance);
    return;
@@ -257,7 +259,7 @@ void EdGB::solve_metric_fields(
    return;
 }
 /*===========================================================================*/
-double EdGB::compute_s_free_k(
+double EdGB::compute_S_free_k(
    const double r,
    const double N, const double S,
    const double P, const double Q,
@@ -318,8 +320,8 @@ void EdGB::compute_fpq_ki(
    double 
       r, cf, 
       n, s, p, q, 
-      r_Der_n, r_Der_s, r_Der_p, r_Der_q
-      V, Vp, Al, Alp, Be, Bep, Bepp
+      r_Der_n, r_Der_s, r_Der_p, r_Der_q,
+      V, Vp, Al, Alp, Bep, Bepp
    ;
 /*---------------------------------------------------------------------------*/
    for (int i=exc_i+2; i<nx-2; ++i) {
@@ -331,12 +333,11 @@ void EdGB::compute_fpq_ki(
       p= p_v[i];
       q= q_v[i];
 
-      V=    V_v[i];
-      Vp=  Vp_v[i];
+      V=  V_v[i];
+      Vp= Vp_v[i];
       Al=   Al_v[i];
-      Alp= Alp_v[i];
-      Be=     Be_v[i];
-      Bep=   Bep_v[i];
+      Alp=  Alp_v[i];
+      Bep=  Bep_v[i];
       Bepp= Bepp_v[i];
 
       r_Der_n= pow(cf,2)*Dx_ptc_4th(n_v[i+2],n_v[i+1],n_v[i-1],n_v[i-2],dx);
@@ -350,12 +351,14 @@ void EdGB::compute_fpq_ki(
       p_k[i]= compute_p_k(
          r,
          n, s,
-         p,  q,
-         V,   Vp, 
+         p, q,
+         V, Vp, 
          Al,  Alp,
          Bep, Bepp,
-         r_Der_n,  r_Der_s,
-         r_Der_p,  r_Der_q
+         r_Der_n,
+         r_Der_s,
+         r_Der_p,
+         r_Der_q
       );
       q_k[i]= pow(cf,2)*Dx_ptc_4th(
          n_v[i+2]*(p_v[i+2]+s_v[i+2]*q_v[i+2]),
@@ -379,7 +382,6 @@ void EdGB::compute_fpq_ki(
    Vp=  Vp_v[i];
    Al=   Al_v[i];
    Alp= Alp_v[i];
-   Be=     Be_v[i];
    Bep=   Bep_v[i];
    Bepp= Bepp_v[i];
 
@@ -426,7 +428,6 @@ void EdGB::compute_fpq_ki(
       Vp=  Vp_v[i];
       Al=   Al_v[i];
       Alp= Alp_v[i];
-      Be=     Be_v[i];
       Bep=   Bep_v[i];
       Bepp= Bepp_v[i];
 
@@ -456,7 +457,7 @@ void EdGB::compute_fpq_ki(
          n_v[i  ]*(p_v[i]  +s_v[i  ]*q_v[i  ]),
          dx
       );
-      s_free_k= compute_s_free_k(
+      S_free_k= compute_S_free_k(
          r,
          n, s,
          p,  q,
@@ -491,7 +492,6 @@ void EdGB::compute_fpq_ki(
    Vp=  Vp_v[i];
    Al=   Al_v[i];
    Alp= Alp_v[i];
-   Be=     Be_v[i];
    Bep=   Bep_v[i];
    Bepp= Bepp_v[i];
 
@@ -499,9 +499,9 @@ void EdGB::compute_fpq_ki(
       r,
       n, s,
       p,  q,
-      V_v,   Vp_v, 
-      Al_v,  Alp_v,
-      Bep_v, Bepp_v,
+      V,   Vp, 
+      Al,  Alp,
+      Bep, Bepp,
       r_Der_n,  r_Der_s,
       r_Der_p,  r_Der_q
    );
@@ -530,7 +530,7 @@ void EdGB::compute_fpq_ki(
          p_k1[i]= dt*p_k[i];
          q_k1[i]= dt*q_k[i];
       }
-      s_free_k1= dt*s_free_k;
+      S_free_k1= dt*S_free_k;
    break;
    case 2:
       for (int i=0; i<nx; ++i) {
@@ -538,7 +538,7 @@ void EdGB::compute_fpq_ki(
          p_k2[i]= dt*p_k[i];
          q_k2[i]= dt*q_k[i];
       }
-      s_free_k2= dt*s_free_k;
+      S_free_k2= dt*S_free_k;
    break;
    case 3:
       for (int i=0; i<nx; ++i) {
@@ -546,7 +546,7 @@ void EdGB::compute_fpq_ki(
          p_k3[i]= dt*p_k[i];
          q_k3[i]= dt*q_k[i];
       }
-      s_free_k3= dt*s_free_k;
+      S_free_k3= dt*S_free_k;
    break;
    case 4:
       for (int i=0; i<nx; ++i) {
@@ -554,7 +554,7 @@ void EdGB::compute_fpq_ki(
          p_k4[i]= dt*p_k[i];
          q_k4[i]= dt*q_k[i];
       }
-      s_free_k4= dt*s_free_k;
+      S_free_k4= dt*S_free_k;
    break;
    default:
       cout << "ERROR: vn = " << vn << endl;
@@ -585,11 +585,11 @@ void EdGB::time_step(const int exc_i,
       q.inter_2[i]= q.n[i]+0.5*q_k1[i];
    }
    if (exc_i==0) {
-      f.inter_2[0]= make_Dx_sro(f.inter_2[4], f.inter_2[3], f.inter_2[2], f.inter_2[1]);
-      p.inter_2[0]= make_Dx_sro(p.inter_2[4], p.inter_2[3], p.inter_2[2], p.inter_2[1]);
+      f.inter_2[0]= make_Dx_zero(f.inter_2[4], f.inter_2[3], f.inter_2[2], f.inter_2[1]);
+      p.inter_2[0]= make_Dx_zero(p.inter_2[4], p.inter_2[3], p.inter_2[2], p.inter_2[1]);
       q.inter_2[0]= 0; 
    } else {
-      s.inter_2[exc_i]= s.n[exc_i]+0.5*s_free_k1;
+      s.inter_2[exc_i]= s.n[exc_i]+0.5*S_free_k1;
    }
    solve_for_metric_relaxation(exc_i,
       f.inter_2,  p.inter_2, q.inter_2,
@@ -605,11 +605,11 @@ void EdGB::time_step(const int exc_i,
       q.inter_3[i]= q.n[i]+0.5*q_k2[i];
    }
    if (exc_i==0) {
-      f.inter_3[0]= make_Dx_sro(f.inter_3[4], f.inter_3[3], f.inter_3[2], f.inter_3[1]);
-      p.inter_3[0]= make_Dx_sro(p.inter_3[4], p.inter_3[3], p.inter_3[2], p.inter_3[1]);
+      f.inter_3[0]= make_Dx_zero(f.inter_3[4], f.inter_3[3], f.inter_3[2], f.inter_3[1]);
+      p.inter_3[0]= make_Dx_zero(p.inter_3[4], p.inter_3[3], p.inter_3[2], p.inter_3[1]);
       q.inter_3[0]= 0; 
    } else {
-      s.inter_3[exc_i]= s.n[exc_i]+0.5*s_free_k2;
+      s.inter_3[exc_i]= s.n[exc_i]+0.5*S_free_k2;
    }
    solve_for_metric_relaxation(exc_i,
       f.inter_3,  p.inter_3, q.inter_3,
@@ -625,11 +625,11 @@ void EdGB::time_step(const int exc_i,
       q.inter_4[i]= q.n[i]+0.5*q_k3[i];
    }
    if (exc_i==0) {
-      f.inter_4[0]= make_Dx_sro(f.inter_4[4], f.inter_4[3], f.inter_4[2], f.inter_4[1]);
-      p.inter_4[0]= make_Dx_sro(p.inter_4[4], p.inter_4[3], p.inter_4[2], p.inter_4[1]);
+      f.inter_4[0]= make_Dx_zero(f.inter_4[4], f.inter_4[3], f.inter_4[2], f.inter_4[1]);
+      p.inter_4[0]= make_Dx_zero(p.inter_4[4], p.inter_4[3], p.inter_4[2], p.inter_4[1]);
       q.inter_4[0]= 0; 
    } else {
-      s.inter_4[exc_i]= s.n[exc_i]+0.5*s_free_k3;
+      s.inter_4[exc_i]= s.n[exc_i]+0.5*S_free_k3;
    }
    solve_for_metric_relaxation(exc_i,
       f.inter_4,  p.inter_4, q.inter_4,
@@ -645,11 +645,11 @@ void EdGB::time_step(const int exc_i,
       q.np1[i]= q.n[i] + (q_k1[i]+2.*q_k2[i]+2.*q_k3[i]+q_k4[i])/6.;
    }
    if (exc_i==0) {
-      f.np1[0]= make_Dx_sro(f.np1[4], f.np1[3], f.np1[2], f.np1[1]);
-      p.np1[0]= make_Dx_sro(p.np1[4], p.np1[3], p.np1[2], p.np1[1]);
+      f.np1[0]= make_Dx_zero(f.np1[4], f.np1[3], f.np1[2], f.np1[1]);
+      p.np1[0]= make_Dx_zero(p.np1[4], p.np1[3], p.np1[2], p.np1[1]);
       q.np1[0]= 0; 
    } else {
-      s.np1[exc_i]= s.n[exc_i]+(s_free_k1+2.*s_free_k2+2.*s_free_k3+s_free_k4)/6.;
+      s.np1[exc_i]= s.n[exc_i]+(S_free_k1+2.*S_free_k2+2.*S_free_k3+S_free_k4)/6.;
    }
    solve_for_metric_relaxation(exc_i,
       f.np1,  p.np1, q.np1,
@@ -659,7 +659,7 @@ void EdGB::time_step(const int exc_i,
    return;
 }
 /*===========================================================================*/
-int EdGB::compute_radin_characteristic(
+int EdGB::compute_radial_characteristic(
    const double r,
    const double N, const double S,
    const double P, const double Q,
@@ -680,7 +680,7 @@ int EdGB::compute_radin_characteristic(
       N, S,
       P,  Q,
       V,  Vp, 
-      Al,
+      Al, Alp,
       Bep, Bepp,
       r_Der_N,
       r_Der_S,
@@ -689,16 +689,16 @@ int EdGB::compute_radin_characteristic(
    );
 /*---------------------------------------------------------------------------*/
    double ep_dtp= 
-      pow(r,4) + 16*Al*Bep*pow(Qr,3)*pow(r,6) - 64*Al*pow(Bep,2)*pow(Qr,4)*pow(r,6) + 128*pow(Bep,2)*pow(r,4)*sol_ze*pow(Sr,3) - 32*pow(Bep,2)*pow(r,4)*pow(Sr,4) + 256*pow(Bep,3)*pow(r,4)*r_Der_Q*pow(Sr,4) - 16*Bep*Qr*r*(pow(r,3) + 64*pow(Bep,2)*pow(r,3)*sol_ze*pow(Sr,3)) - pow(Qr,2)*pow(r,2)*(-64*pow(Bep,2)*pow(r,2) + Al*pow(r,4) - 256*pow(Bep,2)*Bepp*pow(r,4)*pow(Sr,4)) - 16*Bep*r*Sr*(pow(r,3) - 8*Bep*Qr*pow(r,3) - Al*pow(Qr,2)*pow(r,5) + 8*Al*Bep*pow(Qr,3)*pow(r,5) + 48*pow(Bep,2)*pow(r,3)*sol_ze*pow(Sr,3))*P - pow(r,2)*(-3*Al*pow(r,2) + 48*Al*Bep*Qr*pow(r,2) - 192*Al*pow(Bep,2)*pow(Qr,2)*pow(r,2) - 64*pow(Bep,2)*pow(r,2)*pow(Sr,2) + 64*Al*pow(Bep,2)*pow(Qr,2)*pow(r,4)*pow(Sr,2))*pow(P,2) + 48*Al*Bep*pow(r,3)*(-r + 8*Bep*Qr*r)*Sr*pow(P,3) + 192*Al*pow(Bep,2)*pow(r,4)*pow(Sr,2)*pow(P,4) - (128*pow(Bep,2)*pow(r,5)*sol_al*pow(Sr,4)*(-1 + 8*Bep*Qr + 6*Bep*Sr*P))/N
+      (768*pow(r,4)*r_Der_Q*(-(pow(Bep,3)*pow(Sr,4)) + 8*pow(Bep,4)*Qr*pow(Sr,4) + 8*pow(Bep,4)*pow(Sr,5)*P))/(-1 + 8*Bep*Qr + 12*Bep*Sr*P) - (pow(r,4)*(1 - 24*Bep*Qr + 192*pow(Bep,2)*pow(Qr,2) - 512*pow(Bep,3)*pow(Qr,3) - Al*pow(Qr,2)*pow(r,2) + 24*Al*Bep*pow(Qr,3)*pow(r,2) - 192*Al*pow(Bep,2)*pow(Qr,4)*pow(r,2) + 512*Al*pow(Bep,3)*pow(Qr,5)*pow(r,2) + 32*pow(Bep,2)*pow(Qr,2)*pow(r,2)*pow(Sr,2) - 256*pow(Bep,3)*pow(Qr,3)*pow(r,2)*pow(Sr,2) - 16*Al*pow(Bep,2)*pow(Qr,4)*pow(r,4)*pow(Sr,2) + 128*Al*pow(Bep,3)*pow(Qr,5)*pow(r,4)*pow(Sr,2) - 96*pow(Bep,2)*pow(Sr,4) + 768*pow(Bep,3)*Qr*pow(Sr,4) + 768*pow(Bep,2)*Bepp*pow(Qr,2)*pow(r,2)*pow(Sr,4) - 6144*pow(Bep,3)*Bepp*pow(Qr,3)*pow(r,2)*pow(Sr,4) - 28*Bep*Sr*P + 448*pow(Bep,2)*Qr*Sr*P - 1792*pow(Bep,3)*pow(Qr,2)*Sr*P + 28*Al*Bep*pow(Qr,2)*pow(r,2)*Sr*P - 448*Al*pow(Bep,2)*pow(Qr,3)*pow(r,2)*Sr*P + 1792*Al*pow(Bep,3)*pow(Qr,4)*pow(r,2)*Sr*P - 192*pow(Bep,3)*pow(Qr,2)*pow(r,2)*pow(Sr,3)*P + 96*Al*pow(Bep,3)*pow(Qr,4)*pow(r,4)*pow(Sr,3)*P + 768*pow(Bep,3)*pow(Sr,5)*P - 6144*pow(Bep,3)*Bepp*pow(Qr,2)*pow(r,2)*pow(Sr,5)*P + 3*Al*pow(P,2) - 72*Al*Bep*Qr*pow(P,2) + 576*Al*pow(Bep,2)*pow(Qr,2)*pow(P,2) - 1536*Al*pow(Bep,3)*pow(Qr,3)*pow(P,2) + 288*pow(Bep,2)*pow(Sr,2)*pow(P,2) - 2304*pow(Bep,3)*Qr*pow(Sr,2)*pow(P,2) - 288*Al*pow(Bep,2)*pow(Qr,2)*pow(r,2)*pow(Sr,2)*pow(P,2) + 2304*Al*pow(Bep,3)*pow(Qr,3)*pow(r,2)*pow(Sr,2)*pow(P,2) - 84*Al*Bep*Sr*pow(P,3) + 1344*Al*pow(Bep,2)*Qr*Sr*pow(P,3) - 5376*Al*pow(Bep,3)*pow(Qr,2)*Sr*pow(P,3) - 960*pow(Bep,3)*pow(Sr,3)*pow(P,3) + 960*Al*pow(Bep,3)*pow(Qr,2)*pow(r,2)*pow(Sr,3)*pow(P,3) + 816*Al*pow(Bep,2)*pow(Sr,2)*pow(P,4) - 6528*Al*pow(Bep,3)*Qr*pow(Sr,2)*pow(P,4) - 2592*Al*pow(Bep,3)*pow(Sr,3)*pow(P,5) + 64*pow(Bep,2)*pow(Sr,2)*V - 512*pow(Bep,3)*Qr*pow(Sr,2)*V - 384*pow(Bep,3)*pow(Sr,3)*P*V))/(-1 + 8*Bep*Qr + 12*Bep*Sr*P)
    ;
    double ep_dtq= 
       0
    ;
    double ep_drp=
-      -32*pow(Bep,2)*pow(r,3)*pow(Sr,3)*N + 256*pow(Bep,2)*Bepp*pow(Qr,2)*pow(r,5)*pow(Sr,3)*N + 128*pow(Bep,2)*pow(r,4)*(-r + 8*Bep*Qr*r)*sol_ze*pow(Sr,4)*N + 32*pow(Bep,2)*pow(r,5)*pow(Sr,5)*N - 256*pow(Bep,2)*Bepp*pow(Qr,2)*pow(r,7)*pow(Sr,5)*N + r_Der_Q*(256*pow(Bep,3)*pow(r,3)*pow(Sr,3)*N - 256*pow(Bep,3)*pow(r,5)*pow(Sr,5)*N) - 4*Al*Qr*pow(r,3)*pow(-r + 8*Bep*Qr*r,2)*N*P - 256*pow(Bep,3)*pow(r,3)*sol_ze*pow(Sr,3)*N*P + 768*pow(Bep,3)*pow(r,5)*sol_ze*pow(Sr,5)*N*P + 64*pow(Bep,2)*pow(r,5)*(-1 + Al*pow(Qr,2)*pow(r,2))*pow(Sr,3)*N*pow(P,2) - 192*Al*pow(Bep,2)*pow(r,5)*pow(Sr,3)*N*pow(P,4) + 64*pow(Bep,2)*pow(r,3)*sol_al*pow(Sr,3)*(3*r - 24*Bep*Qr*r - 2*pow(r,3)*pow(Sr,2) + 16*Bep*Qr*pow(r,3)*pow(Sr,2) - 20*Bep*r*Sr*P + 12*Bep*pow(r,3)*pow(Sr,3)*P) + pow(r,3)*(-r + 8*Bep*Qr*r)*Sr*N*(r - 8*Bep*Qr*r - Al*pow(Qr,2)*pow(r,3) + 8*Al*Bep*pow(Qr,3)*pow(r,3) + 3*Al*r*pow(P,2) - 88*Al*Bep*Qr*r*pow(P,2)) + 16*Bep*pow(r,2)*pow(Sr,2)*N*(4*Bep*r*sol_ze - 32*pow(Bep,2)*Qr*r*sol_ze + pow(r,3)*P - 8*Bep*Qr*pow(r,3)*P - Al*pow(Qr,2)*pow(r,5)*P + 8*Al*Bep*pow(Qr,3)*pow(r,5)*P + 3*Al*pow(r,3)*pow(P,3) - 40*Al*Bep*Qr*pow(r,3)*pow(P,3))
+      -1536*pow(Bep,3)*pow(r,4)*r_Der_P*pow(Sr,4)*N - (768*pow(Bep,3)*pow(r,5)*r_Der_Q*pow(Sr,5)*N*(-1 + 4*Bep*Qr + 8*Bep*Sr*P))/(-1 + 8*Bep*Qr + 12*Bep*Sr*P) + (pow(r,5)*N*(-Sr + 36*Bep*Qr*Sr - 480*pow(Bep,2)*pow(Qr,2)*Sr + 2816*pow(Bep,3)*pow(Qr,3)*Sr - 6144*pow(Bep,4)*pow(Qr,4)*Sr + Al*pow(Qr,2)*pow(r,2)*Sr - 36*Al*Bep*pow(Qr,3)*pow(r,2)*Sr + 480*Al*pow(Bep,2)*pow(Qr,4)*pow(r,2)*Sr - 2816*Al*pow(Bep,3)*pow(Qr,5)*pow(r,2)*Sr + 6144*Al*pow(Bep,4)*pow(Qr,6)*pow(r,2)*Sr - 32*pow(Bep,2)*pow(Qr,2)*pow(r,2)*pow(Sr,3) + 256*pow(Bep,3)*pow(Qr,3)*pow(r,2)*pow(Sr,3) + 16*Al*pow(Bep,2)*pow(Qr,4)*pow(r,4)*pow(Sr,3) - 128*Al*pow(Bep,3)*pow(Qr,5)*pow(r,4)*pow(Sr,3) + 96*pow(Bep,2)*pow(Sr,5) - 1152*pow(Bep,3)*Qr*pow(Sr,5) + 3072*pow(Bep,4)*pow(Qr,2)*pow(Sr,5) - 768*pow(Bep,2)*Bepp*pow(Qr,2)*pow(r,2)*pow(Sr,5) + 9216*pow(Bep,3)*Bepp*pow(Qr,3)*pow(r,2)*pow(Sr,5) - 24576*pow(Bep,4)*Bepp*pow(Qr,4)*pow(r,2)*pow(Sr,5) - 4*Al*Qr*P + 128*Al*Bep*pow(Qr,2)*P - 1536*Al*pow(Bep,2)*pow(Qr,3)*P + 8192*Al*pow(Bep,3)*pow(Qr,4)*P - 16384*Al*pow(Bep,4)*pow(Qr,5)*P + 36*Bep*pow(Sr,2)*P - 1104*pow(Bep,2)*Qr*pow(Sr,2)*P + 10752*pow(Bep,3)*pow(Qr,2)*pow(Sr,2)*P - 33792*pow(Bep,4)*pow(Qr,3)*pow(Sr,2)*P - 36*Al*Bep*pow(Qr,2)*pow(r,2)*pow(Sr,2)*P + 1104*Al*pow(Bep,2)*pow(Qr,3)*pow(r,2)*pow(Sr,2)*P - 10752*Al*pow(Bep,3)*pow(Qr,4)*pow(r,2)*pow(Sr,2)*P + 33792*Al*pow(Bep,4)*pow(Qr,5)*pow(r,2)*pow(Sr,2)*P - 1536*pow(Bep,2)*Bepp*Qr*pow(Sr,4)*P + 24576*pow(Bep,3)*Bepp*pow(Qr,2)*pow(Sr,4)*P - 98304*pow(Bep,4)*Bepp*pow(Qr,3)*pow(Sr,4)*P + 448*pow(Bep,3)*pow(Qr,2)*pow(r,2)*pow(Sr,4)*P - 1280*pow(Bep,4)*pow(Qr,3)*pow(r,2)*pow(Sr,4)*P - 224*Al*pow(Bep,3)*pow(Qr,4)*pow(r,4)*pow(Sr,4)*P + 640*Al*pow(Bep,4)*pow(Qr,5)*pow(r,4)*pow(Sr,4)*P - 1536*pow(Bep,3)*pow(Sr,6)*P + 9216*pow(Bep,4)*Qr*pow(Sr,6)*P + 12288*pow(Bep,3)*Bepp*pow(Qr,2)*pow(r,2)*pow(Sr,6)*P - 73728*pow(Bep,4)*Bepp*pow(Qr,3)*pow(r,2)*pow(Sr,6)*P - 3*Al*Sr*pow(P,2) + 252*Al*Bep*Qr*Sr*pow(P,2) - 4896*Al*pow(Bep,2)*pow(Qr,2)*Sr*pow(P,2) + 36096*Al*pow(Bep,3)*pow(Qr,3)*Sr*pow(P,2) - 92160*Al*pow(Bep,4)*pow(Qr,4)*Sr*pow(P,2) - 512*pow(Bep,2)*pow(Sr,3)*pow(P,2) + 11520*pow(Bep,3)*Qr*pow(Sr,3)*pow(P,2) - 59392*pow(Bep,4)*pow(Qr,2)*pow(Sr,3)*pow(P,2) + 512*Al*pow(Bep,2)*pow(Qr,2)*pow(r,2)*pow(Sr,3)*pow(P,2) - 11520*Al*pow(Bep,3)*pow(Qr,3)*pow(r,2)*pow(Sr,3)*pow(P,2) + 59392*Al*pow(Bep,4)*pow(Qr,4)*pow(r,2)*pow(Sr,3)*pow(P,2) + 30720*pow(Bep,3)*Bepp*Qr*pow(Sr,5)*pow(P,2) - 245760*pow(Bep,4)*Bepp*pow(Qr,2)*pow(Sr,5)*pow(P,2) - 1536*pow(Bep,4)*pow(Qr,2)*pow(r,2)*pow(Sr,5)*pow(P,2) + 768*Al*pow(Bep,4)*pow(Qr,4)*pow(r,4)*pow(Sr,5)*pow(P,2) + 6144*pow(Bep,4)*pow(Sr,7)*pow(P,2) - 49152*pow(Bep,4)*Bepp*pow(Qr,2)*pow(r,2)*pow(Sr,7)*pow(P,2) + 108*Al*Bep*pow(Sr,2)*pow(P,3) - 4976*Al*pow(Bep,2)*Qr*pow(Sr,2)*pow(P,3) + 58880*Al*pow(Bep,3)*pow(Qr,2)*pow(Sr,2)*pow(P,3) - 207872*Al*pow(Bep,4)*pow(Qr,3)*pow(Sr,2)*pow(P,3) + 3264*pow(Bep,3)*pow(Sr,4)*pow(P,3) - 39168*pow(Bep,4)*Qr*pow(Sr,4)*pow(P,3) - 3264*Al*pow(Bep,3)*pow(Qr,2)*pow(r,2)*pow(Sr,4)*pow(P,3) + 39168*Al*pow(Bep,4)*pow(Qr,3)*pow(r,2)*pow(Sr,4)*pow(P,3) - 147456*pow(Bep,4)*Bepp*Qr*pow(Sr,6)*pow(P,3) - 1488*Al*pow(Bep,2)*pow(Sr,3)*pow(P,4) + 40320*Al*pow(Bep,3)*Qr*pow(Sr,3)*pow(P,4) - 227328*Al*pow(Bep,4)*pow(Qr,2)*pow(Sr,3)*pow(P,4) - 7680*pow(Bep,4)*pow(Sr,5)*pow(P,4) + 7680*Al*pow(Bep,4)*pow(Qr,2)*pow(r,2)*pow(Sr,5)*pow(P,4) + 9120*Al*pow(Bep,3)*pow(Sr,4)*pow(P,5) - 115584*Al*pow(Bep,4)*Qr*pow(Sr,4)*pow(P,5) - 20736*Al*pow(Bep,4)*pow(Sr,5)*pow(P,6) - 64*pow(Bep,2)*pow(Sr,3)*V + 512*pow(Bep,3)*Qr*pow(Sr,3)*V + 896*pow(Bep,3)*pow(Sr,4)*P*V - 2560*pow(Bep,4)*Qr*pow(Sr,4)*P*V - 3072*pow(Bep,4)*pow(Sr,5)*pow(P,2)*V))/((-1 + 8*Bep*Qr + 8*Bep*Sr*P)*(-1 + 8*Bep*Qr + 12*Bep*Sr*P))
    ;
    double ep_drq=
-      256*pow(Bep,3)*pow(r,4)*pow(Sr,4)*t_Der_P - 256*pow(Bep,3)*pow(r,3)*r_Der_P*pow(Sr,3)*(-1 + pow(r,2)*pow(Sr,2))*N - 64*pow(Bep,2)*pow(r,2)*sol_al*pow(Sr,2)*(-r + 8*Bep*Qr*r + 8*Bep*r*Sr*P) - N*(pow(r,4) - 16*Bep*Qr*pow(r,4) + 64*pow(Bep,2)*pow(Qr,2)*pow(r,4) - 3*Al*pow(Qr,2)*pow(r,6) + 48*Al*Bep*pow(Qr,3)*pow(r,6) - 192*Al*pow(Bep,2)*pow(Qr,4)*pow(r,6) - 16*pow(Bep,2)*pow(Qr,2)*pow(r,6)*pow(Sr,2) + 24*Al*pow(Bep,2)*pow(Qr,4)*pow(r,8)*pow(Sr,2) - 256*pow(Bep,3)*Qr*pow(r,4)*sol_ze*pow(Sr,3) - 32*pow(Bep,2)*pow(r,4)*pow(Sr,4) - 16*Bep*pow(r,4)*Sr*P + 96*pow(Bep,2)*Qr*pow(r,4)*Sr*P + 48*Al*Bep*pow(Qr,2)*pow(r,6)*Sr*P - 352*Al*pow(Bep,2)*pow(Qr,3)*pow(r,6)*Sr*P - 256*pow(Bep,2)*Bepp*Qr*pow(r,4)*pow(Sr,3)*P + Al*pow(r,4)*pow(P,2) - 16*Al*Bep*Qr*pow(r,4)*pow(P,2) + 64*Al*pow(Bep,2)*pow(Qr,2)*pow(r,4)*pow(P,2) + 48*pow(Bep,2)*pow(r,4)*pow(Sr,2)*pow(P,2) - 208*Al*pow(Bep,2)*pow(Qr,2)*pow(r,6)*pow(Sr,2)*pow(P,2) - 256*pow(Bep,2)*Bepp*pow(r,4)*pow(Sr,4)*pow(P,2) - 16*Al*Bep*pow(r,4)*Sr*pow(P,3) + 96*Al*pow(Bep,2)*Qr*pow(r,4)*Sr*pow(P,3) + 56*Al*pow(Bep,2)*pow(r,4)*pow(Sr,2)*pow(P,4) + 32*pow(Bep,2)*pow(r,4)*pow(Sr,2)*V)
+      (-768*pow(Bep,3)*pow(r,5)*r_Der_P*pow(Sr,5)*N*(-1 + 4*Bep*Qr + 8*Bep*Sr*P))/(-1 + 8*Bep*Qr + 12*Bep*Sr*P) + (768*pow(Bep,3)*pow(r,4)*pow(Sr,4)*t_Der_P*(-1 + 8*Bep*Qr + 8*Bep*Sr*P))/(-1 + 8*Bep*Qr + 12*Bep*Sr*P) + (pow(r,4)*N*(-1 + 32*Bep*Qr - 384*pow(Bep,2)*pow(Qr,2) + 2048*pow(Bep,3)*pow(Qr,3) - 4096*pow(Bep,4)*pow(Qr,4) + 3*Al*pow(Qr,2)*pow(r,2) - 96*Al*Bep*pow(Qr,3)*pow(r,2) + 1152*Al*pow(Bep,2)*pow(Qr,4)*pow(r,2) - 6144*Al*pow(Bep,3)*pow(Qr,5)*pow(r,2) + 12288*Al*pow(Bep,4)*pow(Qr,6)*pow(r,2) + 48*pow(Bep,2)*pow(Qr,2)*pow(r,2)*pow(Sr,2) - 768*pow(Bep,3)*pow(Qr,3)*pow(r,2)*pow(Sr,2) + 3072*pow(Bep,4)*pow(Qr,4)*pow(r,2)*pow(Sr,2) - 64*Al*pow(Bep,2)*pow(Qr,4)*pow(r,4)*pow(Sr,2) + 1024*Al*pow(Bep,3)*pow(Qr,5)*pow(r,4)*pow(Sr,2) - 4096*Al*pow(Bep,4)*pow(Qr,6)*pow(r,4)*pow(Sr,2) + 96*pow(Bep,2)*pow(Sr,4) - 1536*pow(Bep,3)*Qr*pow(Sr,4) + 6144*pow(Bep,4)*pow(Qr,2)*pow(Sr,4) - 256*pow(Bep,4)*pow(Qr,4)*pow(r,4)*pow(Sr,4) + 128*Al*pow(Bep,4)*pow(Qr,6)*pow(r,6)*pow(Sr,4) + 32*Bep*Sr*P - 768*pow(Bep,2)*Qr*Sr*P + 6144*pow(Bep,3)*pow(Qr,2)*Sr*P - 16384*pow(Bep,4)*pow(Qr,3)*Sr*P - 112*Al*Bep*pow(Qr,2)*pow(r,2)*Sr*P + 2688*Al*pow(Bep,2)*pow(Qr,3)*pow(r,2)*Sr*P - 21504*Al*pow(Bep,3)*pow(Qr,4)*pow(r,2)*Sr*P + 57344*Al*pow(Bep,4)*pow(Qr,5)*pow(r,2)*Sr*P - 896*pow(Bep,3)*pow(Qr,2)*pow(r,2)*pow(Sr,3)*P + 7168*pow(Bep,4)*pow(Qr,3)*pow(r,2)*pow(Sr,3)*P + 1152*Al*pow(Bep,3)*pow(Qr,4)*pow(r,4)*pow(Sr,3)*P - 9216*Al*pow(Bep,4)*pow(Qr,5)*pow(r,4)*pow(Sr,3)*P - 1536*pow(Bep,3)*pow(Sr,5)*P + 12288*pow(Bep,4)*Qr*pow(Sr,5)*P - 3072*pow(Bep,3)*Bepp*pow(Qr,2)*pow(r,2)*pow(Sr,5)*P + 24576*pow(Bep,4)*Bepp*pow(Qr,3)*pow(r,2)*pow(Sr,5)*P - Al*pow(P,2) + 32*Al*Bep*Qr*pow(P,2) - 384*Al*pow(Bep,2)*pow(Qr,2)*pow(P,2) + 2048*Al*pow(Bep,3)*pow(Qr,3)*pow(P,2) - 4096*Al*pow(Bep,4)*pow(Qr,4)*pow(P,2) - 352*pow(Bep,2)*pow(Sr,2)*pow(P,2) + 5632*pow(Bep,3)*Qr*pow(Sr,2)*pow(P,2) - 22528*pow(Bep,4)*pow(Qr,2)*pow(Sr,2)*pow(P,2) + 1616*Al*pow(Bep,2)*pow(Qr,2)*pow(r,2)*pow(Sr,2)*pow(P,2) - 25856*Al*pow(Bep,3)*pow(Qr,3)*pow(r,2)*pow(Sr,2)*pow(P,2) + 103424*Al*pow(Bep,4)*pow(Qr,4)*pow(r,2)*pow(Sr,2)*pow(P,2) + 768*pow(Bep,2)*Bepp*pow(Sr,4)*pow(P,2) - 12288*pow(Bep,3)*Bepp*Qr*pow(Sr,4)*pow(P,2) + 49152*pow(Bep,4)*Bepp*pow(Qr,2)*pow(Sr,4)*pow(P,2) + 3840*pow(Bep,4)*pow(Qr,2)*pow(r,2)*pow(Sr,4)*pow(P,2) - 4864*Al*pow(Bep,4)*pow(Qr,4)*pow(r,4)*pow(Sr,4)*pow(P,2) + 6144*pow(Bep,4)*pow(Sr,6)*pow(P,2) + 24576*pow(Bep,4)*Bepp*pow(Qr,2)*pow(r,2)*pow(Sr,6)*pow(P,2) + 32*Al*Bep*Sr*pow(P,3) - 768*Al*pow(Bep,2)*Qr*Sr*pow(P,3) + 6144*Al*pow(Bep,3)*pow(Qr,2)*Sr*pow(P,3) - 16384*Al*pow(Bep,4)*pow(Qr,3)*Sr*pow(P,3) + 1536*pow(Bep,3)*pow(Sr,3)*pow(P,3) - 12288*pow(Bep,4)*Qr*pow(Sr,3)*pow(P,3) - 10624*Al*pow(Bep,3)*pow(Qr,2)*pow(r,2)*pow(Sr,3)*pow(P,3) + 84992*Al*pow(Bep,4)*pow(Qr,3)*pow(r,2)*pow(Sr,3)*pow(P,3) - 12288*pow(Bep,3)*Bepp*pow(Sr,5)*pow(P,3) + 98304*pow(Bep,4)*Bepp*Qr*pow(Sr,5)*pow(P,3) - 368*Al*pow(Bep,2)*pow(Sr,2)*pow(P,4) + 5888*Al*pow(Bep,3)*Qr*pow(Sr,2)*pow(P,4) - 23552*Al*pow(Bep,4)*pow(Qr,2)*pow(Sr,2)*pow(P,4) - 2048*pow(Bep,4)*pow(Sr,4)*pow(P,4) + 26240*Al*pow(Bep,4)*pow(Qr,2)*pow(r,2)*pow(Sr,4)*pow(P,4) + 49152*pow(Bep,4)*Bepp*pow(Sr,6)*pow(P,4) + 1792*Al*pow(Bep,3)*pow(Sr,3)*pow(P,5) - 14336*Al*pow(Bep,4)*Qr*pow(Sr,3)*pow(P,5) - 3072*Al*pow(Bep,4)*pow(Sr,4)*pow(P,6) - 64*pow(Bep,2)*pow(Sr,2)*V + 1024*pow(Bep,3)*Qr*pow(Sr,2)*V - 4096*pow(Bep,4)*pow(Qr,2)*pow(Sr,2)*V - 512*pow(Bep,4)*pow(Qr,2)*pow(r,2)*pow(Sr,4)*V + 1024*pow(Bep,3)*pow(Sr,3)*P*V - 8192*pow(Bep,4)*Qr*pow(Sr,3)*P*V - 4096*pow(Bep,4)*pow(Sr,4)*pow(P,2)*V))/((-1 + 8*Bep*Qr + 8*Bep*Sr*P)*(-1 + 8*Bep*Qr + 12*Bep*Sr*P))
    ;
 /*---------------------------------------------------------------------------*/
    double eq_dtp=
@@ -735,7 +735,7 @@ int EdGB::compute_radin_characteristic(
    return 0;
 }
 /*===========================================================================*/
-void EdGB::compute_radin_characteristics(
+void EdGB::compute_radial_characteristics(
    int &exc_i,
    const vector<double> &n_v, const vector<double> &s_v,
    const vector<double> &f_v, 
@@ -760,6 +760,7 @@ void EdGB::compute_radin_characteristics(
    double V=    V_v[i];
    double Vp=   Vp_v[i];
    double Al=   Al_v[i];
+   double Alp=  Alp_v[i];
    double Bep=  Bep_v[i];
    double Bepp= Bepp_v[i];
 
@@ -768,13 +769,13 @@ void EdGB::compute_radin_characteristics(
    double r_Der_P= pow(cf,2)*Dx_ptp0_4th(p_v[i+4],p_v[i+3],p_v[i+2],p_v[i+1],p_v[i],dx);
    double r_Der_Q= pow(cf,2)*Dx_ptp0_4th(q_v[i+4],q_v[i+3],q_v[i+2],q_v[i+1],q_v[i],dx);
 
-   int status= compute_radin_characteristic(
+   int status= compute_radial_characteristic(
       r,
       N,  S,
       P,   Q,
       V,   Vp,  
-      Al,
-      Bep,  Bepp,
+      Al,  Alp,
+      Bep, Bepp,
       r_Der_N,
       r_Der_S,
       r_Der_P,
@@ -806,12 +807,12 @@ void EdGB::compute_radin_characteristics(
    r_Der_P= pow(cf,2)*Dx_ptp1_4th(p_v[i+4],p_v[i+3],p_v[i+2],p_v[i+1],p_v[i],dx);
    r_Der_Q= pow(cf,2)*Dx_ptp1_4th(q_v[i+4],q_v[i+3],q_v[i+2],q_v[i+1],q_v[i],dx);
 
-   status= compute_radin_characteristic(
+   status= compute_radial_characteristic(
       r,
       N,  S,
       P,  Q,
       V,  Vp,  
-      Al,
+      Al, Alp,
       Bep, Bepp,
       r_Der_N,
       r_Der_S,
@@ -846,12 +847,12 @@ void EdGB::compute_radin_characteristics(
       r_Der_P= pow(cf,2)*Dx_ptc_4th(p_v[i+2],p_v[i+1],p_v[i-1],p_v[i-2],dx);
       r_Der_Q= pow(cf,2)*Dx_ptc_4th(q_v[i+2],q_v[i+1],q_v[i-1],q_v[i-2],dx);
 
-      status= compute_radin_characteristic(
+      status= compute_radial_characteristic(
          r,
          N, S,
          P, Q,
-         V, Vp,  
-         Al,
+         V,  Vp,  
+         Al, Alp,
          Bep,  Bepp,
          r_Der_N,
          r_Der_S,
@@ -887,8 +888,8 @@ void EdGB::compute_eom_rr(
       double cf= (1-x/cl);
       double r= x/cf;
 
-      double n= n_v[i];
-      double s= s_v[i];
+      double N= n_v[i];
+      double S= s_v[i];
       double P= p_v[i];
       double Q= q_v[i];
 
@@ -912,14 +913,14 @@ void EdGB::compute_eom_rr(
          N, S,
          P, Q,
          V,   Vp, 
-         Al,  Alp
+         Al,  Alp,
          Bep, Bepp,
          r_Der_N,
          r_Der_S,
          r_Der_P,
          r_Der_Q
       );
-      double t_Der_S= compute_s_free_k(
+      double t_Der_S= compute_S_free_k(
          r,
          N, S,
          P, Q,
@@ -967,7 +968,7 @@ void EdGB::compute_ncc(
       double r_Der_P= pow(cf,2)*Dx_ptc_4th(p_v[i+2],p_v[i+1],p_v[i-1],p_v[i-2],dx);
       double r_Der_Q= pow(cf,2)*Dx_ptc_4th(q_v[i+2],q_v[i+1],q_v[i-1],q_v[i-2],dx);
 
-      double t_Der_S= compute_s_free_k(
+      double t_Der_S= compute_S_free_k(
          r,
          N, S,
          P, Q,

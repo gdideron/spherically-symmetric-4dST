@@ -7,15 +7,15 @@
 class Radial_pts 
 {
 public:
-	std::vector<double> x;
-	std::vector<double> r;
+   std::vector<double> x;
+   std::vector<double> r;
 
-	const double cl;
+   const double cl;
 
-	Radial_pts(
-		const int nx, const double dx, const double cl
-	);
-	~Radial_pts(void);
+   Radial_pts(
+      const int nx, const double dx, const double cl
+   );
+   ~Radial_pts(void);
 private:
 }; 
 

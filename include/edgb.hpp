@@ -19,17 +19,17 @@ public:
 
    void time_step(
       const int exc_i,
-      Field &al, Field &ze, Field &phi_f, Field &phi_p, Field &phi_q
+      Field &N, Field &S, Field &phi_f, Field &phi_p, Field &phi_q
    );
    void solve_metric_fields(
       const int exc_i,
       const Field &phi_f, const Field &phi_p, const Field &phi_q,
-      Field &al, Field &ze 
+      Field &N, Field &S 
    );
 
    void compute_radial_characteristics(
       int &exc_i,
-      const std::vector<double> &al_v, const std::vector<double> &ze_v,
+      const std::vector<double>  &N_v, const std::vector<double> &S_v,
       const std::vector<double>  &f_v, 
       const std::vector<double>  &p_v, const std::vector<double>  &q_v,
       std::vector<double> &ingoing,
@@ -37,17 +37,17 @@ public:
    );
    void compute_eom_rr(
       const int exc_i,
-      const std::vector<double> &al_v, const std::vector<double> &ze_v,
-      const std::vector<double>  &f_v, 
-      const std::vector<double>  &p_v, const std::vector<double>  &q_v,
+      const std::vector<double> &N_v, const std::vector<double> &S_v,
+      const std::vector<double> &f_v, 
+      const std::vector<double> &p_v, const std::vector<double>  &q_v,
       std::vector<double> &eom_rr
    );
    void compute_ncc(
       const int exc_i,
       const int nx, const double dx, const double cl, 
       const std::vector<double> &r_v, 
-      const std::vector<double> &al, const std::vector<double> &ze,
-      const std::vector<double> &p,  const std::vector<double> &q,
+      const std::vector<double> &N, const std::vector<double> &S,
+      const std::vector<double> &p, const std::vector<double> &q,
       std::vector<double> &ncc
    );
 private:
@@ -65,11 +65,11 @@ private:
 
    std::vector<double> r_v;
 
-   double ze_free_k;
-   double ze_free_k1;
-   double ze_free_k2;
-   double ze_free_k3;
-   double ze_free_k4;
+   double S_free_k;
+   double S_free_k1;
+   double S_free_k2;
+   double S_free_k3;
+   double S_free_k4;
 
    std::vector<double> f_k;
    std::vector<double> p_k;
@@ -97,22 +97,25 @@ private:
    std::vector<double> V_v;
    std::vector<double> Vp_v;
 
-   std::vector<double> A_v;
+   std::vector<double> Al_v;
+   std::vector<double> Alp_v;
 
-   std::vector<double> B_v;
-   std::vector<double> Bp_v;
-   std::vector<double> Bpp_v;
+   std::vector<double> Be_v;
+   std::vector<double> Bep_v;
+   std::vector<double> Bepp_v;
 /*---------------------------------------------------------------------------*/
    void rescale(
       std::vector<double> &vec
    );
    double compute_p_k(
       const double r,
-      const double Al, const double Ze,
-      const double P,  const double Q,
-      const double V,  const double Vp, const double Wp, const double Wpp,
-      const double r_Der_Al,
-      const double r_Der_Ze,
+      const double N, const double S,
+      const double P, const double Q,
+      const double V, const double Vp, 
+      const double Al,  const double Alp,
+      const double Bep, const double Bepp,
+      const double r_Der_N,
+      const double r_Der_S,
       const double r_Der_P,
       const double r_Der_Q
    );
@@ -120,20 +123,22 @@ private:
       const int loc,
       const int val,
       const std::vector<double> &r3,
-      const double al,
-      const double ze,
+      const double N,
+      const double S,
       const std::vector<double> &p3,
       const std::vector<double> &q3,
       const std::vector<double> &r_Der_p3,
       const std::vector<double> &r_Der_q3
    );
-   double compute_ze_free_k(
+   double compute_S_free_k(
       const double r,
-      const double Al, const double Ze,
-      const double P,  const double Q,
-      const double V,  const double Vp, const double Wp, const double Wpp,
-      const double r_Der_Al,
-      const double r_Der_Ze,
+      const double N, const double S,
+      const double P, const double Q,
+      const double V, const double Vp, 
+      const double Al,  const double Alp,
+      const double Bep, const double Bepp,
+      const double r_Der_N,
+      const double r_Der_S,
       const double r_Der_P,
       const double r_Der_Q
    );
@@ -142,33 +147,38 @@ private:
       const std::vector<double> &f_v,
       const std::vector<double> &p_v,
       const std::vector<double> &q_v,
-      std::vector<double> &al_v,
-      std::vector<double> &ze_v
+      std::vector<double> &N_v,
+      std::vector<double> &S_v
    );
-   void compute_scalar_potentials(const std::vector<double> &f_v);
-      double compute_res_al(
+   void compute_potentials(const std::vector<double> &f_v);
+
+   double compute_res_N(
       const double r,
-      const double Al, const double Ze,
-      const double P,  const double Q,
-      const double V,  const double Wp, const double Wpp,
-      const double r_Der_Al,
+      const double N, const double S,
+      const double P, const double Q,
+      const double V,  
+      const double Al,
+      const double Bep, const double Bepp,
+      const double r_Der_N,
       const double r_Der_P,
       const double r_Der_Q
    );
-   double compute_res_ze(
+   double compute_res_S(
       const double r,
-      const double Ze,
+      const double S,
       const double P,  const double Q,
-      const double V,  const double Wp, const double Wpp,
-      const double r_Der_Ze,
+      const double V,
+      const double Al,
+      const double Bep, const double Bepp,
+      const double r_Der_S,
       const double r_Der_P,
       const double r_Der_Q
    );
    void compute_fpq_ki(
       const int val,
       const int exc_i,
-      const std::vector<double> &al,
-      const std::vector<double> &ze,
+      const std::vector<double> &N,
+      const std::vector<double> &S,
       const std::vector<double> &f, 
       const std::vector<double> &p, 
       const std::vector<double> &q
@@ -176,11 +186,13 @@ private:
 
    int compute_radial_characteristic(
       const double r,
-      const double Al, const double Ze,
-      const double P,  const double Q,
-      const double V,  const double Vp, const double Wp, const double Wpp,
-      const double r_Der_Al,
-      const double r_Der_Ze,
+      const double N, const double S,
+      const double P, const double Q,
+      const double V, const double Vp, 
+      const double Al,  const double Alp,
+      const double Bep, const double Bepp, 
+      const double r_Der_N,
+      const double r_Der_S,
       const double r_Der_P,
       const double r_Der_Q
    );

@@ -25,206 +25,208 @@ using std::vector;
 /*===========================================================================*/
 int main(int argc, char **argv)
 {
-	assert(argc==2);
-	const string output_dir= argv[1];
+   assert(argc==2);
+   const string output_dir= argv[1];
 
-	clock_t start= std::clock();
+   clock_t start= std::clock();
 /*--------------------------------------------------------------------------*/	
-	const Sim_params sp(output_dir) ;
-	const Radial_pts rp(sp.nx, sp.dx, sp.cl);
+   const Sim_params sp(output_dir) ;
+   const Radial_pts rp(sp.nx, sp.dx, sp.cl);
 /*--------------------------------------------------------------------------*/	
-	EdGB edgb(
-		sp.dt, sp.dx, sp.cl, sp.nx, 
-		sp.mu, sp.la, 
-		sp.gbc1, sp.gbc2,
-		rp.r
-	);
+   EdGB edgb(
+      sp.dt, sp.dx, sp.cl, sp.nx, 
+      sp.mu, sp.la, 
+      sp.gbc1, sp.gbc2,
+      rp.r
+   );
 /*--------------------------------------------------------------------------*/	
 /* evolution fields */
 /*--------------------------------------------------------------------------*/	
-	Field phi_f("phi_f",sp.nx,0);
-	Field phi_q("phi_q",sp.nx,0);
-	Field phi_p("phi_p",sp.nx,0);
-	
-	Field al("al",sp.nx,1);
-	Field ze("ze",sp.nx,0);
+   Field phi_f("phi_f",sp.nx,0);
+   Field phi_q("phi_q",sp.nx,0);
+   Field phi_p("phi_p",sp.nx,0);
 
-	Field res_q( "res_q",  sp.nx,0);
-	Field eom_rr("res_rr", sp.nx,0);
+   Field N("N",sp.nx,1);
+   Field S("S",sp.nx,0);
 
-	Field  ingoing_c( "ingoing_c",sp.nx,0);
-	Field outgoing_c("outgoing_c",sp.nx,0);
+   Field res_q( "res_q",  sp.nx,0);
+   Field eom_rr("res_rr", sp.nx,0);
 
-	Field ncc("ncc",sp.nx,0);
+   Field  ingoing_c( "ingoing_c",sp.nx,0);
+   Field outgoing_c("outgoing_c",sp.nx,0);
+
+   Field ncc("ncc",sp.nx,0);
 /*--------------------------------------------------------------------------*/		
 /* initial data */
 /*--------------------------------------------------------------------------*/		
-	set_initial_data(sp, rp.r, al, ze, phi_f, phi_p, phi_q);
+   set_initial_data(sp, rp.r, N, S, phi_f, phi_p, phi_q);
 
-	edgb.solve_metric_fields(sp.initial_exc_i,
-		phi_f, phi_p, phi_q, al, ze
-	);
-	if (sp.initial_data_type=="scalarized_bh") {
-		time_symmetric(edgb,sp,
-			phi_f, phi_q,
-			al,ze,
-			phi_p);
-	}
-	int exc_i= sp.initial_exc_i;
-	double initial_asymptotic_mass= rp.r[sp.nx-8]*pow(ze.np1[sp.nx-8],2)/2; 
+   edgb.solve_metric_fields(
+      sp.initial_exc_i,
+      phi_f, phi_p, phi_q, N, S
+   );
+   if (sp.initial_data_type=="scalarized_bh") {
+      time_symmetric(
+         edgb,sp,
+         phi_f, phi_q,
+         N, S,
+         phi_p);
+   }
+   int exc_i= sp.initial_exc_i;
+   double initial_asymptotic_mass= rp.r[sp.nx-8]*pow(S.np1[sp.nx-8],2)/2; 
 /*--------------------------------------------------------------------------*/		
 /* write to file */
 /*--------------------------------------------------------------------------*/		
-	Csv csv(output_dir);
-	
-	double grid_time= 0;
+   Csv csv(output_dir);
 
-	csv.write(phi_f);
-	csv.write(phi_p);
-	csv.write(phi_q);
+   double grid_time= 0;
 
-	csv.write(al);
-	csv.write(ze);
+   csv.write(phi_f);
+   csv.write(phi_p);
+   csv.write(phi_q);
+
+   csv.write(N);
+   csv.write(S);
 /*--------------------------------------------------------------------------*/		
-	compute_indep_res_q(
-		exc_i,
-		sp.nx, sp.dx, sp.cl,
-		rp.r,
-		phi_f.np1, phi_q.np1,
-		res_q.np1
-	);
-	edgb.compute_eom_rr(
-		exc_i,
-		al.np1, ze.np1,
-		phi_f.np1, phi_p.np1, phi_q.np1,
-		eom_rr.np1
-	);
-	csv.write(res_q);
-	csv.write(eom_rr);
-	
-	edgb.compute_ncc(
-		exc_i,
-		sp.nx, sp.dx, sp.cl, 
-		rp.r, 
-		al.np1,       ze.np1,
-		phi_p.np1, phi_q.np1,
-		ncc.np1
-	);
-	csv.write(ncc);
+   compute_indep_res_q(
+      exc_i,
+      sp.nx, sp.dx, sp.cl,
+      rp.r,
+      phi_f.np1, phi_q.np1,
+      res_q.np1
+   );
+   edgb.compute_eom_rr(
+      exc_i,
+      N.np1, S.np1,
+      phi_f.np1, phi_p.np1, phi_q.np1,
+      eom_rr.np1
+   );
+   csv.write(res_q);
+   csv.write(eom_rr);
 
-	edgb.compute_radial_characteristics(
-		exc_i,
-		al.np1, ze.np1,
-		phi_f.np1, phi_p.np1, phi_q.np1,
-		ingoing_c.np1, outgoing_c.np1
-	);
-	csv.write(ingoing_c);
-	csv.write(outgoing_c);
+   edgb.compute_ncc(
+      exc_i,
+      sp.nx, sp.dx, sp.cl, 
+      rp.r, 
+      N.np1,     S.np1,
+      phi_p.np1, phi_q.np1,
+      ncc.np1
+   );
+   csv.write(ncc);
+
+   edgb.compute_radial_characteristics(
+      exc_i,
+      N.np1, S.np1,
+      phi_f.np1, phi_p.np1, phi_q.np1,
+      ingoing_c.np1, outgoing_c.np1
+   );
+   csv.write(ingoing_c);
+   csv.write(outgoing_c);
 /*--------------------------------------------------------------------------*/		
-	cout<<setw(10)<<0<<"\t";
-	cout<<setw(10)<<rp.r[sp.nx-8]*pow(ze.np1[sp.nx-8],2)/2<<"\t";
-	cout<<setw(10)<<rp.r[sp.nx-8]*phi_f.np1[sp.nx-8]<<"\t";
-	cout<<endl;
+   cout<<setw(10)<<0<<"\t";
+   cout<<setw(10)<<rp.r[sp.nx-8]*pow(S.np1[sp.nx-8],2)/2<<"\t";
+   cout<<setw(10)<<rp.r[sp.nx-8]*phi_f.np1[sp.nx-8]<<"\t";
+   cout<<endl;
 /*--------------------------------------------------------------------------*/		
-/* 	evolve in time and write to file:
- *  	stop once scalar field has settled down and have evolved
- *  	for minimum number of time steps  */
+/* evolve in time and write to file:
+*  stop once scalar field has settled down and have evolved
+*  for minimum number of time steps  */
 /*--------------------------------------------------------------------------*/		
-	int tC= 0;
-	while (
-		(tC<sp.nt) 
-	|| 	(((phi_f.np1[exc_i+10]-phi_f.n[exc_i+10])/sp.dt)>1e-16)
-	) {
-		tC+= 1;
-		grid_time+= sp.dt/initial_asymptotic_mass;
+   int tC= 0;
+   while (
+   (tC<sp.nt) 
+   || 	(((phi_f.np1[exc_i+10]-phi_f.n[exc_i+10])/sp.dt)>1e-16)
+   ) {
+      tC+= 1;
+      grid_time+= sp.dt/initial_asymptotic_mass;
 
-		edgb.compute_radial_characteristics(
-			exc_i,
-			al.np1, ze.np1,
-			phi_f.np1, phi_p.np1, phi_q.np1,
-			ingoing_c.np1, outgoing_c.np1
-		);
-		edgb.time_step(exc_i, al, ze, phi_f, phi_p, phi_q);
+      edgb.compute_radial_characteristics(
+      exc_i,
+      N.np1, S.np1,
+      phi_f.np1, phi_p.np1, phi_q.np1,
+      ingoing_c.np1, outgoing_c.np1
+      );
+      edgb.time_step(exc_i, N, S, phi_f, phi_p, phi_q);
 
-		if (tC%(sp.t_step_save)==0) {
+      if (tC%(sp.t_step_save)==0) {
 /*--------------------------------------------------------------------------*/		
-			al.check_isfinite(grid_time);
-			ze.check_isfinite(grid_time);
-			phi_f.check_isfinite(grid_time);
-			phi_p.check_isfinite(grid_time);
-			phi_q.check_isfinite(grid_time);
+         N.check_isfinite(grid_time);
+         S.check_isfinite(grid_time);
+         phi_f.check_isfinite(grid_time);
+         phi_p.check_isfinite(grid_time);
+         phi_q.check_isfinite(grid_time);
 /*--------------------------------------------------------------------------*/		
-			compute_indep_res_q(
-				exc_i,
-				sp.nx, sp.dx, sp.cl,
-				rp.r,
-				phi_f.np1, phi_q.np1,
-				res_q.np1
-			);
-			edgb.compute_eom_rr(
-				exc_i,
-				al.np1, ze.np1,
-				phi_f.np1, phi_p.np1, phi_q.np1,
-				eom_rr.np1
-			);
-	
-			edgb.compute_ncc(
-				exc_i,
-				sp.nx, sp.dx, sp.cl, 
-				rp.r, 
-				al.np1,       ze.np1,
-				phi_p.np1, phi_q.np1,
-				ncc.np1
-			);
+         compute_indep_res_q(
+            exc_i,
+            sp.nx, sp.dx, sp.cl,
+            rp.r,
+            phi_f.np1, phi_q.np1,
+            res_q.np1
+         );
+         edgb.compute_eom_rr(
+            exc_i,
+            N.np1, S.np1,
+            phi_f.np1, phi_p.np1, phi_q.np1,
+            eom_rr.np1
+         );
+
+         edgb.compute_ncc(
+            exc_i,
+            sp.nx, sp.dx, sp.cl, 
+            rp.r, 
+            N.np1,     S.np1,
+            phi_p.np1, phi_q.np1,
+            ncc.np1
+         );
 /*--------------------------------------------------------------------------*/		
-			phi_f.set_to_val(0,exc_i-1,0);
-			phi_p.set_to_val(0,exc_i-1,0);
-			phi_q.set_to_val(0,exc_i-1,0);
+         phi_f.set_to_val(0,exc_i-1,0);
+         phi_p.set_to_val(0,exc_i-1,0);
+         phi_q.set_to_val(0,exc_i-1,0);
 
-			al.set_to_val(0,exc_i-1,0);
-			ze.set_to_val(0,exc_i-1,0);
+         N.set_to_val(0,exc_i-1,0);
+         S.set_to_val(0,exc_i-1,0);
 
-			res_q.set_to_val( 0,exc_i-1,0);
-			eom_rr.set_to_val(0,exc_i-1,0);
+         res_q.set_to_val( 0,exc_i-1,0);
+         eom_rr.set_to_val(0,exc_i-1,0);
 
-			ncc.set_to_val( 0,exc_i-1,0);
+         ncc.set_to_val( 0,exc_i-1,0);
 
-			ingoing_c.set_to_val( 0,exc_i-1,0);
-			outgoing_c.set_to_val(0,exc_i-1,0);
+         ingoing_c.set_to_val( 0,exc_i-1,0);
+         outgoing_c.set_to_val(0,exc_i-1,0);
 /*--------------------------------------------------------------------------*/		
-			csv.write(phi_f);
-			csv.write(phi_p);
-			csv.write(phi_q);
+         csv.write(phi_f);
+         csv.write(phi_p);
+         csv.write(phi_q);
 
-			csv.write(al);
-			csv.write(ze);
+         csv.write(N);
+         csv.write(S);
 
-			csv.write(res_q);
-			csv.write(eom_rr);
-			
-			csv.write(ncc);
-			csv.write( ingoing_c);
-			csv.write(outgoing_c);
+         csv.write(res_q);
+         csv.write(eom_rr);
+
+         csv.write(ncc);
+         csv.write( ingoing_c);
+         csv.write(outgoing_c);
 /*--------------------------------------------------------------------------*/		
-			cout<<setw(10)<<tC*sp.dt/initial_asymptotic_mass<<"\t";
-			cout<<setw(10)<<rp.r[sp.nx-8]*pow(ze.np1[sp.nx-8],2)/2<<"\t";
-			cout<<setw(10)<<rp.r[sp.nx-8]*phi_f.np1[sp.nx-8]<<"\t";
-			cout<<setw(10)<<((phi_f.np1[exc_i+10]-phi_f.n[exc_i+10])/sp.dt)<<"\t";
-			cout<<endl;
+         cout<<setw(10)<<tC*sp.dt/initial_asymptotic_mass<<"\t";
+         cout<<setw(10)<<rp.r[sp.nx-8]*pow(S.np1[sp.nx-8],2)/2<<"\t";
+         cout<<setw(10)<<rp.r[sp.nx-8]*phi_f.np1[sp.nx-8]<<"\t";
+         cout<<setw(10)<<((phi_f.np1[exc_i+10]-phi_f.n[exc_i+10])/sp.dt)<<"\t";
+         cout<<endl;
 /*--------------------------------------------------------------------------*/		
-		}
-		phi_f.shift_time_step();
-		phi_p.shift_time_step();
-		phi_q.shift_time_step();
+      }
+      phi_f.shift_time_step();
+      phi_p.shift_time_step();
+      phi_q.shift_time_step();
 
-		al.shift_time_step();
-		ze.shift_time_step();
-	}
-	clock_t end= std::clock();
-	cout<<endl;
-	cout<<"run_finished_successfully"<<endl;
-	cout<<"time (to run, in min): "<<difftime(end,start)/(CLOCKS_PER_SEC*60)<<endl;
-	cout<<"initial asymptotic mass: "<<initial_asymptotic_mass<<endl;
-	cout<<"time T: "<<sp.nt*sp.dt/initial_asymptotic_mass<<endl;
-	return EXIT_SUCCESS;
+      N.shift_time_step();
+      S.shift_time_step();
+   }
+   clock_t end= std::clock();
+   cout<<endl;
+   cout<<"run_finished_successfully"<<endl;
+   cout<<"time (to run, in min): "<<difftime(end,start)/(CLOCKS_PER_SEC*60)<<endl;
+   cout<<"initial asymptotic mass: "<<initial_asymptotic_mass<<endl;
+   cout<<"time T: "<<sp.nt*sp.dt/initial_asymptotic_mass<<endl;
+   return EXIT_SUCCESS;
 }
