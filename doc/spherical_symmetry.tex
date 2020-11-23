@@ -43,9 +43,11 @@
 %\emailAdd{weast@perimeterinstitute.ca}
 %\emailAdd{Thomas.Sotiriou@nottingham.ac.uk}
 
-\abstract{We consider spherical black hole dynamics for a class of scalar-tensor
-   gravity theories that describe the leading-order derivative expansion from
-   General Relativity, $4\partial ST$ gravity.
+\abstract{
+   Notes on the equations of motion and numerical implementation.
+   If you end up using this code, while some implementation details
+   have changed since original publication please consider
+   citing \cite{Ripley:2020vpk}.
    }
 
 
@@ -140,14 +142,10 @@ gives us the equations of motion:
    0
    .
 \end{align}
-   Details of our numerical methodology can be found in the Appendix.
-%=============================================================================
-\section{Model: $V=\cdots$, $\alpha=\cdots$, $\beta=\cdots$}
-
-%=============================================================================
-\appendix
 %=============================================================================
 \section{Numerical implementation}
+%=============================================================================
+\subsection{Coordinates}
    Our procedure for numerically evolving this system in spherical symmetry
 will largely follow the analysis of \cite{Ripley:2020vpk}.
    We will numerically evolve this system in Painlev\'{e}-Gullstrand (PG)-like
@@ -288,10 +286,44 @@ thus to begin with black hole initial data we set $S<1$ at some
 excision point.
 
    As independent residual checks on our solutions, we plug our
-solution into the $rr$ component of the tensor equations, $E^{(g)}_{rr}$,
-and consider $Q-\partial_r\phi$, both of which should converge
+solution into the $rr$ component of the tensor equations, $E^{(g)}_{rr}=0$,
+and consider $Q-\partial_r\phi=0$, both of which should converge
 to zero with higher resolution.
-
+%=============================================================================
+\subsection{Form of scalar field potentials}
+   We consider potentials of the form
+\begin{subequations}
+\begin{align}
+   V\left(\phi\right)
+   =&
+   V_1\phi
++  \frac{1}{2}V_2\phi^2
++  \frac{1}{6}V_3\phi^3
++  \frac{1}{24}V_4\phi^4
+   ,\\
+   \alpha\left(\phi\right)
+   =&
+   \alpha_0
++  \alpha_1\phi
++  \frac{1}{2}\alpha_2\phi^2
++  \frac{1}{6}\alpha_3\phi^3
++  \frac{1}{24}\alpha_4\phi^4
+   ,\\
+   \beta\left(\phi\right)
+   =&
+   \beta_1\phi
++  \frac{1}{2}\beta_2\phi^2
++  \frac{1}{6}\beta_3\phi^3
++  \frac{1}{24}\beta_4\phi^4
+   .
+\end{align}
+\end{subequations}
+   Where all the subscripted quantities, e.g. $\alpha_2$, are constants
+determined by the user in the {\bf setup\_run.py} file.
+We do not put in a $V_0$ (a cosmological constant) as generically
+spacetimes with cosmological constants are not aysmptotically flat,
+and we do not put in a $\beta_0$ term as the Gauss-Bonnet scalar
+does not constribute to the equations of motion in that case.
 %==============================================================================
 %\acknowledgments
 

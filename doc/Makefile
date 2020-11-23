@@ -1,2 +1,6 @@
+root= spherical_symmetry 
 all:
-	pdflatex spherical_symmetry.tex
+	latex $(root)
+	bibtex $(root)
+	latex $(root)
+	pdflatex $(root).tex
