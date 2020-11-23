@@ -23,6 +23,7 @@ using std::string;
 EdGB::EdGB(
    const double dt, const double dx, const double cl, const int nx,
    const double V_1,  const double V_2,  const double V_3,  const double V_4,
+   const double Al_0,
    const double Al_1, const double Al_2, const double Al_3, const double Al_4,
    const double Be_1, const double Be_2, const double Be_3, const double Be_4,
    const vector<double> &rvec)
@@ -35,6 +36,7 @@ EdGB::EdGB(
   V_3{V_3},  
   V_4{V_4},  
  
+  Al_0{Al_0},  
   Al_1{Al_1},  
   Al_2{Al_2},  
   Al_3{Al_3},  
@@ -116,18 +118,21 @@ void EdGB::compute_potentials(const vector<double> &f_v)
       +  (1./24.)*V_4*pow(f_v[i],4)
       ;
       Vp_v[i]= 
-                 V_2*f_v[i]
+                 V_1
+      +          V_2*f_v[i]
       +  (1./2.)*V_3*pow(f_v[i],2)
       +  (1./6.)*V_4*pow(f_v[i],3)
       ;
       Al_v[i]=
-                  Al_1*f_v[i]
+                  Al_0
+      +           Al_1*f_v[i]
       +  (1./2.) *Al_2*pow(f_v[i],2)
       +  (1./6.) *Al_3*pow(f_v[i],3)
       +  (1./24.)*Al_4*pow(f_v[i],4)
       ;
       Alp_v[i]=
-                 Al_2*f_v[i]
+                 Al_1
+      +          Al_2*f_v[i]
       +  (1./2.)*Al_3*pow(f_v[i],2)
       +  (1./6.)*Al_4*pow(f_v[i],3)
       ;
@@ -138,11 +143,13 @@ void EdGB::compute_potentials(const vector<double> &f_v)
       +  (1./24.)*Be_4*pow(f_v[i],4)
       ;
       Bep_v[i]=
-                 Be_2*f_v[i]
+                 Be_1
+      +          Be_2*f_v[i]
       +  (1./2.)*Be_3*pow(f_v[i],2)
       +  (1./6.)*Be_4*pow(f_v[i],3)
       ;
       Bepp_v[i]=
+                 Be_2
       +          Be_3*f_v[i]
       +  (1./2.)*Be_4*pow(f_v[i],2)
       ;

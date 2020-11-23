@@ -47,6 +47,7 @@ Sim_params::Sim_params(const string output_dir)
    V_3= stod(read_sim_params(output_dir,"V_3"));
    V_4= stod(read_sim_params(output_dir,"V_4"));
 
+   Al_0= stod(read_sim_params(output_dir,"Al_0"));
    Al_1= stod(read_sim_params(output_dir,"Al_1"));
    Al_2= stod(read_sim_params(output_dir,"Al_2"));
    Al_3= stod(read_sim_params(output_dir,"Al_3"));

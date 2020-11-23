@@ -36,6 +36,7 @@ int main(int argc, char **argv)
    EdGB edgb(
       sp.dt, sp.dx, sp.cl, sp.nx, 
       sp.V_1,  sp.V_2,  sp.V_3,  sp.V_4, 
+      sp.Al_0, 
       sp.Al_1, sp.Al_2, sp.Al_3, sp.Al_4, 
       sp.Be_1, sp.Be_2, sp.Be_3, sp.Be_4, 
       rp.r
