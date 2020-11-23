@@ -16,17 +16,26 @@ sim= Sim(args)
 #-----------------------------------------------------------------------------
 sim.compactification_length= float(100) 
 #-----------------------------------------------------------------------------
-sim.evolve_time=   float(1)  ### in units of initial black hole mass for ze field 
-sim.num_saved_times= int(10)
+sim.evolve_time=   float(50)  ### in units of initial black hole mass for ze field 
+sim.num_saved_times= int(200)
 sim.cfl= 0.25
 #-----------------------------------------------------------------------------
-## scalar field potentials
+## couplings
 #-----------------------------------------------------------------------------
-sim.mu_hat= 0.01
-sim.la_hat= 0.2
+sim.V_1= 0.0
+sim.V_2= 0.0
+sim.V_3= 0.0
+sim.V_4= 0.0
 
-sim.gbc1= 10.0
-sim.gbc2= 1.0
+sim.Al_1= 0.0
+sim.Al_2= 0.0
+sim.Al_3= 0.0
+sim.Al_4= 0.0
+
+sim.Be_1= 5.0
+sim.Be_2= 0.0
+sim.Be_3= 0.0
+sim.Be_4= 0.0
 #-----------------------------------------------------------------------------
 sim.phi_r= 21  ### where measuring phi
 #-----------------------------------------------------------------------------
@@ -36,7 +45,6 @@ sim.bh_mass= float(10.0)
 #-----------------------------------------------------------------------------
 ## for the noncompact scalar profile
 sim.initial_data_type= str("bump_with_bh")
-sim.charge_hat= float(0.05)
 #-----------------------------------------------------------------------------
 ## for the Gaussian-like pulse
 #sim.initial_data_type= str("bump")
@@ -60,7 +68,6 @@ if (sim.run_type == "basic_run"):
 #=============================================================================
 elif (sim.run_type == "scan"):
    mu_hat=0.01
-   sim.charge_hat= 0.05
    sim.data_dir= '/mnt/grtheory/jripley-data/approx_scalarized'
    sim.data_dir+= '/scan_muhat_'+str(mu_hat)
    try:
@@ -80,7 +87,6 @@ elif (sim.run_type == "convergence_test"):
    num_res= int(input("number of resolutions "))
    sim.data_dir= '/mnt/grtheory/jripley-data/convergence_test_long_scalarized'
 
-   sim.charge_hat= 0.05
 
    sim.mu_hat= 0.05
    sim.la_hat= 3.2
@@ -97,13 +103,11 @@ elif (sim.run_type == "convergence_test"):
 ### varying eta with a fixed initial phi amplitude
 #=============================================================================
 elif (sim.run_type == "search_for_elliptic"):
-   sim.charge_hat= 0.05
 
    sim.mu_hat= 0.1
    sim.la_hat= 3.2
 
    sim.data_dir= '/mnt/grtheory/jripley-data/elliptic_search_approx_scalarized'
-   sim.data_dir+= '/chargehat_'+str(sim.charge_hat)
    sim.data_dir+= '_muhat_'+str(sim.mu_hat)
    sim.data_dir+= '_lahat_'+str(sim.la_hat)
 

@@ -42,17 +42,25 @@ Sim_params::Sim_params(const string output_dir)
    cl= stod(read_sim_params(output_dir,"compactification_length"));
 /*---------------------------------------------------------------------------*/
 /* for the potentials */
-   mu= stod(read_sim_params(output_dir,"mu"));
-   la= stod(read_sim_params(output_dir,"la"));
+   V_1= stod(read_sim_params(output_dir,"V_1"));
+   V_2= stod(read_sim_params(output_dir,"V_2"));
+   V_3= stod(read_sim_params(output_dir,"V_3"));
+   V_4= stod(read_sim_params(output_dir,"V_4"));
 
-   gbc1= stod(read_sim_params(output_dir,"gbc1"));
-   gbc2= stod(read_sim_params(output_dir,"gbc2"));
+   Al_1= stod(read_sim_params(output_dir,"Al_1"));
+   Al_2= stod(read_sim_params(output_dir,"Al_2"));
+   Al_3= stod(read_sim_params(output_dir,"Al_3"));
+   Al_4= stod(read_sim_params(output_dir,"Al_4"));
+
+   Be_1= stod(read_sim_params(output_dir,"Be_1"));
+   Be_2= stod(read_sim_params(output_dir,"Be_2"));
+   Be_3= stod(read_sim_params(output_dir,"Be_3"));
+   Be_4= stod(read_sim_params(output_dir,"Be_4"));
 /*---------------------------------------------------------------------------*/
 /* for the initial data */
    initial_data_type= read_sim_params(output_dir,"initial_data_type");
 
    bh_mass= stod(read_sim_params(output_dir,"bh_mass"));
-   charge= stod(read_sim_params(output_dir,"charge"));
 
    amp= stod(read_sim_params(output_dir,"amp"));
    r_l= stod(read_sim_params(output_dir,"r_l"));

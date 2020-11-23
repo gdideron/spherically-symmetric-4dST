@@ -11,8 +11,9 @@ class EdGB
 {
 public:
    EdGB(const double dt, const double dx, const double cl, const int nx,
-      const double mu, const double la,
-      const double gbc1, const double gbc2,
+      const double V_1,  const double V_2,  const double V_3,  const double V_4,
+      const double Al_1, const double Al_2, const double Al_3, const double Al_4,
+      const double Be_1, const double Be_2, const double Be_3, const double Be_4,
       const std::vector<double> &rp
    );
    ~EdGB(void);
@@ -55,11 +56,20 @@ private:
    const double dx;
    const int nx;
 
-   const double mu;
-   const double la;
+   const double V_1;
+   const double V_2;
+   const double V_3;
+   const double V_4;
 
-   const double gbc1;
-   const double gbc2;
+   const double Al_1;
+   const double Al_2;
+   const double Al_3;
+   const double Al_4;
+
+   const double Be_1;
+   const double Be_2;
+   const double Be_3;
+   const double Be_4;
 
    const double cl;
 

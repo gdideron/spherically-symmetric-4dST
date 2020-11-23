@@ -19,18 +19,25 @@ public:
    double cl;
 /*---------------------------------------------------------------------------*/
 /* for the potentials */
-   double mu;
-   double la;
+   double V_1;
+   double V_2;
+   double V_3;
+   double V_4;
 
-   double gbc1;
-   double gbc2;
+   double Al_1;
+   double Al_2;
+   double Al_3;
+   double Al_4;
+
+   double Be_1;
+   double Be_2;
+   double Be_3;
+   double Be_4;
 /*---------------------------------------------------------------------------*/
 /* for the initial data */
    std::string initial_data_type;
 
    double bh_mass;
-
-   double charge;
 
    double amp;
    double r_l;

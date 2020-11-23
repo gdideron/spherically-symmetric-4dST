@@ -65,25 +65,7 @@ void set_initial_data(
 /*-------------------------------------------------------------------------*/
    } else 	
    if (sp.initial_data_type=="scalarized_bh") {
-
-      double charge= sp.charge;
-      double mu= sp.mu;
-
-      for (int i=sp.initial_exc_i; i<sp.nx-1; ++i) {
-         double r= rvec[i];
-
-         f.n[i]= 
-            (charge/r)*exp(-mu*(r-3*bh_mass))
-         ; 
-         q.n[i]= 
-         -  (charge/pow(r,2))*exp(-mu*(r-3*bh_mass))
-         -  mu*(charge/r)*exp(-mu*(r-3*bh_mass))
-         ;
-         N.n[i]= 1;
-         S.n[i]= pow(2*bh_mass/r,0.5);
-
-         p.n[i]= -S.n[i]*q.n[i];
-      }
+      cout << "initial_data_type: scalarized_bh: NOT IMPLEMENTED YET" << endl;         
 /*-------------------------------------------------------------------------*/
    } else {
       cout << "ERROR: initial_data_type " << sp.initial_data_type << " did not match" << endl;

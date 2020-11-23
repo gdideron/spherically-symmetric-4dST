@@ -16,10 +16,6 @@ class Sim:
          self.debug=False
 #=============================================================================
    def set_derived_params(self):
-      self.mu= self.mu_hat/pow(self.gbc2,0.5)
-      self.la= self.la_hat/self.gbc2
-      self.charge= self.charge_hat*pow(self.gbc2,0.5)
-
       self.dx= float(
          self.compactification_length/(self.nx-1)
       )
@@ -65,10 +61,6 @@ class Sim:
          self.data_dir+'/'
       +  '_'.join('_'.join(time.asctime().split(' ')).split(':'))
       +  '_nx_'+str(self.nx)
-      +  '_amp_'+str(self.amp)
-      +  '_mu_'+str(self.mu)
-      +  '_la_'+str(self.la)
-      +  '_gbc2_'+str(self.gbc2)
       )
       os.makedirs(self.output_dir)
 #=============================================================================
@@ -99,20 +91,15 @@ class Sim:
       self.record= (
          self.data_dir
       +	'/record_amp_'+str(self.amp)
-      +	'_muhat_'+str(self.mu_hat)
-      +	'_lahat_'+str(self.la_hat)
       +	'_nx_'+str(self.nx)
       +	'.txt'
       )
       with open(self.record,'w') as rec:
          rec.write('nx ' +str(self.nx)+'\n')
          rec.write('initial_data_type '+str(self.initial_data_type)+'\n')
-         rec.write('charge '+str(self.charge)+'\n')
          rec.write('amp '+str(self.amp)+'\n')
          rec.write('r_l '+str(self.r_l)+'\n')
          rec.write('r_u '+str(self.r_u)+'\n')
-         rec.write('mu_hat '+str(self.mu_hat)+'\n')
-         rec.write('la_hat '+str(self.la_hat)+'\n')
          rec.write('bh_mass '+str(self.bh_mass)+'\n')	
          rec.write('gbc2 initial range '+str(gbc2_range)+'\n')	
 #=============================================================================
@@ -130,28 +117,24 @@ class Sim:
          pass
       self.init_record(gbc2_range)
       first_time= True
-      while ((gbc2_range[1]-gbc2_range[0])/(gbc2_range[1]+gbc2_range[0])>1e-3): 
-         self.gbc2= (gbc2_range[1]+gbc2_range[0])/2.
-
-         self.mu= self.mu_hat/pow(self.gbc2,0.5)
-         self.la= self.la_hat/self.gbc2
-         self.charge= self.charge_hat*pow(self.gbc2,0.5)
-
-         self.launch()
-
-         done= False
-         while not done:
-            time.sleep(10)
-            with open(self.output_dir+'/output.out','r') as f:
-               for line in f:
-                  if line.startswith('naked_elliptic_region'):
-                     gbc2_range[1]= self.gbc2
-                     done= True
-                     self.write_gbc2_to_record('naked_elliptic_region')
-                  if line.startswith('run_finished_successfully'):
-                     gbc2_range[0]= self.gbc2
-                     done= True	
-                     self.write_gbc2_to_record('run_finished_successfully')
+# put some condition here
+#      while ((gbc2_range[1]-gbc2_range[0])/(gbc2_range[1]+gbc2_range[0])>1e-3): 
+#
+#         self.launch()
+#
+#         done= False
+#         while not done:
+#            time.sleep(10)
+#            with open(self.output_dir+'/output.out','r') as f:
+#               for line in f:
+#                  if line.startswith('naked_elliptic_region'):
+#                     gbc2_range[1]= self.gbc2
+#                     done= True
+#                     self.write_gbc2_to_record('naked_elliptic_region')
+#                  if line.startswith('run_finished_successfully'):
+#                     gbc2_range[0]= self.gbc2
+#                     done= True	
+#                     self.write_gbc2_to_record('run_finished_successfully')
 #=============================================================================
    def launch(self):
       self.set_derived_params()

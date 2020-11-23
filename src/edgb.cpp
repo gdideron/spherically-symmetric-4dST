@@ -21,19 +21,29 @@ using std::string;
 /*===========================================================================*/
 /*===========================================================================*/
 EdGB::EdGB(
-	const double dt, const double dx, const double cl, const int nx,
-	const double mu, const double la,
-	const double gbc1, const double gbc2,
-	const vector<double> &rvec)
+   const double dt, const double dx, const double cl, const int nx,
+   const double V_1,  const double V_2,  const double V_3,  const double V_4,
+   const double Al_1, const double Al_2, const double Al_3, const double Al_4,
+   const double Be_1, const double Be_2, const double Be_3, const double Be_4,
+   const vector<double> &rvec)
 : dt{dt},
   dx{dx},
   nx{nx},
 
-  mu{mu},
-  la{la},
-  
-  gbc1{gbc1},
-  gbc2{gbc2},
+  V_1{V_1},  
+  V_2{V_2},  
+  V_3{V_3},  
+  V_4{V_4},  
+ 
+  Al_1{Al_1},  
+  Al_2{Al_2},  
+  Al_3{Al_3},  
+  Al_4{Al_4},  
+ 
+  Be_1{Be_1},  
+  Be_2{Be_2},  
+  Be_3{Be_3},  
+  Be_4{Be_4},  
  
   cl{cl},
  
@@ -100,29 +110,41 @@ void EdGB::compute_potentials(const vector<double> &f_v)
 {
    for (int i=0; i<nx; ++i) {
       V_v[i]= 
-         (1./2.)*pow(mu,2)*pow(f_v[i],2)
-      +  la*pow(f_v[i],4)
+                  V_1*f_v[i]
+      +  (1./2.) *V_2*pow(f_v[i],2)
+      +  (1./6.) *V_3*pow(f_v[i],3)
+      +  (1./24.)*V_4*pow(f_v[i],4)
       ;
       Vp_v[i]= 
-         pow(mu,2)*f_v[i]
-      +  (4.)*la*pow(f_v[i],3)
+                 V_2*f_v[i]
+      +  (1./2.)*V_3*pow(f_v[i],2)
+      +  (1./6.)*V_4*pow(f_v[i],3)
       ;
       Al_v[i]=
-         0.0
+                  Al_1*f_v[i]
+      +  (1./2.) *Al_2*pow(f_v[i],2)
+      +  (1./6.) *Al_3*pow(f_v[i],3)
+      +  (1./24.)*Al_4*pow(f_v[i],4)
       ;
       Alp_v[i]=
-         0.0
+                 Al_2*f_v[i]
+      +  (1./2.)*Al_3*pow(f_v[i],2)
+      +  (1./6.)*Al_4*pow(f_v[i],3)
       ;
       Be_v[i]=
-         gbc1*f_v[i]
-      +  (1./8.)*gbc2*pow(f_v[i],2)
+                  Be_1*f_v[i]
+      +  (1./2.) *Be_2*pow(f_v[i],2)
+      +  (1./6.) *Be_3*pow(f_v[i],3)
+      +  (1./24.)*Be_4*pow(f_v[i],4)
       ;
       Bep_v[i]=
-         gbc1
-      +  (1./4.)*gbc2*f_v[i]
+                 Be_2*f_v[i]
+      +  (1./2.)*Be_3*pow(f_v[i],2)
+      +  (1./6.)*Be_4*pow(f_v[i],3)
       ;
       Bepp_v[i]=
-         (1./4.)*gbc2
+      +          Be_3*f_v[i]
+      +  (1./2.)*Be_4*pow(f_v[i],2)
       ;
    }
    return;
@@ -184,13 +206,12 @@ void EdGB::solve_for_metric_relaxation(
 
          double P= (p_v[i+1] + p_v[i])/2;
          double Q= (q_v[i+1] + q_v[i])/2;
-         double N= (n_v[i+1] + n_v[i])/2;
          double S= (s_v[i+1] + s_v[i])/2;
 
-         double V=    (   V_v[i+1]+   V_v[i])/2;
-         double Al=   (  Al_v[i+1]+  Al_v[i])/2;
-         double Bep=  ( Bep_v[i+1]+ Bep_v[i])/2;
-         double Bepp= (Bepp_v[i+1]+Bepp_v[i])/2;
+         double V=    (   V_v[i+1] +    V_v[i])/2;
+         double Al=   (  Al_v[i+1] +   Al_v[i])/2;
+         double Bep=  ( Bep_v[i+1] +  Bep_v[i])/2;
+         double Bepp= (Bepp_v[i+1] + Bepp_v[i])/2;
 
          double r_Der_P= (p_v[i+1] - p_v[i])/dr;
          double r_Der_Q= (q_v[i+1] - q_v[i])/dr;
@@ -333,8 +354,8 @@ void EdGB::compute_fpq_ki(
       p= p_v[i];
       q= q_v[i];
 
-      V=  V_v[i];
-      Vp= Vp_v[i];
+      V=    V_v[i];
+      Vp=   Vp_v[i];
       Al=   Al_v[i];
       Alp=  Alp_v[i];
       Bep=  Bep_v[i];
@@ -379,10 +400,10 @@ void EdGB::compute_fpq_ki(
    q= q_v[i];
 
    V=    V_v[i];
-   Vp=  Vp_v[i];
+   Vp=   Vp_v[i];
    Al=   Al_v[i];
-   Alp= Alp_v[i];
-   Bep=   Bep_v[i];
+   Alp=  Alp_v[i];
+   Bep=  Bep_v[i];
    Bepp= Bepp_v[i];
 
    r_Der_n= pow(cf,2)*Dx_ptp1_4th(n_v[i+3],n_v[i+2],n_v[i+1],n_v[i],n_v[i-1],dx);
@@ -428,8 +449,7 @@ void EdGB::compute_fpq_ki(
       Vp=  Vp_v[i];
       Al=   Al_v[i];
       Alp= Alp_v[i];
-      Bep=   Bep_v[i];
-      Bepp= Bepp_v[i];
+      Bep= Bep_v[i];
 
       r_Der_n= pow(cf,2)*Dx_ptp0_4th(n_v[i+4],n_v[i+3],n_v[i+2],n_v[i+1],n_v[i],dx);
       r_Der_s= pow(cf,2)*Dx_ptp0_4th(s_v[i+4],s_v[i+3],s_v[i+2],s_v[i+1],s_v[i],dx);
@@ -493,7 +513,6 @@ void EdGB::compute_fpq_ki(
    Al=   Al_v[i];
    Alp= Alp_v[i];
    Bep=   Bep_v[i];
-   Bepp= Bepp_v[i];
 
    p_k[i]= compute_p_k(
       r,
@@ -800,7 +819,6 @@ void EdGB::compute_radial_characteristics(
    V=   V_v[i];
    Vp=  Vp_v[i];
    Bep=  Bep_v[i];
-   Bepp= Bepp_v[i];
 
    r_Der_N= pow(cf,2)*Dx_ptp1_4th(n_v[i+4],n_v[i+3],n_v[i+2],n_v[i+1],n_v[i],dx);
    r_Der_S= pow(cf,2)*Dx_ptp1_4th(s_v[i+4],s_v[i+3],s_v[i+2],s_v[i+1],s_v[i],dx);
@@ -840,7 +858,6 @@ void EdGB::compute_radial_characteristics(
       Vp=   Vp_v[i];
       Al=   Al_v[i];
       Bep=  Bep_v[i];
-      Bepp= Bepp_v[i];
 
       r_Der_N= pow(cf,2)*Dx_ptc_4th(n_v[i+2],n_v[i+1],n_v[i-1],n_v[i-2],dx);
       r_Der_S= pow(cf,2)*Dx_ptc_4th(s_v[i+2],s_v[i+1],s_v[i-1],s_v[i-2],dx);
@@ -956,10 +973,10 @@ void EdGB::compute_ncc(
       double P= p_v[i];
       double Q= q_v[i];
 
-      double V=   V_v[i];
-      double Vp=  Vp_v[i];
-      double Al=  Al_v[i];
-      double Alp= Alp_v[i];
+      double V=    V_v[i];
+      double Vp=   Vp_v[i];
+      double Al=   Al_v[i];
+      double Alp=  Alp_v[i];
       double Bep=  Bep_v[i];
       double Bepp= Bepp_v[i];
 
