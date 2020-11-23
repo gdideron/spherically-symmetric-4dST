@@ -19,8 +19,6 @@
 
 % more complex case: 4 authors, 3 institutions, 2 footnotes
 \author[a,1]{Justin L. Ripley}
-%\author[b]{William E. East}
-%\author[c]{Thomas Sotiriou}
 
 % The "\note" macro will give a warning: "Ignoring empty anchor..."
 % you can safely ignore it.
@@ -29,14 +27,6 @@
    DAMTP, Centre for Mathematical Sciences, University of Cambridge,  
    \\ Wilberforce Road, Cambridge CB3 0WA, UK.
 }
-%\affiliation[b]{
-%   Perimeter Institute for Theoretical Physics, 
-%   \\Waterloo, Ontario N2L 2Y5, Canada.
-%}
-%\affiliation[c]{
-%   School of Mathematical Sciences \& School of Physics and Astronomy,University of Nottingham, 
-%\\ University Park, Nottingham, NG7 2RD, United Kingdom
-%}
 
 % e-mail addresses: one for each author, in the same order as the authors
 \emailAdd{lloydripley@gmail.com}
@@ -262,14 +252,14 @@ $n_a=(-N,0,0,0)$ these are defined to be
    T_{ab}
    \equiv&
    \left(
-      1+ 2 N\left(\phi\right)X
+      1+ 2 \alpha X
    \right)
    \nabla_a\phi\nabla_b\phi
 +  g_{ab}
    \left(
       X
-   -  V\left(\phi\right) 
-   +  N\left(\phi\right) X^2
+   -  V 
+   +  \alpha X^2
    \right)
    .
 \end{align}
