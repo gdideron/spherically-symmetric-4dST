@@ -1,7 +1,5 @@
 # Evolution codes for 4dST gravity in spherical symmetry.
 
-[![arXiv](https://img.shields.io/badge/arXiv-2005.05417%20-green.svg)](https://arxiv.org/abs/2005.05417)
-
 Codes to run 4dST gravity models in spherical symmetry.
 For more details on the theory this solves for, and details of the numerical
 implementation, see the documentation.

@@ -32,8 +32,8 @@ class Sim:
       if (self.initial_data_type.endswith('bh')):
          self.initial_exc_i= int(
             (
-               (1.80*self.bh_mass)
-            /  (1+(1.80*self.bh_mass/self.compactification_length))
+               (2.0*self.excision_ratio*self.bh_mass)
+            /  (1+(2.0*self.excision_ratio*self.bh_mass/self.compactification_length))
             )/self.dx
          )
       if (self.t_step_save==0):

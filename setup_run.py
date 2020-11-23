@@ -33,16 +33,19 @@ sim.Al_2= 0.0
 sim.Al_3= 0.0
 sim.Al_4= 0.0
 
-sim.Be_1= 10.0
+sim.Be_1= 0.0
 sim.Be_2= 0.0
 sim.Be_3= 0.0
 sim.Be_4= 0.0
 #-----------------------------------------------------------------------------
 sim.phi_r= 21  ### where measuring phi
 #-----------------------------------------------------------------------------
+## excision point as ratio of apparent horizon
+sim.excision_ratio = 0.8
+#-----------------------------------------------------------------------------
 ## initial data
 #-----------------------------------------------------------------------------
-sim.bh_mass= float(10.0)
+sim.bh_mass= float(4.0)
 #-----------------------------------------------------------------------------
 ## for the noncompact scalar profile
 sim.initial_data_type= str("bump_with_bh")
@@ -50,11 +53,11 @@ sim.initial_data_type= str("bump_with_bh")
 ## for the Gaussian-like pulse
 #sim.initial_data_type= str("bump")
 #sim.initial_data_type= str("bump_with_bh")
-sim.amp= 0#float(5.0e-3)
+sim.amp= float(5.0e-3)
 sim.r_l= float(24.0)
 sim.r_u= float(32.0)
 #-----------------------------------------------------------------------------
-sim.nx= pow(2,8)+1 
+sim.nx= pow(2,9)+1 
 #-----------------------------------------------------------------------------
 sim.set_derived_params()
 #=============================================================================
