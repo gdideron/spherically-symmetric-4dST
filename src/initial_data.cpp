@@ -56,7 +56,7 @@ void set_initial_data(
          N.n[i]= 1;
          S.n[i]= pow(2*bh_mass/r,0.5);
       }
-      /* rescale so amp is actuN maximum val */
+      /* rescale so amp is actual maximum val */
       for (int i=0; i<sp.nx-1; ++i) {
          f.n[i]*= amp/max_vN;
          q.n[i]*= amp/max_vN;
@@ -66,6 +66,7 @@ void set_initial_data(
    } else 	
    if (sp.initial_data_type=="scalarized_bh") {
       cout << "initial_data_type: scalarized_bh: NOT IMPLEMENTED YET" << endl;         
+      std::quick_exit(0);
 /*-------------------------------------------------------------------------*/
    } else {
       cout << "ERROR: initial_data_type " << sp.initial_data_type << " did not match" << endl;

@@ -347,45 +347,25 @@ void EdGB::compute_fpq_ki(
    const vector<double> &q_v)
 {
    compute_potentials(f_v);
-
-   double 
-      r, cf, 
-      n, s, p, q, 
-      r_Der_n, r_Der_s, r_Der_p, r_Der_q,
-      V, Vp, Al, Alp, Bep, Bepp
-   ;
 /*---------------------------------------------------------------------------*/
    for (int i=exc_i+2; i<nx-2; ++i) {
-      r= r_v[i];
-      cf= 1/(1+r/cl);
+      double cf= 1/(1+r_v[i]/cl);
 
-      n= n_v[i];
-      s= s_v[i];
-      p= p_v[i];
-      q= q_v[i];
-
-      V=    V_v[i];
-      Vp=   Vp_v[i];
-      Al=   Al_v[i];
-      Alp=  Alp_v[i];
-      Bep=  Bep_v[i];
-      Bepp= Bepp_v[i];
-
-      r_Der_n= pow(cf,2)*Dx_ptc_4th(n_v[i+2],n_v[i+1],n_v[i-1],n_v[i-2],dx);
-      r_Der_s= pow(cf,2)*Dx_ptc_4th(s_v[i+2],s_v[i+1],s_v[i-1],s_v[i-2],dx);
-      r_Der_p= pow(cf,2)*Dx_ptc_4th(p_v[i+2],p_v[i+1],p_v[i-1],p_v[i-2],dx);
-      r_Der_q= pow(cf,2)*Dx_ptc_4th(q_v[i+2],q_v[i+1],q_v[i-1],q_v[i-2],dx);
+      double r_Der_n= pow(cf,2)*Dx_ptc_4th(n_v[i+2],n_v[i+1],n_v[i-1],n_v[i-2],dx);
+      double r_Der_s= pow(cf,2)*Dx_ptc_4th(s_v[i+2],s_v[i+1],s_v[i-1],s_v[i-2],dx);
+      double r_Der_p= pow(cf,2)*Dx_ptc_4th(p_v[i+2],p_v[i+1],p_v[i-1],p_v[i-2],dx);
+      double r_Der_q= pow(cf,2)*Dx_ptc_4th(q_v[i+2],q_v[i+1],q_v[i-1],q_v[i-2],dx);
 
       f_k[i]= 
-         n*(p+s*q)
+         n_v[i]*(p_v[i]+s_v[i]*q_v[i])
       ;
       p_k[i]= compute_p_k(
-         r,
-         n, s,
-         p, q,
-         V, Vp, 
-         Al,  Alp,
-         Bep, Bepp,
+         r_v[i],
+         n_v[i], s_v[i],
+         p_v[i], q_v[i],
+         V_v[i], Vp_v[i], 
+         Al_v[i],  Alp_v[i],
+         Bep_v[i], Bepp_v[i],
          r_Der_n,
          r_Der_s,
          r_Der_p,
@@ -401,36 +381,23 @@ void EdGB::compute_fpq_ki(
    }
 /*---------------------------------------------------------------------------*/
    int i= exc_i+1;
-   r= r_v[i];
-   cf= 1/(1+r/cl);
+   double cf= 1/(1+r_v[i]/cl);
 
-   n= n_v[i];
-   s= s_v[i];
-   p= p_v[i];
-   q= q_v[i];
-
-   V=    V_v[i];
-   Vp=   Vp_v[i];
-   Al=   Al_v[i];
-   Alp=  Alp_v[i];
-   Bep=  Bep_v[i];
-   Bepp= Bepp_v[i];
-
-   r_Der_n= pow(cf,2)*Dx_ptp1_4th(n_v[i+3],n_v[i+2],n_v[i+1],n_v[i],n_v[i-1],dx);
-   r_Der_s= pow(cf,2)*Dx_ptp1_4th(s_v[i+3],s_v[i+2],s_v[i+1],s_v[i],s_v[i-1],dx);
-   r_Der_p= pow(cf,2)*Dx_ptp1_4th(p_v[i+3],p_v[i+2],p_v[i+1],p_v[i],p_v[i-1],dx);
-   r_Der_q= pow(cf,2)*Dx_ptp1_4th(q_v[i+3],q_v[i+2],q_v[i+1],q_v[i],q_v[i-1],dx);
+   double r_Der_n= pow(cf,2)*Dx_ptp1_4th(n_v[i+3],n_v[i+2],n_v[i+1],n_v[i],n_v[i-1],dx);
+   double r_Der_s= pow(cf,2)*Dx_ptp1_4th(s_v[i+3],s_v[i+2],s_v[i+1],s_v[i],s_v[i-1],dx);
+   double r_Der_p= pow(cf,2)*Dx_ptp1_4th(p_v[i+3],p_v[i+2],p_v[i+1],p_v[i],p_v[i-1],dx);
+   double r_Der_q= pow(cf,2)*Dx_ptp1_4th(q_v[i+3],q_v[i+2],q_v[i+1],q_v[i],q_v[i-1],dx);
 
    f_k[i]=
-      n*(p+s*q)
+      n_v[i]*(p_v[i]+s_v[i]*q_v[i])
    ;
    p_k[i]= compute_p_k(
-      r,
-      n, s,
-      p,  q,
-      V,   Vp, 
-      Al,  Alp,
-      Bep, Bepp,
+      r_v[i],
+      n_v[i],   s_v[i],
+      p_v[i],   q_v[i],
+      V_v[i],   Vp_v[i], 
+      Al_v[i],  Alp_v[i],
+      Bep_v[i], Bepp_v[i],
       r_Der_n,  r_Der_s,
       r_Der_p,  r_Der_q
    );
@@ -447,19 +414,7 @@ void EdGB::compute_fpq_ki(
 /*---------------------------------------------------------------------------*/
    if (exc_i>0) {
       i= exc_i;
-      r= r_v[i];
-      cf= 1/(1+r/cl);
-
-      n= n_v[i];
-      s= s_v[i];
-      p= p_v[i];
-      q= q_v[i];
-
-      V=    V_v[i];
-      Vp=  Vp_v[i];
-      Al=   Al_v[i];
-      Alp= Alp_v[i];
-      Bep= Bep_v[i];
+      cf= 1/(1+r_v[i]/cl);
 
       r_Der_n= pow(cf,2)*Dx_ptp0_4th(n_v[i+4],n_v[i+3],n_v[i+2],n_v[i+1],n_v[i],dx);
       r_Der_s= pow(cf,2)*Dx_ptp0_4th(s_v[i+4],s_v[i+3],s_v[i+2],s_v[i+1],s_v[i],dx);
@@ -467,15 +422,15 @@ void EdGB::compute_fpq_ki(
       r_Der_q= pow(cf,2)*Dx_ptp0_4th(q_v[i+4],q_v[i+3],q_v[i+2],q_v[i+1],q_v[i],dx);
 
       f_k[i]=
-         n*(p+s*q)
+         n_v[i]*(p_v[i]+s_v[i]*q_v[i])
       ;
       p_k[i]= compute_p_k(
-         r,
-         n, s,
-         p,  q,
-         V,   Vp, 
-         Al,  Alp,
-         Bep, Bepp,
+         r_v[i],
+         n_v[i], s_v[i],
+         p_v[i], q_v[i],
+         V_v[i],   Vp_v[i], 
+         Al_v[i],  Alp_v[i],
+         Bep_v[i], Bepp_v[i],
          r_Der_n,  r_Der_s,
          r_Der_p,  r_Der_q
       );
@@ -488,26 +443,19 @@ void EdGB::compute_fpq_ki(
          dx
       );
       S_free_k= compute_S_free_k(
-         r,
-         n, s,
-         p,  q,
-         V,  Vp, 
-         Al,  Alp,
-         Bep, Bepp,
+         r_v[i],
+         n_v[i], s_v[i],
+         p_v[i], q_v[i],
+         V_v[i], Vp_v[i], 
+         Al_v[i],  Alp_v[i],
+         Bep_v[i], Bepp_v[i],
          r_Der_n, r_Der_s,
          r_Der_p,  r_Der_q
       );
    }
 /*---------------------------------------------------------------------------*/
    i= nx-2;
-
-   r= r_v[i];
-   cf= 1/(1+r/cl);
-
-   n= n_v[i];
-   s= s_v[i];
-   p= p_v[i];
-   q= q_v[i];
+   cf= 1/(1+r_v[i]/cl);
 
    r_Der_n= pow(cf,2)*Dx_ptm1_4th(n_v[i+1],n_v[i],n_v[i-1],n_v[i-2],n_v[i-3],dx);
    r_Der_s= pow(cf,2)*Dx_ptm1_4th(s_v[i+1],s_v[i],s_v[i-1],s_v[i-2],s_v[i-3],dx);
@@ -515,22 +463,16 @@ void EdGB::compute_fpq_ki(
    r_Der_q= pow(cf,2)*Dx_ptm1_4th(q_v[i+1],q_v[i],q_v[i-1],q_v[i-2],q_v[i-3],dx);
 
    f_k[i]=
-      n*(p+s*q)
+      n_v[i]*(p_v[i]+s_v[i]*q_v[i])
    ;
 
-   V=    V_v[i];
-   Vp=  Vp_v[i];
-   Al=   Al_v[i];
-   Alp= Alp_v[i];
-   Bep=   Bep_v[i];
-
    p_k[i]= compute_p_k(
-      r,
-      n, s,
-      p,  q,
-      V,   Vp, 
-      Al,  Alp,
-      Bep, Bepp,
+      r_v[i],
+      n_v[i], s_v[i],
+      p_v[i], q_v[i],
+      V_v[i],   Vp_v[i], 
+      Al_v[i],  Alp_v[i],
+      Bep_v[i], Bepp_v[i],
       r_Der_n,  r_Der_s,
       r_Der_p,  r_Der_q
    );
@@ -910,6 +852,7 @@ void EdGB::compute_eom_rr(
 	vector<double> &eom_rr)
 {
    compute_potentials(f_v);
+
    for (int i=exc_i+2; i<nx-2; ++i) {
       double x= dx*i;
       double cf= (1-x/cl);
@@ -971,24 +914,14 @@ void EdGB::compute_ncc(
    const int nx, const double dx, const double cl, 
    const vector<double> &r_v, 
    const vector<double> &n_v, const vector<double> &s_v,
+   const vector<double> &f_v,
    const vector<double> &p_v, const vector<double> &q_v,
    vector<double> &ncc)
 {
+   compute_potentials(f_v);
+
    for (int i=exc_i+2; i<nx-3; ++i) {
-      double r= r_v[i];
-      double cf= 1/(1+r/cl);
-
-      double N= n_v[i];
-      double S= s_v[i];
-      double P= p_v[i];
-      double Q= q_v[i];
-
-      double V=    V_v[i];
-      double Vp=   Vp_v[i];
-      double Al=   Al_v[i];
-      double Alp=  Alp_v[i];
-      double Bep=  Bep_v[i];
-      double Bepp= Bepp_v[i];
+      double cf= 1/(1+r_v[i]/cl);
 
       double r_Der_N= pow(cf,2)*Dx_ptc_4th(n_v[i+2],n_v[i+1],n_v[i-1],n_v[i-2],dx);
       double r_Der_S= pow(cf,2)*Dx_ptc_4th(s_v[i+2],s_v[i+1],s_v[i-1],s_v[i-2],dx);
@@ -996,17 +929,21 @@ void EdGB::compute_ncc(
       double r_Der_Q= pow(cf,2)*Dx_ptc_4th(q_v[i+2],q_v[i+1],q_v[i-1],q_v[i-2],dx);
 
       double t_Der_S= compute_S_free_k(
-         r,
-         N, S,
-         P, Q,
-         V, Vp, 
-         Al, Alp,
-         Bep, Bepp,
+         r_v[i],
+         n_v[i], s_v[i],
+         p_v[i], q_v[i],
+         V_v[i], Vp_v[i], 
+         Al_v[i], Alp_v[i],
+         Bep_v[i], Bepp_v[i],
          r_Der_N, r_Der_S,
          r_Der_P, r_Der_Q
       );
 
-      ncc[i]= (2*t_Der_S*N)/r + r_Der_N*((2*N)/r - (4*N*S)/r + (2*N*pow(S,2))/r);
+      ncc[i]= 
+         (2*t_Der_S*n_v[i])/r_v[i] 
+      +  r_Der_N*((2*n_v[i])/r_v[i] 
+      -  (4*n_v[i]*s_v[i])/r_v[i] + (2*n_v[i]*pow(s_v[i],2))/r_v[i])
+      ;
    }
    return;
 }

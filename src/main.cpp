@@ -111,7 +111,7 @@ int main(int argc, char **argv)
       sp.nx, sp.dx, sp.cl, 
       rp.r, 
       N.np1,     S.np1,
-      phi_p.np1, phi_q.np1,
+      phi_f.np1, phi_p.np1, phi_q.np1,
       ncc.np1
    );
    csv.write(grid_time, ncc);
@@ -177,7 +177,7 @@ int main(int argc, char **argv)
             sp.nx, sp.dx, sp.cl, 
             rp.r, 
             N.np1,     S.np1,
-            phi_p.np1, phi_q.np1,
+            phi_f.np1, phi_p.np1, phi_q.np1,
             ncc.np1
          );
 /*--------------------------------------------------------------------------*/		

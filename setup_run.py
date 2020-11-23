@@ -16,8 +16,8 @@ sim= Sim(args)
 #-----------------------------------------------------------------------------
 sim.compactification_length= float(100) 
 #-----------------------------------------------------------------------------
-sim.evolve_time=   float(50)  ### in units of initial black hole mass for ze field 
-sim.num_saved_times= int(200)
+sim.evolve_time=   float(25)  ### in units of initial black hole mass for ze field 
+sim.num_saved_times= int(100)
 sim.cfl= 0.25
 #-----------------------------------------------------------------------------
 ## couplings
@@ -27,7 +27,7 @@ sim.V_2= 0.0
 sim.V_3= 0.0
 sim.V_4= 0.0
 
-sim.Al_0= 10.0
+sim.Al_0= -10.0
 sim.Al_1= 0.0
 sim.Al_2= 0.0
 sim.Al_3= 0.0
@@ -45,7 +45,7 @@ sim.excision_ratio = 0.8
 #-----------------------------------------------------------------------------
 ## initial data
 #-----------------------------------------------------------------------------
-sim.bh_mass= float(4.0)
+sim.bh_mass= float(5.0)
 #-----------------------------------------------------------------------------
 ## for the noncompact scalar profile
 sim.initial_data_type= str("bump_with_bh")
@@ -57,7 +57,7 @@ sim.amp= float(5.0e-3)
 sim.r_l= float(24.0)
 sim.r_u= float(32.0)
 #-----------------------------------------------------------------------------
-sim.nx= pow(2,9)+1 
+sim.nx= pow(2,8)+1 
 #-----------------------------------------------------------------------------
 sim.set_derived_params()
 #=============================================================================
@@ -65,12 +65,12 @@ sim.set_derived_params()
 #=============================================================================
 sim.walltime= '480:00:00' ### (hh:mm:ss)
 #=============================================================================
-if (sim.run_type == "basic_run"):
+if (sim.run_type == 'basic_run'):
    sim.data_dir= '/home/jripley/spherically-symmetric-4dST/output'
 #   sim.data_dir= '/mnt/grtheory/jripley-data/test'
    sim.launch()
 #=============================================================================
-elif (sim.run_type == "scan"):
+elif (sim.run_type == 'scan'):
    mu_hat=0.01
    sim.data_dir= '/mnt/grtheory/jripley-data/approx_scalarized'
    sim.data_dir+= '/scan_muhat_'+str(mu_hat)
@@ -87,26 +87,17 @@ elif (sim.run_type == "scan"):
          sim.launch()
          time.sleep(2*60*60)
 #=============================================================================
-elif (sim.run_type == "convergence_test"):
-   num_res= int(input("number of resolutions "))
-   sim.data_dir= '/mnt/grtheory/jripley-data/convergence_test_long_scalarized'
-
-
-   sim.mu_hat= 0.05
-   sim.la_hat= 3.2
-
-   sim.gbc2= 340 
-
+elif (sim.run_type == 'res_study'):
+   num_res= int(input('number of resolutions '))
    sim.set_derived_params()
    for i in range(num_res):	
       sim.launch()
       sim.nx= 2*(sim.nx-1)+1 
       sim.set_derived_params()
-      time.sleep(5)
 #=============================================================================
 ### varying eta with a fixed initial phi amplitude
 #=============================================================================
-elif (sim.run_type == "search_for_elliptic"):
+elif (sim.run_type == 'search_for_elliptic'):
 
    sim.mu_hat= 0.1
    sim.la_hat= 3.2
@@ -120,4 +111,4 @@ elif (sim.run_type == "search_for_elliptic"):
    sim.search_for_elliptic(gbc2_range)
 #=============================================================================
 else:
-   raise ValueError("run_type = "+str(sim.run_type)) 
+   raise ValueError('run_type = '+str(sim.run_type)) 

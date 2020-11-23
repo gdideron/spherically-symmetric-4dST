@@ -49,6 +49,7 @@ public:
       const int nx, const double dx, const double cl, 
       const std::vector<double> &r_v, 
       const std::vector<double> &N, const std::vector<double> &S,
+      const std::vector<double> &f, 
       const std::vector<double> &p, const std::vector<double> &q,
       std::vector<double> &ncc
    );
