@@ -19,14 +19,16 @@ using std::vector;
 Cheb::Cheb(const string home_dir, const int Nx)
 : nx{Nx},
 
+  cheb_pts(    nx,0), 
   cheb_mat(    nx,vector<double>(nx)), 
   inv_cheb_mat(nx,vector<double>(nx))
 {
 /*---------------------------------------------------------------------------*/
     string dir= home_dir+"/cheb_tables";
 
-    get_cheb(dir, "/cheb_mat",     cheb_mat);
-    get_cheb(dir, "/inv_cheb_mat", inv_cheb_mat);
+    get_cheb_pts(dir, "/cheb_mat",     cheb_pts);
+    get_cheb_mat(dir, "/cheb_mat",     cheb_mat);
+    get_cheb_mat(dir, "/inv_cheb_mat", inv_cheb_mat);
 /*---------------------------------------------------------------------------*/
 }
 /*===========================================================================*/
@@ -34,7 +36,23 @@ Cheb::~Cheb(void)
 {
 }
 /*===========================================================================*/
-void Cheb::get_cheb(
+void Cheb::get_cheb_pts(
+   const string dir, const string file_name, 
+   vector<double> pts)
+{
+    ifstream infile(dir+"/"+file_name+".txt");
+    assert(infile.good());
+
+    string val;
+
+    for (int i=0; i<nx; ++i) {
+      infile >> val;
+      pts[i]= stod(val);
+    }
+    return;
+}
+/*===========================================================================*/
+void Cheb::get_cheb_mat(
    const string dir, const string file_name, 
    vector<vector<double>> mat)
 {
@@ -105,6 +123,21 @@ void Cheb::r_integral(
       iv[i]*= a*pow(1.0 - (x_v[i]/cl),-2);
    }
    iv[nx-1]= iv[nx-2];
+
+   return;
+}
+/*===========================================================================*/
+void Cheb::set_x(
+   const double cl, const double x_exc,
+   vector<double> x_v
+   ) const
+{
+   const double a = 0.5*(cl - x_exc);
+   const double b = 0.5*(cl + x_exc);
+
+   for (int i=0; i<nx-1; i++) {
+      x_v[i]*= a*cheb_pts[i] + b;
+   }
 
    return;
 }
