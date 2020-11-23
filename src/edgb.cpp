@@ -213,6 +213,7 @@ void EdGB::solve_for_metric_relaxation(
 
          double P= (p_v[i+1] + p_v[i])/2;
          double Q= (q_v[i+1] + q_v[i])/2;
+         double N= (n_v[i+1] + n_v[i])/2;
          double S= (s_v[i+1] + s_v[i])/2;
 
          double V=    (   V_v[i+1] +    V_v[i])/2;
@@ -227,7 +228,8 @@ void EdGB::solve_for_metric_relaxation(
 /*---------------------------------------------------------------------------*/
          double res_N= compute_res_N(
             r,
-            Al, S, P,  Q,
+            N, S, 
+            P, Q,
             V,  
             Al,
             Bep, Bepp,
@@ -239,7 +241,8 @@ void EdGB::solve_for_metric_relaxation(
 /*---------------------------------------------------------------------------*/
 	 double res_S= compute_res_S(
             r,
-            S, P,  Q,
+            S, 
+            P,  Q,
             V,
             Al,
             Bep, Bepp,
@@ -271,7 +274,7 @@ void EdGB::solve_metric_fields(
 {
    solve_for_metric_relaxation(exc_i,
       phi_f.n,phi_p.n,phi_q.n,
-      n.n,s.n
+      n.n,    s.n
    );
    for (int i=0; i<nx; ++i) {
       n.inter_2[i]= n.n[i];
@@ -618,8 +621,8 @@ void EdGB::time_step(const int exc_i,
       s.inter_2[exc_i]= s.n[exc_i]+0.5*S_free_k1;
    }
    solve_for_metric_relaxation(exc_i,
-      f.inter_2,  p.inter_2, q.inter_2,
-      n.inter_2,s.inter_2
+      f.inter_2, p.inter_2, q.inter_2,
+      n.inter_2, s.inter_2
    );
 /*---------------------------------------------------------------------------*/
    compute_fpq_ki(2, exc_i,
@@ -638,8 +641,8 @@ void EdGB::time_step(const int exc_i,
       s.inter_3[exc_i]= s.n[exc_i]+0.5*S_free_k2;
    }
    solve_for_metric_relaxation(exc_i,
-      f.inter_3,  p.inter_3, q.inter_3,
-      n.inter_3,s.inter_3
+      f.inter_3, p.inter_3, q.inter_3,
+      n.inter_3, s.inter_3
    );
 /*---------------------------------------------------------------------------*/
    compute_fpq_ki(3, exc_i,
@@ -658,8 +661,8 @@ void EdGB::time_step(const int exc_i,
       s.inter_4[exc_i]= s.n[exc_i]+0.5*S_free_k3;
    }
    solve_for_metric_relaxation(exc_i,
-      f.inter_4,  p.inter_4, q.inter_4,
-      n.inter_4,s.inter_4
+      f.inter_4, p.inter_4, q.inter_4,
+      n.inter_4, s.inter_4
    );
 /*---------------------------------------------------------------------------*/
    compute_fpq_ki(4, exc_i,
@@ -678,8 +681,8 @@ void EdGB::time_step(const int exc_i,
       s.np1[exc_i]= s.n[exc_i]+(S_free_k1+2.*S_free_k2+2.*S_free_k3+S_free_k4)/6.;
    }
    solve_for_metric_relaxation(exc_i,
-      f.np1,  p.np1, q.np1,
-      n.np1,s.np1
+      f.np1, p.np1, q.np1,
+      n.np1, s.np1
    );
 /*---------------------------------------------------------------------------*/
    return;
