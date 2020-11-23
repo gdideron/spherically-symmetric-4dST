@@ -99,7 +99,7 @@ int main(int argc, char **argv)
    );
    edgb.compute_eom_rr(
       exc_i,
-      N.np1, S.np1,
+      N.np1,     S.np1,
       phi_f.np1, phi_p.np1, phi_q.np1,
       eom_rr.np1
    );

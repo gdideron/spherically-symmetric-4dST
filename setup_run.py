@@ -33,7 +33,7 @@ sim.Al_2= 0.0
 sim.Al_3= 0.0
 sim.Al_4= 0.0
 
-sim.Be_1= 5.0
+sim.Be_1= 0.0
 sim.Be_2= 0.0
 sim.Be_3= 0.0
 sim.Be_4= 0.0
@@ -50,7 +50,7 @@ sim.initial_data_type= str("bump_with_bh")
 ## for the Gaussian-like pulse
 #sim.initial_data_type= str("bump")
 #sim.initial_data_type= str("bump_with_bh")
-sim.amp= 0#float(5.0e-3)
+sim.amp= float(5.0e-3)
 sim.r_l= float(24.0)
 sim.r_u= float(32.0)
 #-----------------------------------------------------------------------------
