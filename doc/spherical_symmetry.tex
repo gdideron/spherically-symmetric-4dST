@@ -1,0 +1,307 @@
+\documentclass[a4paper,11pt]{article}
+\pdfoutput=1 % if your are submitting a pdflatex (i.e. if you have
+             % images in pdf, png or jpg format)
+
+\usepackage{jheppub} % for details on the use of the package, please
+                     % see the JHEP-author-manual
+
+\usepackage[T1]{fontenc} % if needed
+
+
+
+\title{\boldmath Notes: Spherically symmetric black hole dynamics in $4\partial ST$ gravity}
+
+
+%% %simple case: 2 authors, same institution
+%% \author{A. Uthor}
+%% \author{and A. Nother Author}
+%% \affiliation{Institution,\\Address, Country}
+
+% more complex case: 4 authors, 3 institutions, 2 footnotes
+\author[a,1]{Justin L. Ripley}
+%\author[b]{William E. East}
+%\author[c]{Thomas Sotiriou}
+
+% The "\note" macro will give a warning: "Ignoring empty anchor..."
+% you can safely ignore it.
+
+\affiliation[a]{
+   DAMTP, Centre for Mathematical Sciences, University of Cambridge,  
+   \\ Wilberforce Road, Cambridge CB3 0WA, UK.
+}
+%\affiliation[b]{
+%   Perimeter Institute for Theoretical Physics, 
+%   \\Waterloo, Ontario N2L 2Y5, Canada.
+%}
+%\affiliation[c]{
+%   School of Mathematical Sciences \& School of Physics and Astronomy,University of Nottingham, 
+%\\ University Park, Nottingham, NG7 2RD, United Kingdom
+%}
+
+% e-mail addresses: one for each author, in the same order as the authors
+\emailAdd{lloydripley@gmail.com}
+%\emailAdd{weast@perimeterinstitute.ca}
+%\emailAdd{Thomas.Sotiriou@nottingham.ac.uk}
+
+\abstract{We consider spherical black hole dynamics for a class of scalar-tensor
+   gravity theories that describe the leading-order derivative expansion from
+   General Relativity, $4\partial ST$ gravity.
+   }
+
+
+
+\begin{document} 
+\maketitle
+\flushbottom
+
+\section{Introduction}
+\label{sec:intro}
+
+We set $G=c=1$, our metric signature is $-+++$,
+we use lower case Latin indices to index spacetime dimensions,
+the Riemann tensor is
+$R^a{}_{mbn}=\partial_{b}\Gamma^{a}_{mn}-\cdots$. 
+
+
+%\begin{figure}[tbp]
+%\centering % \begin{center}/\end{center} takes some additional vertical space
+%\includegraphics[width=.45\textwidth,trim=0 380 0 200,clip]{img1.pdf}
+%\hfill
+%\includegraphics[width=.45\textwidth,origin=c,angle=180]{img2.pdf}
+%% "\includegraphics" is very powerful; the graphicx package is already loaded
+%\caption{\label{fig:i} Always give a caption.}
+%\end{figure}
+
+%=============================================================================
+\section{Equations of motion}
+   We consider the theory
+\begin{align}
+   S
+   =
+   \frac{1}{8\pi}\int d^4x\sqrt{-g}\left(
+      \frac{1}{2}R
+   +  X
+   -  V(\phi)
+   +  \alpha(\phi)X^2
+   +  \beta(\phi)\mathcal{G}
+   \right)
+   ,
+\end{align}
+   where
+\begin{subequations}
+\begin{align}
+   X
+   \equiv&
+-  \frac{1}{2}\left(\nabla\phi\right)^2
+   ,\\
+   \mathcal{G}
+   \equiv&
+   \frac{1}{4}\delta^{abcd}_{efgh}
+   R^{ef}{}_{ab}R^{gh}{}_{cd}
+   ,\\
+   \delta^{abcd}_{efgh}
+   \equiv&
+   4!\delta^a_{[e}\delta^b_f\delta^c_g\delta^d_{h]}
+   .
+\end{align}
+\end{subequations}
+   Varying the action with respect to the scalar field and metric field
+gives us the equations of motion:
+\begin{align}
+\label{eq:eom_edgb_scalar}
+   E^{(\phi)}
+   &\equiv
+      \Box\phi
+   -  V^{\prime}\left(\phi\right)
+   \nonumber\\&
+   +  2\alpha\left(\phi\right)X \Box\phi
+   -  2\alpha\left(\phi\right)\nabla^a\phi\nabla^b\phi\nabla_a\nabla_b\phi
+   \nonumber\\&
+   -  3\alpha^{\prime}\left(\phi\right)X^2
+   +  \beta^{\prime}\left(\phi\right)\mathcal{G}
+   =
+   0
+   ,\\
+\label{eq:eom_edgb_tensor}
+   E^{(g)}_{ab}
+   &\equiv
+   R_{ab}
+-  \frac{1}{2}g_{ab}R
+   \nonumber\\&
+-  \nabla_a\phi\nabla_b\phi
++  \left(-X+V\left(\phi\right)\right)g_{ab}
+   \nonumber\\&
+-  2\alpha\left(\phi\right)X\nabla_a\phi\nabla_b\phi
+-  \alpha\left(\phi\right)X^2g_{ab}
+   \nonumber\\&
++  2\delta^{efcd}_{ijg(a}g_{b)d}R^{ij}{}_{ef}
+   \nabla^g\nabla_c\beta\left(\phi\right) 
+   =
+   0
+   .
+\end{align}
+   Details of our numerical methodology can be found in the Appendix.
+%=============================================================================
+\section{Model: $V=\cdots$, $\alpha=\cdots$, $\beta=\cdots$}
+
+%=============================================================================
+\appendix
+%=============================================================================
+\section{Numerical implementation}
+   Our procedure for numerically evolving this system in spherical symmetry
+will largely follow the analysis of \cite{Ripley:2020vpk}.
+   We will numerically evolve this system in Painlev\'{e}-Gullstrand (PG)-like
+coordinates:
+\begin{align}
+   ds^2
+   =
+-  N(t,r)dt^2
++  \left(dr+N(t,r)S(t,r)dt\right)^2
++  r^2\left(d\vartheta^2+\mathrm{sin}^2\vartheta d\varphi^2\right)
+   ,
+\end{align}
+   which are so-named as in the static limit black hole solutions are given
+by the Painlev\'{e}-Gullstand coordinate representation of the Schwarzschild
+black hole: $N=1$, $S=\sqrt{2m/r}$.
+
+   We define the variables:
+\begin{subequations}
+\begin{align}
+   Q
+   \equiv&
+   \partial_t\phi
+   ,\\
+   P
+   \equiv&
+   \frac{1}{N}\partial_t\phi-S Q
+   ,
+\end{align}
+\end{subequations}
+   and obtain the following system of evolution equations for
+$\phi$, $Q$, and $P$:
+\begin{subequations}
+\begin{align}
+   E_{(\phi)}
+   \equiv&
+   \partial_t\phi
+-  N\left(P+S Q\right)
+   = 0
+   ,\\
+   E_{(Q)}
+   \equiv&
+   \partial_tQ
+-  \partial_r\left(N\left[P+S Q\right]\right)
+   = 0
+   ,\\
+   E_{(P)}
+   \equiv&
+   \mathcal{A}_{(P)}\partial_tP
++  \mathcal{F}_{(P)}
+   = 0
+   ,
+\end{align}
+\end{subequations}
+   where $\mathcal{A}_{(P)}$ and $\mathcal{F}_{(P)}$
+are functions of $P,Q,\phi,N,S$, and their radial derivatives. 
+We can solve for the metric field variables using the
+Hamiltonian ($\mathcal{H}=0$) and momentum $\mathcal{M}_r=0$)
+constraint equations.
+Using the unit timelike vector to our $t=const.$ hypersurfaces:
+$n_a=(-N,0,0,0)$ these are defined to be 
+\begin{align}
+\label{eq:metric_field_odes}
+   \mathcal{H}
+   \equiv
+   E^{(g)}_{ab}n^an^b
+   \propto&
+   \left(
+      1
+   -  8\beta^{\prime}\frac{Q}{r}
+   -  12\beta^{\prime}\frac{P S}{r}
+   \right)
+   \partial_rS
++  \left(
+      S
+   -  9\beta^{\prime}\frac{QS}{r}
+   -  12\beta^{\prime}\frac{PS^2}{r}
+   \right)
+   \frac{\partial_rN}{N}
+   \nonumber\\&
+-  4\beta^{\prime}\frac{S}{r}\partial_rQ  
+-  4\beta^{\prime\prime}\frac{Q^2S}{r}
++  \frac{S}{2r}
+-  \frac{1}{2}\frac{r\rho}{S}
+   ,\\
+   \mathcal{M}_r
+   \equiv
+   E^{(g)}_{ar}n^a
+   \propto&
+   \left(
+      1
+   -  8\beta^{\prime}\frac{Q}{r}
+   -  8\beta^{\prime}\frac{PS}{r}
+   +  4\beta^{\prime}\frac{QS^2}{r}
+   \right)
+   \frac{\partial_rN}{N}
++  4\beta^{\prime}\frac{QS}{r}\partial_rS
++  4\beta^{\prime}\frac{S}{r}\partial_rP
+   \nonumber\\&
++  4\beta^{\prime\prime}\frac{P Q S}{r}
+-  \frac{1}{2}\frac{r j_r}{S}
+   ,
+\end{align}
+   where $r$ is the radial index, and
+\begin{subequations}
+\begin{align}
+   \rho
+   \equiv&
+   n^an^bT_{ab}
+   ,\\
+   j_r
+   \equiv&
+   n^aT_{ar}
+   ,\\
+   T_{ab}
+   \equiv&
+   \left(
+      1+ 2 N\left(\phi\right)X
+   \right)
+   \nabla_a\phi\nabla_b\phi
++  g_{ab}
+   \left(
+      X
+   -  V\left(\phi\right) 
+   +  N\left(\phi\right) X^2
+   \right)
+   .
+\end{align}
+\end{subequations}
+   For our initial data, we freely specify $\phi$ and $P$.
+We obtain $Q=\partial_r\phi$, and solve for the metric fields using
+the Hamiltonian and momentum constraint equations.
+There is a residual gauge symmetry which allows us
+to rescale $N$ by a constant value at each time step;
+we use this freedom to rescale $N$ such
+that $\lim_{r\to\infty}N=1$.
+A trapped surface is signaled by $S<1$;
+thus to begin with black hole initial data we set $S<1$ at some
+excision point.
+
+   As independent residual checks on our solutions, we plug our
+solution into the $rr$ component of the tensor equations, $E^{(g)}_{rr}$,
+and consider $Q-\partial_r\phi$, both of which should converge
+to zero with higher resolution.
+
+%==============================================================================
+%\acknowledgments
+
+%This is the most common positions for acknowledgments. A macro is
+%available to maintain the same layout and spelling of the heading.
+
+%\paragraph{Note added.} This is also a good position for notes added
+%after the paper has been written.
+
+
+\bibliographystyle{JHEP}
+\bibliography{spherical}
+\end{document}
