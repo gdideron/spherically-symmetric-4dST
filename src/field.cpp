@@ -20,6 +20,8 @@ Field::Field(const string file_name, const int nx, const double init_val)
   inter_2(nx,init_val), 
   inter_3(nx,init_val), 
   inter_4(nx,init_val),
+
+  rDer(nx, init_val),
   
   nx{nx}
 {

@@ -16,7 +16,7 @@ LIBBBHUTIL= $(HOME)/rnpletal/lib
 VPATH= $(BIN) $(SRC) $(INC) $(OBJDIR)
 #=============================================================================
 CC=g++
-CFLAGS= -Wall -Wextra -g -O3 -std=c++14 -fmax-errors=5
+CFLAGS= -Wall -Wextra -g -O2 -std=c++14 -fmax-errors=5
 #=============================================================================
 OBJ= $(addprefix $(OBJDIR), \
 	main.o \
@@ -29,6 +29,7 @@ OBJ= $(addprefix $(OBJDIR), \
 	sim_params.o \
 	initial_data.o \
 	fd_stencils.o \
+	cheb.o \
 	)
 DEPS= 	edgb.hpp \
 	indep_res.hpp \
@@ -38,7 +39,8 @@ DEPS= 	edgb.hpp \
 	io_csv.hpp \
 	sim_params.hpp \
 	initial_data.hpp \
-	fd_stencils.hpp 
+	fd_stencils.hpp \
+	cheb.hpp 
 #=============================================================================
 all: default.run
 test: $(TEST)

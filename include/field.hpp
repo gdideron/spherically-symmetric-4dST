@@ -19,6 +19,8 @@ public:
    std::vector<double> inter_3; 
    std::vector<double> inter_4;
 
+   std::vector<double> rDer;
+
    Field(
       const std::string file_name,
       const int nx, const double init_val
