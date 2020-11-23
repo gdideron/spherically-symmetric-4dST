@@ -10,7 +10,7 @@
 class Csv 
 {
 public:
-   void write(const class Field &field);
+   void write(const double time, const class Field &field);
 	
    Csv(const std::string output);
    Csv(const Csv &input);

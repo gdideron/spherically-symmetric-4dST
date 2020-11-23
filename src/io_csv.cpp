@@ -36,7 +36,7 @@ Csv::~Csv(void)
 {
 }
 /*===========================================================================*/
-void Csv::write(const Field &f)
+void Csv::write(const double time, const Field &f)
 {
    string file_name= output_dir+"/"+f.name+".csv";
    ofstream out;
@@ -44,6 +44,7 @@ void Csv::write(const Field &f)
 /*---------------------------------------------------------------------------*/
    if (out.is_open()) {
       int nx= f.np1.size();
+      out<<time<<","<<nx<<",";
       for (int i=0; i<nx-1; ++i) {
          out<<setprecision(16)<<f.np1[i]<<",";
       }		

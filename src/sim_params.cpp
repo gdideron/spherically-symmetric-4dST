@@ -40,8 +40,6 @@ Sim_params::Sim_params(const string output_dir)
    dx= stod(read_sim_params(output_dir,"dx"));
 
    cl= stod(read_sim_params(output_dir,"compactification_length"));
-
-   phi_pt= stoi(read_sim_params(output_dir,"phi_pt"));
 /*---------------------------------------------------------------------------*/
 /* for the potentials */
    mu= stod(read_sim_params(output_dir,"mu"));

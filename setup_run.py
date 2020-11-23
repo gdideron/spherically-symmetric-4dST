@@ -16,8 +16,8 @@ sim= Sim(args)
 #-----------------------------------------------------------------------------
 sim.compactification_length= float(100) 
 #-----------------------------------------------------------------------------
-sim.evolve_time=   float(10000)  ### in units of initial black hole mass for ze field 
-sim.num_saved_times= int(1000)
+sim.evolve_time=   float(1)  ### in units of initial black hole mass for ze field 
+sim.num_saved_times= int(10)
 sim.cfl= 0.25
 #-----------------------------------------------------------------------------
 ## scalar field potentials
@@ -25,8 +25,8 @@ sim.cfl= 0.25
 sim.mu_hat= 0.01
 sim.la_hat= 0.2
 
-sim.gbc1= 0.0
-sim.gbc2= 300.0
+sim.gbc1= 10.0
+sim.gbc2= 1.0
 #-----------------------------------------------------------------------------
 sim.phi_r= 21  ### where measuring phi
 #-----------------------------------------------------------------------------
@@ -35,15 +35,15 @@ sim.phi_r= 21  ### where measuring phi
 sim.bh_mass= float(10.0)
 #-----------------------------------------------------------------------------
 ## for the noncompact scalar profile
-sim.initial_data_type= str("scalarized_bh")
+sim.initial_data_type= str("bump_with_bh")
 sim.charge_hat= float(0.05)
 #-----------------------------------------------------------------------------
 ## for the Gaussian-like pulse
 #sim.initial_data_type= str("bump")
 #sim.initial_data_type= str("bump_with_bh")
 sim.amp= 0#float(5.0e-3)
-sim.r_l= 0#float(24.0)
-sim.r_u= 0#float(32.0)
+sim.r_l= float(24.0)
+sim.r_u= float(32.0)
 #-----------------------------------------------------------------------------
 sim.nx= pow(2,9)+1 
 #-----------------------------------------------------------------------------
@@ -54,7 +54,8 @@ sim.set_derived_params()
 sim.walltime= '480:00:00' ### (hh:mm:ss)
 #=============================================================================
 if (sim.run_type == "basic_run"):
-   sim.data_dir= '/mnt/grtheory/jripley-data/test'
+   sim.data_dir= '/home/jripley/spherically-symmetric-4dST/output'
+#   sim.data_dir= '/mnt/grtheory/jripley-data/test'
    sim.launch()
 #=============================================================================
 elif (sim.run_type == "scan"):

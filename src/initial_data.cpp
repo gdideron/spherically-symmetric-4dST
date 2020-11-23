@@ -64,7 +64,7 @@ void set_initial_data(
       }
 /*-------------------------------------------------------------------------*/
    } else 	
-   if (sp.initial_data_type=="scNariSd_bh") {
+   if (sp.initial_data_type=="scalarized_bh") {
 
       double charge= sp.charge;
       double mu= sp.mu;

@@ -4,6 +4,7 @@ INC= $(TOP)include/
 BIN= $(TOP)bin/
 SRC= $(TOP)src/
 OBJDIR= $(TOP)obj/
+OUT= $(TOP)output/
 
 SYSLIB= -lm -lbbhutil
 
@@ -48,7 +49,9 @@ test: $(TEST)
 $(OBJDIR)%.o: %.cpp $(DEPS)
 	$(CC) $(CFLAGS) -I$(INC) -I$(INCBBHUTIL) -c -o $@ $<
 #=============================================================================
-.PHONY: clean_o clean_run clean_test
+.PHONY: clean clean_out
 clean:
 	$(RM) $(OBJDIR)*.o 
 	$(RM) $(BIN)*.run 
+clean_out:
+	$(RM) -r $(OUT)*

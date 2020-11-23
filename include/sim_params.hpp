@@ -17,8 +17,6 @@ public:
    double dx;
 
    double cl;
-
-   int phi_pt;
 /*---------------------------------------------------------------------------*/
 /* for the potentials */
    double mu;
