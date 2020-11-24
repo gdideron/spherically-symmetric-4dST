@@ -26,9 +26,9 @@ Cheb::Cheb(const string home_dir, const int Nx)
 /*---------------------------------------------------------------------------*/
     string dir= home_dir+"/cheb_tables";
 
-    get_cheb_pts(dir, "/cheb_mat",     cheb_pts);
-    get_cheb_mat(dir, "/cheb_mat",     cheb_mat);
-    get_cheb_mat(dir, "/inv_cheb_mat", inv_cheb_mat);
+    get_cheb_pts(dir, "/cheb_pts",     cheb_pts);
+    get_cheb_mat(dir, "/cheb_D_matrix",     cheb_mat);
+    get_cheb_mat(dir, "/inv_cheb_D_matrix", inv_cheb_mat);
 /*---------------------------------------------------------------------------*/
 }
 /*===========================================================================*/
@@ -40,16 +40,17 @@ void Cheb::get_cheb_pts(
    const string dir, const string file_name, 
    vector<double> pts)
 {
-    ifstream infile(dir+"/"+file_name+".txt");
-    assert(infile.good());
+   cout<<dir+"/"+file_name+".txt"<<endl; 
+   ifstream infile(dir+"/"+file_name+".txt");
+   assert(infile.good());
 
-    string val;
+   string val;
 
-    for (int i=0; i<nx; ++i) {
+   for (int i=0; i<nx; ++i) {
       infile >> val;
       pts[i]= stod(val);
-    }
-    return;
+   }
+   return;
 }
 /*===========================================================================*/
 void Cheb::get_cheb_mat(
@@ -97,7 +98,7 @@ void Cheb::r_derivative(
    const vector<double> x_v,
    const vector<double> v, vector<double> dv) const
 {
-   const double x_exc= x_v[0];
+   const double x_exc= x_v[nx-1];
    const double inv_a = 1.0 / (0.5*(cl - x_exc));
 
    derivative(v,dv);
@@ -114,7 +115,7 @@ void Cheb::r_integral(
    const vector<double> x_v,
    const vector<double> v, vector<double> iv) const
 {
-   const double x_exc= x_v[0];
+   const double x_exc= x_v[nx-1];
    const double a = 0.5*(cl - x_exc);
 
    integral(v,iv);

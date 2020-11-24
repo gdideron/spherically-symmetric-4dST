@@ -18,25 +18,25 @@ sim.compactification_length= float(100)
 #-----------------------------------------------------------------------------
 sim.evolve_time=   float(150)  ### in units of initial black hole mass for ze field 
 sim.num_saved_times= int(300)
-sim.cfl= 0.25
+sim.cfl= 0.5
 #-----------------------------------------------------------------------------
 ## couplings
 #-----------------------------------------------------------------------------
-sim.V_1= 0.0
-sim.V_2= 0.0
-sim.V_3= 0.0
-sim.V_4= 0.0
+sim.V_1=  0.0
+sim.V_2=  0.1
+sim.V_3=  0.0
+sim.V_4=  0.2
 
-sim.Al_0= 0.0
-sim.Al_1= 0.0
-sim.Al_2= 0.0
-sim.Al_3= 0.0
-sim.Al_4= 0.0
+sim.Al_0=  0.1
+sim.Al_1=  0.0
+sim.Al_2=  0.0
+sim.Al_3=  0.0
+sim.Al_4=  0.0
 
-sim.Be_1= 1.0
-sim.Be_2= 0.0
-sim.Be_3= 0.0
-sim.Be_4= 0.0
+sim.Be_1=  0.1
+sim.Be_2=  0.0
+sim.Be_3=  0.0
+sim.Be_4=  0.0
 #-----------------------------------------------------------------------------
 sim.phi_r= 21  ### where measuring phi
 #-----------------------------------------------------------------------------
@@ -53,11 +53,11 @@ sim.initial_data_type= str("bump_with_bh")
 ## for the Gaussian-like pulse
 #sim.initial_data_type= str("bump")
 #sim.initial_data_type= str("bump_with_bh")
-sim.amp= float(5.0e-3)
+sim.amp= float(1.0e-3)
 sim.r_l= float(24.0)
 sim.r_u= float(32.0)
 #-----------------------------------------------------------------------------
-sim.nx= pow(2,9)+1 
+sim.nx= pow(2,10)+1 
 #-----------------------------------------------------------------------------
 sim.set_derived_params()
 #=============================================================================

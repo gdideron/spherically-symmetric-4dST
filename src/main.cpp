@@ -15,6 +15,7 @@ using std::string;
 using std::vector;
 
 #include "sim_params.hpp"
+// #include "cheb.hpp"
 #include "field.hpp"
 #include "radial_pts.hpp"
 #include "edgb.hpp"
@@ -41,6 +42,10 @@ int main(int argc, char **argv)
       sp.Be_1, sp.Be_2, sp.Be_3, sp.Be_4, 
       rp.r
    );
+/*--------------------------------------------------------------------------*/	
+/* for derivatives */
+/*--------------------------------------------------------------------------*/	
+//   Cheb cheb(output_dir,sp.nx);
 /*--------------------------------------------------------------------------*/	
 /* evolution fields */
 /*--------------------------------------------------------------------------*/	

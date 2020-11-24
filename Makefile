@@ -29,7 +29,6 @@ OBJ= $(addprefix $(OBJDIR), \
 	sim_params.o \
 	initial_data.o \
 	fd_stencils.o \
-	cheb.o \
 	)
 DEPS= 	edgb.hpp \
 	indep_res.hpp \
@@ -39,8 +38,7 @@ DEPS= 	edgb.hpp \
 	io_csv.hpp \
 	sim_params.hpp \
 	initial_data.hpp \
-	fd_stencils.hpp \
-	cheb.hpp 
+	fd_stencils.hpp
 #=============================================================================
 all: default.run
 test: $(TEST)
