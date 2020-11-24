@@ -96,12 +96,6 @@ private:
    std::vector<double> p_k4;
    std::vector<double> q_k4;
 
-   std::vector<double> r_Der_n_v;
-   std::vector<double> r_Der_s_v;
-   std::vector<double> r_Der_p_v;
-   std::vector<double> r_Der_q_v;
-   std::vector<double> combined_rDer_for_q_v;
-
    std::vector<double> res_n_v;
    std::vector<double> res_s_v;
    std::vector<double> jac_n_v;

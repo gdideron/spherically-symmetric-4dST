@@ -72,12 +72,6 @@ EdGB::EdGB(
   p_k4(nx,0),
   q_k4(nx,0),
 
-  r_Der_n_v(nx,0),
-  r_Der_s_v(nx,0),
-  r_Der_p_v(nx,0),
-  r_Der_q_v(nx,0),
-  combined_rDer_for_q_v(nx,0),
-
   ingoing_c{0},
   outgoing_c{0},
 
@@ -275,21 +269,11 @@ void EdGB::compute_fpqS_ki(
    for (int i=exc_i+2; i<nx-2; ++i) {
       double cf= 1/(1+r_v[i]/cl);
 
-      r_Der_n_v[i]= pow(cf,2)*Dx_ptc_4th(n_v[i+2],n_v[i+1],n_v[i-1],n_v[i-2],dx);
-      r_Der_s_v[i]= pow(cf,2)*Dx_ptc_4th(s_v[i+2],s_v[i+1],s_v[i-1],s_v[i-2],dx);
-      r_Der_p_v[i]= pow(cf,2)*Dx_ptc_4th(p_v[i+2],p_v[i+1],p_v[i-1],p_v[i-2],dx);
-      r_Der_q_v[i]= pow(cf,2)*Dx_ptc_4th(q_v[i+2],q_v[i+1],q_v[i-1],q_v[i-2],dx);
+      double r_Der_n= pow(cf,2)*Dx_ptc_4th(n_v[i+2],n_v[i+1],n_v[i-1],n_v[i-2],dx);
+      double r_Der_s= pow(cf,2)*Dx_ptc_4th(s_v[i+2],s_v[i+1],s_v[i-1],s_v[i-2],dx);
+      double r_Der_p= pow(cf,2)*Dx_ptc_4th(p_v[i+2],p_v[i+1],p_v[i-1],p_v[i-2],dx);
+      double r_Der_q= pow(cf,2)*Dx_ptc_4th(q_v[i+2],q_v[i+1],q_v[i-1],q_v[i-2],dx);
 
-      combined_rDer_for_q_v[i]= pow(cf,2)*Dx_ptc_4th(
-         n_v[i+2]*(p_v[i+2]+s_v[i+2]*q_v[i+2]),
-         n_v[i+1]*(p_v[i+1]+s_v[i+1]*q_v[i+1]),
-         n_v[i-1]*(p_v[i-1]+s_v[i-1]*q_v[i-1]),
-         n_v[i-2]*(p_v[i-2]+s_v[i-2]*q_v[i-2]),
-         dx
-      );
-   }
-//   #pragma omp parallel for num_threads(2)
-   for (int i=exc_i+2; i<nx-2; ++i) {
       f_k[i]= 
          n_v[i]*(p_v[i]+s_v[i]*q_v[i])
       ;
@@ -300,12 +284,18 @@ void EdGB::compute_fpqS_ki(
          V_v[i], Vp_v[i], 
          Al_v[i],  Alp_v[i],
          Bep_v[i], Bepp_v[i],
-         r_Der_n_v[i],
-         r_Der_s_v[i],
-         r_Der_p_v[i],
-         r_Der_q_v[i] 
+         r_Der_n,
+         r_Der_s,
+         r_Der_p,
+         r_Der_q 
       );
-      q_k[i]= combined_rDer_for_q_v[i];
+      q_k[i]= pow(cf,2)*Dx_ptc_4th(
+         n_v[i+2]*(p_v[i+2]+s_v[i+2]*q_v[i+2]),
+         n_v[i+1]*(p_v[i+1]+s_v[i+1]*q_v[i+1]),
+         n_v[i-1]*(p_v[i-1]+s_v[i-1]*q_v[i-1]),
+         n_v[i-2]*(p_v[i-2]+s_v[i-2]*q_v[i-2]),
+         dx
+      );
    }
 /*---------------------------------------------------------------------------*/
    int i= exc_i+1;

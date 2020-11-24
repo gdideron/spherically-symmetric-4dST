@@ -16,7 +16,7 @@ LIBBBHUTIL= $(HOME)/rnpletal/lib
 VPATH= $(BIN) $(SRC) $(INC) $(OBJDIR)
 #=============================================================================
 CC=g++
-CFLAGS= -Wall -Wextra -pg -O3 -std=c++14 -fmax-errors=5 -fopenmp
+CFLAGS= -Wall -Wextra -g -O3 -std=c++14 -fmax-errors=5
 #=============================================================================
 OBJ= $(addprefix $(OBJDIR), \
 	main.o \
