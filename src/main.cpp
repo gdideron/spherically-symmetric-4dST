@@ -105,7 +105,7 @@ int main(int argc, char **argv)
    edgb.compute_eom_rr(
       exc_i,
       N.np1,     S.np1,
-      phi_f.np1, phi_p.np1, phi_q.np1,
+      phi_p.np1, phi_q.np1,
       eom_rr.np1
    );
    csv.write(grid_time, res_q);
@@ -116,7 +116,7 @@ int main(int argc, char **argv)
       sp.nx, sp.dx, sp.cl, 
       rp.r, 
       N.np1,     S.np1,
-      phi_f.np1, phi_p.np1, phi_q.np1,
+      phi_p.np1, phi_q.np1,
       ncc.np1
    );
    csv.write(grid_time, ncc);
@@ -124,7 +124,7 @@ int main(int argc, char **argv)
    edgb.compute_radial_characteristics(
       exc_i,
       N.np1, S.np1,
-      phi_f.np1, phi_p.np1, phi_q.np1,
+      phi_p.np1, phi_q.np1,
       ingoing_c.np1, outgoing_c.np1
    );
    csv.write(grid_time, ingoing_c);
@@ -148,10 +148,10 @@ int main(int argc, char **argv)
       grid_time+= sp.dt/initial_asymptotic_mass;
 
       edgb.compute_radial_characteristics(
-      exc_i,
-      N.np1, S.np1,
-      phi_f.np1, phi_p.np1, phi_q.np1,
-      ingoing_c.np1, outgoing_c.np1
+         exc_i,
+         N.np1, S.np1,
+         phi_p.np1, phi_q.np1,
+         ingoing_c.np1, outgoing_c.np1
       );
       edgb.time_step(exc_i, N, S, phi_f, phi_p, phi_q);
 
@@ -172,8 +172,8 @@ int main(int argc, char **argv)
          );
          edgb.compute_eom_rr(
             exc_i,
-            N.np1, S.np1,
-            phi_f.np1, phi_p.np1, phi_q.np1,
+            N.np1,     S.np1,
+            phi_p.np1, phi_q.np1,
             eom_rr.np1
          );
 
@@ -182,7 +182,7 @@ int main(int argc, char **argv)
             sp.nx, sp.dx, sp.cl, 
             rp.r, 
             N.np1,     S.np1,
-            phi_f.np1, phi_p.np1, phi_q.np1,
+            phi_p.np1, phi_q.np1,
             ncc.np1
          );
 /*--------------------------------------------------------------------------*/		

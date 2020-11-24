@@ -16,9 +16,9 @@ sim= Sim(args)
 #-----------------------------------------------------------------------------
 sim.compactification_length= float(100) 
 #-----------------------------------------------------------------------------
-sim.evolve_time=   float(150)  ### in units of initial black hole mass for ze field 
-sim.num_saved_times= int(300)
-sim.cfl= 0.5
+sim.evolve_time=   float(50)  ### in units of initial black hole mass for ze field 
+sim.num_saved_times= int(100)
+sim.cfl= 0.25
 #-----------------------------------------------------------------------------
 ## couplings
 #-----------------------------------------------------------------------------
@@ -27,14 +27,14 @@ sim.V_2=  0.1
 sim.V_3=  0.0
 sim.V_4=  0.2
 
-sim.Al_0=  0.1
+sim.Al_0= -0.2
 sim.Al_1=  0.0
 sim.Al_2=  0.0
 sim.Al_3=  0.0
 sim.Al_4=  0.0
 
-sim.Be_1=  0.1
-sim.Be_2=  0.0
+sim.Be_1=  0.0
+sim.Be_2=  0.2
 sim.Be_3=  0.0
 sim.Be_4=  0.0
 #-----------------------------------------------------------------------------

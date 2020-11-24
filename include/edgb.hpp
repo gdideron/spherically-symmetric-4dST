@@ -32,7 +32,6 @@ public:
    void compute_radial_characteristics(
       int &exc_i,
       const std::vector<double>  &N_v, const std::vector<double> &S_v,
-      const std::vector<double>  &f_v, 
       const std::vector<double>  &p_v, const std::vector<double>  &q_v,
       std::vector<double> &ingoing,
       std::vector<double> &outgoing
@@ -40,7 +39,6 @@ public:
    void compute_eom_rr(
       const int exc_i,
       const std::vector<double> &N_v, const std::vector<double> &S_v,
-      const std::vector<double> &f_v, 
       const std::vector<double> &p_v, const std::vector<double>  &q_v,
       std::vector<double> &eom_rr
    );
@@ -49,7 +47,6 @@ public:
       const int nx, const double dx, const double cl, 
       const std::vector<double> &r_v, 
       const std::vector<double> &N, const std::vector<double> &S,
-      const std::vector<double> &f, 
       const std::vector<double> &p, const std::vector<double> &q,
       std::vector<double> &ncc
    );
@@ -78,15 +75,10 @@ private:
 
    std::vector<double> r_v;
 
-   double S_free_k;
    double S_free_k1;
    double S_free_k2;
    double S_free_k3;
    double S_free_k4;
-
-   std::vector<double> f_k;
-   std::vector<double> p_k;
-   std::vector<double> q_k;
 
    std::vector<double> f_k1;
    std::vector<double> p_k1;
@@ -103,6 +95,30 @@ private:
    std::vector<double> f_k4;
    std::vector<double> p_k4;
    std::vector<double> q_k4;
+
+   std::vector<double> r_Der_n_v;
+   std::vector<double> r_Der_s_v;
+   std::vector<double> r_Der_p_v;
+   std::vector<double> r_Der_q_v;
+   std::vector<double> combined_rDer_for_q_v;
+
+   std::vector<double> res_n_v;
+   std::vector<double> res_s_v;
+   std::vector<double> jac_n_v;
+   std::vector<double> jac_s_v;
+
+   std::vector<double> r_avg;
+   std::vector<double> dr_avg;
+
+   std::vector<double> p_avg; 
+   std::vector<double> q_avg; 
+   std::vector<double> n_avg; 
+   std::vector<double> s_avg; 
+
+   std::vector<double> V_avg; 
+   std::vector<double> Al_avg; 
+   std::vector<double> Bep_avg;
+   std::vector<double> Bepp_avg;
 
    double ingoing_c;
    double outgoing_c;
@@ -157,7 +173,6 @@ private:
    );
    void solve_for_metric_relaxation(
       const int exc_i,
-      const std::vector<double> &f_v,
       const std::vector<double> &p_v,
       const std::vector<double> &q_v,
       std::vector<double> &N_v,
@@ -187,14 +202,37 @@ private:
       const double r_Der_P,
       const double r_Der_Q
    );
-   void compute_fpq_ki(
-      const int val,
+   double compute_jac_N(
+      const double r, const double dr,
+      const double S,
+      const double P, const double Q,
+      const double V,  
+      const double Al,
+      const double Bep, const double Bepp,
+      const double r_Der_P,
+      const double r_Der_Q
+   );
+   double compute_jac_S(
+      const double r, const double dr,
+      const double S,
+      const double P,  const double Q,
+      const double V,
+      const double Al,
+      const double Bep, const double Bepp,
+      const double r_Der_S,
+      const double r_Der_P,
+      const double r_Der_Q
+   );
+   void compute_fpqS_ki(
       const int exc_i,
       const std::vector<double> &N,
       const std::vector<double> &S,
-      const std::vector<double> &f, 
       const std::vector<double> &p, 
-      const std::vector<double> &q
+      const std::vector<double> &q,
+      std::vector<double> &f_k,
+      std::vector<double> &p_k,
+      std::vector<double> &q_k,
+      double &S_free_k
    );
 
    int compute_radial_characteristic(

@@ -2,8 +2,6 @@
 import os, sys, time, shutil, subprocess
 #=============================================================================
 sys.path.insert(1,os.getcwd()+'/src/tables/')
-
-from cheb import save_cheb
 #=============================================================================
 class Sim:
 #=============================================================================
@@ -67,7 +65,6 @@ class Sim:
       +  '_nx_'+str(self.nx)
       )
       os.makedirs(self.output_dir)
-      os.makedirs(self.output_dir+'/cheb_tables')
 #=============================================================================
    def make_output_file(self):
       self.output_file= self.output_dir+'/'+'output.out'
@@ -147,8 +144,6 @@ class Sim:
       self.make_output_file()
       self.write_sim_params()
       self.write_slurm_script()
-
-#      save_cheb(self.output_dir+'/cheb_tables',self.nx)
 
       subprocess.call('\n./bin/default.run {} > {}/output.out'.format(self.output_dir,self.output_dir), shell=True)
 #      subprocess.call('sbatch run.slurm', shell='True')		

@@ -51,15 +51,10 @@ EdGB::EdGB(
  
   r_v(nx),
 
-  S_free_k{0},
   S_free_k1{0},
   S_free_k2{0},
   S_free_k3{0},
   S_free_k4{0},
-
-  f_k(nx,0),
-  p_k(nx,0),
-  q_k(nx,0),
 
   f_k1(nx,0),
   p_k1(nx,0),
@@ -76,6 +71,12 @@ EdGB::EdGB(
   f_k4(nx,0),
   p_k4(nx,0),
   q_k4(nx,0),
+
+  r_Der_n_v(nx,0),
+  r_Der_s_v(nx,0),
+  r_Der_p_v(nx,0),
+  r_Der_q_v(nx,0),
+  combined_rDer_for_q_v(nx,0),
 
   ingoing_c{0},
   outgoing_c{0},
@@ -193,17 +194,16 @@ double EdGB::compute_res_S(
 /*===========================================================================*/
 void EdGB::solve_for_metric_relaxation(
    const int exc_i,
-   const vector<double> &f_v,
    const vector<double> &p_v,
    const vector<double> &q_v,
    vector<double> &n_v,
    vector<double> &s_v)
 {
-   compute_potentials(f_v);
-
    const double err_tolerance= 1e-12;
    double err= 0;
+   int iters= 0;
    do {
+      iters++;
       for (int i=exc_i; i<nx-2; ++i) {
          double x=  dx*(2*i+1)/2;
 
@@ -262,6 +262,7 @@ void EdGB::solve_for_metric_relaxation(
       rescale(n_v);
       err/= nx;
    } while (err>err_tolerance);
+   cout<<"iters "<<iters<<endl;
    return;
 }
 /*===========================================================================*/
@@ -272,8 +273,9 @@ void EdGB::solve_metric_fields(
    const Field &phi_f, const Field &phi_p, const Field &phi_q,
    Field &n, Field &s) 
 {
+   compute_potentials(phi_f.n);
    solve_for_metric_relaxation(exc_i,
-      phi_f.n,phi_p.n,phi_q.n,
+      phi_p.n,phi_q.n,
       n.n,    s.n
    );
    for (int i=0; i<nx; ++i) {
@@ -337,25 +339,36 @@ double EdGB::compute_p_k(
    return p_k;
 }
 /*===========================================================================*/
-void EdGB::compute_fpq_ki(
-   const int vn,
+void EdGB::compute_fpqS_ki(
    const int exc_i,
    const vector<double> &n_v,
    const vector<double> &s_v,
-   const vector<double> &f_v, 
    const vector<double> &p_v, 
-   const vector<double> &q_v)
+   const vector<double> &q_v,
+   vector<double> &f_k,
+   vector<double> &p_k,
+   vector<double> &q_k,
+   double &S_free_k)
 {
-   compute_potentials(f_v);
 /*---------------------------------------------------------------------------*/
    for (int i=exc_i+2; i<nx-2; ++i) {
       double cf= 1/(1+r_v[i]/cl);
 
-      double r_Der_n= pow(cf,2)*Dx_ptc_4th(n_v[i+2],n_v[i+1],n_v[i-1],n_v[i-2],dx);
-      double r_Der_s= pow(cf,2)*Dx_ptc_4th(s_v[i+2],s_v[i+1],s_v[i-1],s_v[i-2],dx);
-      double r_Der_p= pow(cf,2)*Dx_ptc_4th(p_v[i+2],p_v[i+1],p_v[i-1],p_v[i-2],dx);
-      double r_Der_q= pow(cf,2)*Dx_ptc_4th(q_v[i+2],q_v[i+1],q_v[i-1],q_v[i-2],dx);
+      r_Der_n_v[i]= pow(cf,2)*Dx_ptc_4th(n_v[i+2],n_v[i+1],n_v[i-1],n_v[i-2],dx);
+      r_Der_s_v[i]= pow(cf,2)*Dx_ptc_4th(s_v[i+2],s_v[i+1],s_v[i-1],s_v[i-2],dx);
+      r_Der_p_v[i]= pow(cf,2)*Dx_ptc_4th(p_v[i+2],p_v[i+1],p_v[i-1],p_v[i-2],dx);
+      r_Der_q_v[i]= pow(cf,2)*Dx_ptc_4th(q_v[i+2],q_v[i+1],q_v[i-1],q_v[i-2],dx);
 
+      combined_rDer_for_q_v[i]= pow(cf,2)*Dx_ptc_4th(
+         n_v[i+2]*(p_v[i+2]+s_v[i+2]*q_v[i+2]),
+         n_v[i+1]*(p_v[i+1]+s_v[i+1]*q_v[i+1]),
+         n_v[i-1]*(p_v[i-1]+s_v[i-1]*q_v[i-1]),
+         n_v[i-2]*(p_v[i-2]+s_v[i-2]*q_v[i-2]),
+         dx
+      );
+   }
+//   #pragma omp parallel for num_threads(2)
+   for (int i=exc_i+2; i<nx-2; ++i) {
       f_k[i]= 
          n_v[i]*(p_v[i]+s_v[i]*q_v[i])
       ;
@@ -366,18 +379,12 @@ void EdGB::compute_fpq_ki(
          V_v[i], Vp_v[i], 
          Al_v[i],  Alp_v[i],
          Bep_v[i], Bepp_v[i],
-         r_Der_n,
-         r_Der_s,
-         r_Der_p,
-         r_Der_q
+         r_Der_n_v[i],
+         r_Der_s_v[i],
+         r_Der_p_v[i],
+         r_Der_q_v[i] 
       );
-      q_k[i]= pow(cf,2)*Dx_ptc_4th(
-         n_v[i+2]*(p_v[i+2]+s_v[i+2]*q_v[i+2]),
-         n_v[i+1]*(p_v[i+1]+s_v[i+1]*q_v[i+1]),
-         n_v[i-1]*(p_v[i-1]+s_v[i-1]*q_v[i-1]),
-         n_v[i-2]*(p_v[i-2]+s_v[i-2]*q_v[i-2]),
-         dx
-      );
+      q_k[i]= combined_rDer_for_q_v[i];
    }
 /*---------------------------------------------------------------------------*/
    int i= exc_i+1;
@@ -493,45 +500,12 @@ void EdGB::compute_fpq_ki(
 /*---------------------------------------------------------------------------*/
 /* set the k vectors for RK4 method */
 /*---------------------------------------------------------------------------*/
-   switch(vn)
-   {
-   case 1: 
-      for (int i=0; i<nx; ++i) {
-         f_k1[i]= dt*f_k[i];
-         p_k1[i]= dt*p_k[i];
-         q_k1[i]= dt*q_k[i];
-      }
-      S_free_k1= dt*S_free_k;
-   break;
-   case 2:
-      for (int i=0; i<nx; ++i) {
-         f_k2[i]= dt*f_k[i];
-         p_k2[i]= dt*p_k[i];
-         q_k2[i]= dt*q_k[i];
-      }
-      S_free_k2= dt*S_free_k;
-   break;
-   case 3:
-      for (int i=0; i<nx; ++i) {
-         f_k3[i]= dt*f_k[i];
-         p_k3[i]= dt*p_k[i];
-         q_k3[i]= dt*q_k[i];
-      }
-      S_free_k3= dt*S_free_k;
-   break;
-   case 4:
-      for (int i=0; i<nx; ++i) {
-         f_k4[i]= dt*f_k[i];
-         p_k4[i]= dt*p_k[i];
-         q_k4[i]= dt*q_k[i];
-      }
-      S_free_k4= dt*S_free_k;
-   break;
-   default:
-      cout << "ERROR: vn = " << vn << endl;
-      std::quick_exit(0);
-   break;
+   for (int i=0; i<nx; ++i) {
+      f_k[i]= dt*f_k[i];
+      p_k[i]= dt*p_k[i];
+      q_k[i]= dt*q_k[i];
    }
+   S_free_k= dt*S_free_k;
 /*---------------------------------------------------------------------------*/
    return;
 }
@@ -547,8 +521,11 @@ void EdGB::time_step(const int exc_i,
 /*---------------------------------------------------------------------------*/
    int start_i= (exc_i>0) ? exc_i : 1;
 /*---------------------------------------------------------------------------*/
-   compute_fpq_ki(1, exc_i,
-      n.n, s.n, f.n, p.n, q.n
+   compute_potentials(f.n);
+
+   compute_fpqS_ki(exc_i,
+      n.n, s.n, p.n, q.n,
+      f_k1, p_k1, q_k1, S_free_k1
    );
    for (int i=start_i; i<nx; ++i) {
       f.inter_2[i]= f.n[i]+0.5*f_k1[i];
@@ -563,12 +540,15 @@ void EdGB::time_step(const int exc_i,
       s.inter_2[exc_i]= s.n[exc_i]+0.5*S_free_k1;
    }
    solve_for_metric_relaxation(exc_i,
-      f.inter_2, p.inter_2, q.inter_2,
+      p.inter_2, q.inter_2,
       n.inter_2, s.inter_2
    );
 /*---------------------------------------------------------------------------*/
-   compute_fpq_ki(2, exc_i,
-      n.inter_2, s.inter_2, f.inter_2, p.inter_2, q.inter_2
+   compute_potentials(f.inter_2);
+
+   compute_fpqS_ki(exc_i,
+      n.inter_2, s.inter_2, p.inter_2, q.inter_2,
+      f_k2, p_k2, q_k2, S_free_k2 
    );
    for (int i=start_i; i<nx; ++i) {
       f.inter_3[i]= f.n[i]+0.5*f_k2[i];
@@ -583,12 +563,15 @@ void EdGB::time_step(const int exc_i,
       s.inter_3[exc_i]= s.n[exc_i]+0.5*S_free_k2;
    }
    solve_for_metric_relaxation(exc_i,
-      f.inter_3, p.inter_3, q.inter_3,
+      p.inter_3, q.inter_3,
       n.inter_3, s.inter_3
    );
 /*---------------------------------------------------------------------------*/
-   compute_fpq_ki(3, exc_i,
-      n.inter_3, s.inter_3, f.inter_3, p.inter_3, q.inter_3
+   compute_potentials(f.inter_3);
+
+   compute_fpqS_ki(exc_i,
+      n.inter_3, s.inter_3, p.inter_3, q.inter_3,
+      f_k3, p_k3, q_k3, S_free_k3
    );
    for (int i=start_i; i<nx; ++i) {
       f.inter_4[i]= f.n[i]+0.5*f_k3[i];
@@ -603,12 +586,15 @@ void EdGB::time_step(const int exc_i,
       s.inter_4[exc_i]= s.n[exc_i]+0.5*S_free_k3;
    }
    solve_for_metric_relaxation(exc_i,
-      f.inter_4, p.inter_4, q.inter_4,
+      p.inter_4, q.inter_4,
       n.inter_4, s.inter_4
    );
 /*---------------------------------------------------------------------------*/
-   compute_fpq_ki(4, exc_i,
-      n.inter_4, s.inter_4, f.inter_4, p.inter_4, q.inter_4
+   compute_potentials(f.inter_4);
+
+   compute_fpqS_ki(exc_i,
+      n.inter_4, s.inter_4, p.inter_4, q.inter_4,
+      f_k4, p_k4, q_k4, S_free_k4 
    );
    for (int i=start_i; i<nx; ++i) {
       f.np1[i]= f.n[i] + (f_k1[i]+2.*f_k2[i]+2.*f_k3[i]+f_k4[i])/6.;
@@ -623,10 +609,12 @@ void EdGB::time_step(const int exc_i,
       s.np1[exc_i]= s.n[exc_i]+(S_free_k1+2.*S_free_k2+2.*S_free_k3+S_free_k4)/6.;
    }
    solve_for_metric_relaxation(exc_i,
-      f.np1, p.np1, q.np1,
+      p.np1, q.np1,
       n.np1, s.np1
    );
 /*---------------------------------------------------------------------------*/
+   compute_potentials(f.np1);
+
    return;
 }
 /*===========================================================================*/
@@ -709,12 +697,10 @@ int EdGB::compute_radial_characteristic(
 void EdGB::compute_radial_characteristics(
    int &exc_i,
    const vector<double> &n_v, const vector<double> &s_v,
-   const vector<double> &f_v, 
    const vector<double> &p_v, const vector<double> &q_v,
    vector<double> &ingoing,
    vector<double> &outgoing)
 {
-   compute_potentials(f_v);
    int new_exc_i= exc_i;
 /*---------------------------------------------------------------------------*/
 /* interior two grid points */
@@ -847,12 +833,9 @@ void EdGB::compute_radial_characteristics(
 void EdGB::compute_eom_rr(
 	const int exc_i,
 	const vector<double> &n_v, const vector<double> &s_v,
-	const vector<double> &f_v, 
 	const vector<double> &p_v, const vector<double> &q_v,
 	vector<double> &eom_rr)
 {
-   compute_potentials(f_v);
-
    for (int i=exc_i+2; i<nx-2; ++i) {
       double x= dx*i;
       double cf= (1-x/cl);
@@ -914,12 +897,9 @@ void EdGB::compute_ncc(
    const int nx, const double dx, const double cl, 
    const vector<double> &r_v, 
    const vector<double> &n_v, const vector<double> &s_v,
-   const vector<double> &f_v,
    const vector<double> &p_v, const vector<double> &q_v,
    vector<double> &ncc)
 {
-   compute_potentials(f_v);
-
    for (int i=exc_i+2; i<nx-3; ++i) {
       double cf= 1/(1+r_v[i]/cl);
 
