@@ -17,24 +17,24 @@ sim= Sim(args)
 sim.compactification_length= float(100) 
 #-----------------------------------------------------------------------------
 sim.evolve_time=   float(50)  ### in units of initial black hole mass for ze field 
-sim.num_saved_times= int(100)
+sim.num_saved_times= int(200)
 sim.cfl= 0.25
 #-----------------------------------------------------------------------------
 ## couplings
 #-----------------------------------------------------------------------------
 sim.V_1=  0.0
-sim.V_2=  0.1
+sim.V_2= -5.0
 sim.V_3=  0.0
-sim.V_4=  0.2
+sim.V_4=  0.0
 
-sim.Al_0= -0.2
+sim.Al_0=  0.0
 sim.Al_1=  0.0
 sim.Al_2=  0.0
 sim.Al_3=  0.0
 sim.Al_4=  0.0
 
-sim.Be_1=  0.0
-sim.Be_2=  0.2
+sim.Be_1=  0.25
+sim.Be_2=  0.0
 sim.Be_3=  0.0
 sim.Be_4=  0.0
 #-----------------------------------------------------------------------------
@@ -48,12 +48,13 @@ sim.excision_ratio = 0.8
 sim.bh_mass= float(5.0)
 #-----------------------------------------------------------------------------
 ## for the noncompact scalar profile
-sim.initial_data_type= str("bump_with_bh")
+#sim.initial_data_type= str("scalarized_bh")
 #-----------------------------------------------------------------------------
 ## for the Gaussian-like pulse
 #sim.initial_data_type= str("bump")
-#sim.initial_data_type= str("bump_with_bh")
-sim.amp= float(1.0e-3)
+sim.initial_data_type= str("bump_with_bh")
+
+sim.amp= float(0.0)#float(1.0e-3)
 sim.r_l= float(24.0)
 sim.r_u= float(32.0)
 #-----------------------------------------------------------------------------

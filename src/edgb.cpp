@@ -163,9 +163,7 @@ void EdGB::solve_for_metric_relaxation(
 {
    const double err_tolerance= 1e-12;
    double err= 0;
-   int iters= 0;
    do {
-      iters++;
       for (int i=exc_i; i<nx-2; ++i) {
          double x=  dx*(2*i+1)/2;
 
@@ -224,7 +222,6 @@ void EdGB::solve_for_metric_relaxation(
       rescale(n_v);
       err/= nx;
    } while (err>err_tolerance);
-   cout<<"iters "<<iters<<endl;
    return;
 }
 /*===========================================================================*/
