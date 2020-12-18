@@ -34,6 +34,8 @@ public:
    double Be_2;
    double Be_3;
    double Be_4;
+
+   double Be_exp2;
 /*---------------------------------------------------------------------------*/
 /* for the initial data */
    std::string initial_data_type;

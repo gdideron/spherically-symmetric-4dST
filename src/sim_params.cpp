@@ -57,6 +57,8 @@ Sim_params::Sim_params(const string output_dir)
    Be_2= stod(read_sim_params(output_dir,"Be_2"));
    Be_3= stod(read_sim_params(output_dir,"Be_3"));
    Be_4= stod(read_sim_params(output_dir,"Be_4"));
+
+   Be_exp2= stod(read_sim_params(output_dir,"Be_exp2"));
 /*---------------------------------------------------------------------------*/
 /* for the initial data */
    initial_data_type= read_sim_params(output_dir,"initial_data_type");

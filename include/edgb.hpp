@@ -15,6 +15,7 @@ public:
       const double Al_0, 
       const double Al_1, const double Al_2, const double Al_3, const double Al_4,
       const double Be_1, const double Be_2, const double Be_3, const double Be_4,
+      const double Be_exp2,
       const std::vector<double> &rp
    );
    ~EdGB(void);
@@ -70,6 +71,8 @@ private:
    const double Be_2;
    const double Be_3;
    const double Be_4;
+
+   const double Be_exp2;
 
    const double cl;
 

@@ -40,6 +40,7 @@ int main(int argc, char **argv)
       sp.Al_0, 
       sp.Al_1, sp.Al_2, sp.Al_3, sp.Al_4, 
       sp.Be_1, sp.Be_2, sp.Be_3, sp.Be_4, 
+      sp.Be_exp2,
       rp.r
    );
 /*--------------------------------------------------------------------------*/	

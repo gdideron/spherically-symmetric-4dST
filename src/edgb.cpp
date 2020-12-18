@@ -26,6 +26,7 @@ EdGB::EdGB(
    const double Al_0,
    const double Al_1, const double Al_2, const double Al_3, const double Al_4,
    const double Be_1, const double Be_2, const double Be_3, const double Be_4,
+   const double Be_exp2,
    const vector<double> &rvec)
 : dt{dt},
   dx{dx},
@@ -46,6 +47,7 @@ EdGB::EdGB(
   Be_2{Be_2},  
   Be_3{Be_3},  
   Be_4{Be_4},  
+  Be_exp2{Be_exp2},  
  
   cl{cl},
  
@@ -136,17 +138,20 @@ void EdGB::compute_potentials(const vector<double> &f_v)
       +  (1./2.) *Be_2*pow(f_v[i],2)
       +  (1./6.) *Be_3*pow(f_v[i],3)
       +  (1./24.)*Be_4*pow(f_v[i],4)
+      +  (1./6.) *Be_exp2*(1. - exp(-3.*pow(f_v[i],2)))
       ;
       Bep_v[i]=
                  Be_1
       +          Be_2*f_v[i]
       +  (1./2.)*Be_3*pow(f_v[i],2)
       +  (1./6.)*Be_4*pow(f_v[i],3)
+      +          Be_exp2*f_v[i]*exp(-3.0*pow(f_v[i],2))
       ;
       Bepp_v[i]=
                  Be_2
       +          Be_3*f_v[i]
       +  (1./2.)*Be_4*pow(f_v[i],2)
+      +  (1. - 6.*pow(f_v[i],2))*Be_exp2*exp(-3.0*pow(f_v[i],2))
       ;
    }
    return;
