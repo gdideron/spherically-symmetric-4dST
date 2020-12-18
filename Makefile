@@ -6,17 +6,22 @@ SRC= $(TOP)src/
 OBJDIR= $(TOP)obj/
 OUT= $(TOP)output/
 
-SYSLIB= -lm -lbbhutil
-
-## libraries for bbhutil (to save output as .sdf)
-
-INCBBHUTIL= $(HOME)/rnpletal/include 
-LIBBBHUTIL= $(HOME)/rnpletal/lib 
+SYSLIB= -lm
 
 VPATH= $(BIN) $(SRC) $(INC) $(OBJDIR)
 #=============================================================================
-CC=g++
-CFLAGS= -Wall -Wextra -g -O2 -std=c++14 -fmax-errors=5
+CC=icc#g++#
+CFLAGS= -g -O2
+#==========================================================================
+ifeq ($(CC),g++)
+	CFLAGS+= -std=c++14 -Wall -Wextra
+		#-fcheck=all  
+endif
+
+ifeq ($(CC),icc)
+	CFLAGS+= -std=c++14 -Wall
+		#-check-bounds 
+endif
 #=============================================================================
 OBJ= $(addprefix $(OBJDIR), \
 	main.o \
@@ -24,7 +29,6 @@ OBJ= $(addprefix $(OBJDIR), \
 	indep_res.o \
 	radial_pts.o \
 	field.o \
-	io_sdf.o \
 	io_csv.o \
 	sim_params.o \
 	initial_data.o \
@@ -34,7 +38,6 @@ DEPS= 	edgb.hpp \
 	indep_res.hpp \
 	radial_pts.hpp \
 	field.hpp \
-	io_sdf.hpp \
 	io_csv.hpp \
 	sim_params.hpp \
 	initial_data.hpp \
@@ -44,10 +47,10 @@ all: default.run
 test: $(TEST)
 #=============================================================================
 %.run: $(OBJ)
-	$(CC) $^ -o $(BIN)$@ -I$(INC) -I$(INCBBHUTIL) $(SYSLIB) -L$(LIBBBHUTIL) $(CFLAGS)
+	$(CC) $^ -o $(BIN)$@ -I$(INC) $(SYSLIB) $(CFLAGS)
 #=============================================================================
 $(OBJDIR)%.o: %.cpp $(DEPS)
-	$(CC) $(CFLAGS) -I$(INC) -I$(INCBBHUTIL) -c -o $@ $<
+	$(CC) $(CFLAGS) -I$(INC) -c -o $@ $<
 #=============================================================================
 .PHONY: clean clean_out
 clean:

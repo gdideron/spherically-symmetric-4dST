@@ -15,12 +15,10 @@ using std::string;
 using std::vector;
 
 #include "sim_params.hpp"
-// #include "cheb.hpp"
 #include "field.hpp"
 #include "radial_pts.hpp"
 #include "edgb.hpp"
 #include "initial_data.hpp"
-#include "io_sdf.hpp"
 #include "io_csv.hpp"
 #include "indep_res.hpp"
 /*===========================================================================*/

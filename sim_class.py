@@ -75,11 +75,11 @@ class Sim:
          f.write('#SBATCH --ntasks-per-node=1\t\t# ppn=1\n')
          f.write('#SBATCH -J {}\t\t# job name\n'.format('gbs'))
          f.write('#SBATCH -t {}\t\t# walltime (dd:hh:mm:ss)\n'.format(self.walltime))
-         f.write('#SBATCH -p dept\t\t# partition/queue name\n')
+         f.write('#SBATCH -p physics\t\t# partition/queue name\n')
          f.write('#SBATCH --mem={}MB\t\t# memory in MB\n'.format(self.memory))
          f.write('#SBATCH --output={}\t\t# file for STDOUT\n'.format(self.output_file))
          f.write('#SBATCH --mail-user=jripley@princeton.edu\t\t# Mail  id of the user\n')
-         f.write('\n./bin/run {}\n\n'.format(self.output_dir))
+         f.write('\n./bin/{} {}\n\n'.format(self.binary,self.output_dir))
 
          shutil.copyfile(
             '{}/run.slurm'.format(self.home_dir),
@@ -142,5 +142,7 @@ class Sim:
       self.write_sim_params()
       self.write_slurm_script()
 
-      subprocess.call('\n./bin/default.run {} > {}/output.out'.format(self.output_dir,self.output_dir), shell=True)
-#      subprocess.call('sbatch run.slurm', shell='True')		
+      if self.slurm==True:
+         subprocess.call('sbatch run.slurm', shell='True')
+      else:
+         subprocess.call('\n./bin/default.run {} > {}/output.out'.format(self.output_dir,self.output_dir), shell=True)

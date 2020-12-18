@@ -14,6 +14,8 @@ args= sys.argv
 #=============================================================================
 sim= Sim(args)
 #-----------------------------------------------------------------------------
+sim.binary= 'default.run'
+#-----------------------------------------------------------------------------
 sim.compactification_length= float(100) 
 #-----------------------------------------------------------------------------
 sim.evolve_time=   float(50)  ### in units of initial black hole mass for ze field 
@@ -60,15 +62,18 @@ sim.amp= float(1.0e-4)
 sim.r_l= float(24.0)
 sim.r_u= float(32.0)
 #-----------------------------------------------------------------------------
-sim.nx= pow(2,10)+1 
+sim.nx= pow(2,12)+1 
 #-----------------------------------------------------------------------------
 sim.set_derived_params()
 #=============================================================================
 ## for slurm script
 #=============================================================================
-sim.walltime= '480:00:00' ### (hh:mm:ss)
+sim.walltime= '4:00:00' ### (hh:mm:ss)
 
-sim.data_dir= '/home/jripley/spherically-symmetric-4dST/output'
+#sim.data_dir= '/home/jripley/spherically-symmetric-4dST/output'
+sim.data_dir= '/tigress/jripley/edgb'
+
+sim.slurm= True
 #=============================================================================
 if (sim.run_type == 'basic_run'):
    sim.launch()
