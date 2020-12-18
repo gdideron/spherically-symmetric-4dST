@@ -38,7 +38,7 @@ sim.Be_2=  0.0
 sim.Be_3=  0.0
 sim.Be_4=  0.0
 
-sim.Be_exp2=  17.75
+sim.Be_exp2=  18.75
 #-----------------------------------------------------------------------------
 sim.phi_r= 21  ### where measuring phi
 #-----------------------------------------------------------------------------
@@ -60,23 +60,21 @@ sim.amp= float(1.0e-4)
 sim.r_l= float(24.0)
 sim.r_u= float(32.0)
 #-----------------------------------------------------------------------------
-sim.nx= pow(2,9)+1 
+sim.nx= pow(2,10)+1 
 #-----------------------------------------------------------------------------
 sim.set_derived_params()
 #=============================================================================
 ## for slurm script
 #=============================================================================
 sim.walltime= '480:00:00' ### (hh:mm:ss)
+
+sim.data_dir= '/home/jripley/spherically-symmetric-4dST/output'
 #=============================================================================
 if (sim.run_type == 'basic_run'):
-   sim.data_dir= '/home/jripley/spherically-symmetric-4dST/output'
-#   sim.data_dir= '/mnt/grtheory/jripley-data/test'
    sim.launch()
 #=============================================================================
 elif (sim.run_type == 'scan'):
    mu_hat=0.01
-   sim.data_dir= '/mnt/grtheory/jripley-data/approx_scalarized'
-   sim.data_dir+= '/scan_muhat_'+str(mu_hat)
    try:
       os.makedirs(self.data_dir)
    except FileExistsError:
@@ -92,11 +90,9 @@ elif (sim.run_type == 'scan'):
 #=============================================================================
 elif (sim.run_type == 'res_study'):
    num_res= int(input('number of resolutions '))
-   sim.set_derived_params()
    for i in range(num_res):	
       sim.launch()
       sim.nx= 2*(sim.nx-1)+1 
-      sim.set_derived_params()
 #=============================================================================
 ### varying eta with a fixed initial phi amplitude
 #=============================================================================

@@ -1,12 +1,9 @@
 #=============================================================================
 import os, sys, time, shutil, subprocess
 #=============================================================================
-sys.path.insert(1,os.getcwd()+'/src/tables/')
-#=============================================================================
 class Sim:
 #=============================================================================
    def __init__(self,args):
-      self.data_dir= '/mnt/grtheory/jripley-data'
       self.home_dir= str(os.getcwd())
       assert len(args) > 1, (
          'argv[1] is empty-meed a run_type to run!'
