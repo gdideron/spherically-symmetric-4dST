@@ -105,6 +105,7 @@ int main(int argc, char **argv)
       exc_i,
       N.np1,     S.np1,
       phi_p.np1, phi_q.np1,
+      S.n,       phi_p.n,
       eom_rr.np1
    );
    csv.write(grid_time, res_q);
@@ -173,6 +174,7 @@ int main(int argc, char **argv)
             exc_i,
             N.np1,     S.np1,
             phi_p.np1, phi_q.np1,
+            S.n,       phi_p.n,
             eom_rr.np1
          );
 

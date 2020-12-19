@@ -10,7 +10,7 @@ SYSLIB= -lm
 
 VPATH= $(BIN) $(SRC) $(INC) $(OBJDIR)
 #=============================================================================
-CC=icc#g++#
+CC=icpc#g++#
 CFLAGS= -g -O2
 #==========================================================================
 ifeq ($(CC),g++)
@@ -18,7 +18,7 @@ ifeq ($(CC),g++)
 		#-fcheck=all  
 endif
 
-ifeq ($(CC),icc)
+ifeq ($(CC),icpc)
 	CFLAGS+= -std=c++14 -Wall
 		#-check-bounds 
 endif

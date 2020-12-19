@@ -18,8 +18,8 @@ sim.binary= 'default.run'
 #-----------------------------------------------------------------------------
 sim.compactification_length= float(100) 
 #-----------------------------------------------------------------------------
-sim.evolve_time=   float(50)  ### in units of initial black hole mass for ze field 
-sim.num_saved_times= int(200)
+sim.evolve_time=   float(1600)  ### in units of initial black hole mass for ze field 
+sim.num_saved_times= int(400)
 sim.cfl= 0.25
 #-----------------------------------------------------------------------------
 ## couplings
@@ -58,17 +58,17 @@ sim.bh_mass= float(5.0)
 #sim.initial_data_type= str("bump")
 sim.initial_data_type= str("bump_with_bh")
 
-sim.amp= float(1.0e-4)
+sim.amp= float(1.0e-6)
 sim.r_l= float(24.0)
 sim.r_u= float(32.0)
 #-----------------------------------------------------------------------------
-sim.nx= pow(2,12)+1 
+sim.nx= pow(2,11)+1 
 #-----------------------------------------------------------------------------
 sim.set_derived_params()
 #=============================================================================
 ## for slurm script
 #=============================================================================
-sim.walltime= '4:00:00' ### (hh:mm:ss)
+sim.walltime= '8:00:00' ### (hh:mm:ss)
 
 #sim.data_dir= '/home/jripley/spherically-symmetric-4dST/output'
 sim.data_dir= '/tigress/jripley/edgb'

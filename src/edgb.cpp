@@ -166,7 +166,7 @@ void EdGB::solve_for_metric_relaxation(
    vector<double> &n_v,
    vector<double> &s_v)
 {
-   const double err_tolerance= 1e-12;
+   const double err_tolerance= 1e-10;
    double err= 0;
    do {
       for (int i=exc_i; i<nx-2; ++i) {
@@ -747,6 +747,7 @@ void EdGB::compute_eom_rr(
 	const int exc_i,
 	const vector<double> &n_v, const vector<double> &s_v,
 	const vector<double> &p_v, const vector<double> &q_v,
+	const vector<double> &s_nm1_v, const vector<double> &p_nm1_v,
 	vector<double> &eom_rr)
 {
    for (int i=exc_i+2; i<nx-2; ++i) {
@@ -774,28 +775,9 @@ void EdGB::compute_eom_rr(
       double r_Der_P= pow(cf,2)*Dx_ptc_4th(p_v[i+2],p_v[i+1],p_v[i-1],p_v[i-2],dx);
       double r_Der_Q= pow(cf,2)*Dx_ptc_4th(q_v[i+2],q_v[i+1],q_v[i-1],q_v[i-2],dx);
 
-      double t_Der_P= compute_p_k(
-         r,
-         N, S,
-         P, Q,
-         V,   Vp, 
-         Al,  Alp,
-         Bep, Bepp,
-         r_Der_N,
-         r_Der_S,
-         r_Der_P,
-         r_Der_Q
-      );
-      double t_Der_S= compute_S_free_k(
-         r,
-         N, S,
-         P, Q,
-         V, Vp, 
-         Al,  Alp,
-         Bep, Bepp,
-         r_Der_N, r_Der_S,
-         r_Der_P, r_Der_Q
-      );
+      double t_Der_P= (p_v[i]-p_nm1_v[i])/dt;
+      double t_Der_S= (s_v[i]-s_nm1_v[i])/dt;
+
       eom_rr[i]=
          -pow(Sr,2) + 8*Bep*r*r_Der_P*pow(Sr,3) - (8*Bep*pow(Sr,2)*t_Der_P)/N - 8*Bepp*pow(Sr,2)*pow(P,2) + r_Der_S*(-2*Sr + 16*Bep*Qr*Sr + 16*Bep*pow(Sr,2)*P) + t_Der_S*(2/(r*N) - (16*Bep*Qr)/(r*N) - (16*Bep*Sr*P)/(r*N)) + r_Der_N*(2/(r*N) - (16*Bep*Qr)/(r*N) + (8*Bep*Qr*r*pow(Sr,2))/N - (16*Bep*Sr*P)/(r*N)) + (-2*pow(Qr,2)*pow(r,2) + 3*Al*pow(Qr,4)*pow(r,4) - 2*pow(P,2) - 2*Al*pow(Qr,2)*pow(r,2)*pow(P,2) - Al*pow(P,4) + 4*V)/4.
       ;

@@ -41,6 +41,7 @@ public:
       const int exc_i,
       const std::vector<double> &N_v, const std::vector<double> &S_v,
       const std::vector<double> &p_v, const std::vector<double>  &q_v,
+      const std::vector<double> &S_nm1_v, const std::vector<double>  &p_nm1_v,
       std::vector<double> &eom_rr
    );
    void compute_ncc(
