@@ -18,8 +18,13 @@ sim.binary= 'default.run'
 #-----------------------------------------------------------------------------
 sim.compactification_length= float(100) 
 #-----------------------------------------------------------------------------
+<<<<<<< HEAD
 sim.evolve_time=   float(3200)  ### in units of initial black hole mass for ze field 
 sim.num_saved_times= int(400)
+=======
+sim.evolve_time=   float(10)  ### in units of initial black hole mass for ze field 
+sim.num_saved_times= int(20)
+>>>>>>> 3f67c22eac2b5916a4cd4169403aa263e75e186d
 sim.cfl= 0.25
 #-----------------------------------------------------------------------------
 ## couplings
@@ -63,7 +68,11 @@ sim.amp= float(1.0e-6)
 sim.r_l= float(24.0)
 sim.r_u= float(32.0)
 #-----------------------------------------------------------------------------
+<<<<<<< HEAD
 sim.nx= pow(2,11)+1 
+=======
+sim.nx= pow(2,14)+1 
+>>>>>>> 3f67c22eac2b5916a4cd4169403aa263e75e186d
 #-----------------------------------------------------------------------------
 sim.set_derived_params()
 #=============================================================================
@@ -71,10 +80,10 @@ sim.set_derived_params()
 #=============================================================================
 sim.walltime= '16:00:00' ### (hh:mm:ss)
 
-#sim.data_dir= '/home/jripley/spherically-symmetric-4dST/output'
-sim.data_dir= '/tigress/jripley/edgb'
+sim.data_dir= '/home/jripley/spherically-symmetric-4dST/output'
+#sim.data_dir= '/tigress/jripley/edgb'
 
-sim.slurm= True
+sim.slurm= False
 #=============================================================================
 if (sim.run_type == 'basic_run'):
    sim.launch()
