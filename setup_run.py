@@ -18,13 +18,8 @@ sim.binary= 'default.run'
 #-----------------------------------------------------------------------------
 sim.compactification_length= float(100) 
 #-----------------------------------------------------------------------------
-<<<<<<< HEAD
 sim.evolve_time=   float(3200)  ### in units of initial black hole mass for ze field 
 sim.num_saved_times= int(400)
-=======
-sim.evolve_time=   float(10)  ### in units of initial black hole mass for ze field 
-sim.num_saved_times= int(20)
->>>>>>> 3f67c22eac2b5916a4cd4169403aa263e75e186d
 sim.cfl= 0.25
 #-----------------------------------------------------------------------------
 ## couplings
@@ -45,10 +40,10 @@ sim.Be_2=  0.0
 sim.Be_3=  0.0
 sim.Be_4=  0.0
 
-#sim.Be_exp2=  18.75
-sim.Be_exp2=  20.00
+sim.Be_exp2=  18.75
+#sim.Be_exp2=  20.00
 #-----------------------------------------------------------------------------
-sim.phi_r= 21  ### where measuring phi (radial distance)
+sim.phi_r= 15  ### where measuring phi (radial distance)
 #-----------------------------------------------------------------------------
 ## excision point as ratio of apparent horizon
 sim.excision_ratio = 0.8
@@ -68,11 +63,7 @@ sim.amp= float(1.0e-6)
 sim.r_l= float(24.0)
 sim.r_u= float(32.0)
 #-----------------------------------------------------------------------------
-<<<<<<< HEAD
-sim.nx= pow(2,11)+1 
-=======
 sim.nx= pow(2,14)+1 
->>>>>>> 3f67c22eac2b5916a4cd4169403aa263e75e186d
 #-----------------------------------------------------------------------------
 sim.set_derived_params()
 #=============================================================================
