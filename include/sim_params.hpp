@@ -17,6 +17,8 @@ public:
    double dx;
 
    double cl;
+
+   int phi_i;
 /*---------------------------------------------------------------------------*/
 /* for the potentials */
    double V_1;

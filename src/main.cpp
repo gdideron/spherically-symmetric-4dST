@@ -218,7 +218,7 @@ int main(int argc, char **argv)
 /*--------------------------------------------------------------------------*/		
          cout<<setw(10)<<tC*sp.dt/initial_asymptotic_mass<<"\t";
          cout<<setw(10)<<rp.r[sp.nx-8]*pow(S.np1[sp.nx-8],2)/2<<"\t";
-         cout<<setw(10)<<rp.r[sp.nx-8]*phi_f.np1[sp.nx-8]<<"\t";
+         cout<<setw(10)<<rp.r[sp.phi_i]*phi_f.np1[sp.phi_i]<<"\t";
          cout<<setw(10)<<((phi_f.np1[exc_i+10]-phi_f.n[exc_i+10])/sp.dt)<<"\t";
          cout<<endl;
 /*--------------------------------------------------------------------------*/		

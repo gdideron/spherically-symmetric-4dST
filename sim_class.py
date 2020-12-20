@@ -37,6 +37,12 @@ class Sim:
          )
       if (self.t_step_save==0):
          self.t_step_save= 1
+
+      self.phi_i= int(
+         (  self.phi_r/self.compactification_length
+            /  (1.0 - self.phi_r/self.compactification_length)
+         )/self.nx
+      )
 #-----------------------------------------------------------------------------
 ### memory to give each run (for slurm script)
       self.memory= '12' ### MB 

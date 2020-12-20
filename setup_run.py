@@ -18,7 +18,7 @@ sim.binary= 'default.run'
 #-----------------------------------------------------------------------------
 sim.compactification_length= float(100) 
 #-----------------------------------------------------------------------------
-sim.evolve_time=   float(1600)  ### in units of initial black hole mass for ze field 
+sim.evolve_time=   float(3200)  ### in units of initial black hole mass for ze field 
 sim.num_saved_times= int(400)
 sim.cfl= 0.25
 #-----------------------------------------------------------------------------
@@ -40,9 +40,10 @@ sim.Be_2=  0.0
 sim.Be_3=  0.0
 sim.Be_4=  0.0
 
-sim.Be_exp2=  18.75
+#sim.Be_exp2=  18.75
+sim.Be_exp2=  20.00
 #-----------------------------------------------------------------------------
-sim.phi_r= 21  ### where measuring phi
+sim.phi_r= 21  ### where measuring phi (radial distance)
 #-----------------------------------------------------------------------------
 ## excision point as ratio of apparent horizon
 sim.excision_ratio = 0.8
@@ -68,7 +69,7 @@ sim.set_derived_params()
 #=============================================================================
 ## for slurm script
 #=============================================================================
-sim.walltime= '8:00:00' ### (hh:mm:ss)
+sim.walltime= '16:00:00' ### (hh:mm:ss)
 
 #sim.data_dir= '/home/jripley/spherically-symmetric-4dST/output'
 sim.data_dir= '/tigress/jripley/edgb'
@@ -89,7 +90,6 @@ elif (sim.run_type == 'scan'):
          sim.mu_hat= mu_hat
          sim.la_hat= la_hat
          sim.gbc2=  gbc2 
-         sim.set_derived_params()
          sim.launch()
          time.sleep(2*60*60)
 #=============================================================================
