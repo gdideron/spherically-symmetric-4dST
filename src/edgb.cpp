@@ -219,14 +219,14 @@ void EdGB::solve_for_metric_relaxation(
 /*---------------------------------------------------------------------------*/
          n_v[i+1]-= res_N/jac_N;
          s_v[i+1]-= res_S/jac_S;
-         err+= fabs(res_N);
-         err+= fabs(res_S);
+         err+= fabs(res_N * cf);
+         err+= fabs(res_S * cf);
       }
       n_v[nx-1]= n_v[nx-2];
       s_v[nx-1]= 0;
-      rescale(n_v);
       err/= nx;
    } while (err>err_tolerance);
+   rescale(n_v);
    return;
 }
 /*===========================================================================*/

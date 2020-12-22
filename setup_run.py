@@ -18,8 +18,8 @@ sim.binary= 'default.run'
 #-----------------------------------------------------------------------------
 sim.compactification_length= float(100) 
 #-----------------------------------------------------------------------------
-sim.evolve_time=   float(3200)  ### in units of initial black hole mass for ze field 
-sim.num_saved_times= int(400)
+sim.evolve_time=   float(50)  ### in units of initial black hole mass for ze field 
+sim.num_saved_times= int(100)
 sim.cfl= 0.25
 #-----------------------------------------------------------------------------
 ## couplings
@@ -63,7 +63,7 @@ sim.amp= float(1.0e-6)
 sim.r_l= float(24.0)
 sim.r_u= float(32.0)
 #-----------------------------------------------------------------------------
-sim.nx= pow(2,14)+1 
+sim.nx= pow(2,10)+1 
 #-----------------------------------------------------------------------------
 sim.set_derived_params()
 #=============================================================================
