@@ -33,7 +33,7 @@ void KO_filter(
    const int exc_i, const int nx,
    const string type, vector<double> &vec)
 {
-   double eps= 0.25;
+   double eps= 0.5;
 
    for (int i=exc_i+3; i<nx-3; ++i) {
       vec[i]+= (eps/64)*(

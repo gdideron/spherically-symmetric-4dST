@@ -19,8 +19,8 @@ sim.binary= 'default.run'
 sim.compactification_length= float(100) 
 #-----------------------------------------------------------------------------
 sim.evolve_time=   float(50)  ### in units of initial black hole mass for ze field 
-sim.num_saved_times= int(100)
-sim.cfl= 0.25
+sim.num_saved_times= int(1000)
+sim.cfl= 0.2
 #-----------------------------------------------------------------------------
 ## couplings
 #-----------------------------------------------------------------------------
@@ -46,7 +46,7 @@ sim.Be_exp2=  18.75
 sim.phi_r= 15  ### where measuring phi (radial distance)
 #-----------------------------------------------------------------------------
 ## excision point as ratio of apparent horizon
-sim.excision_ratio = 0.8
+sim.excision_ratio = 0.9
 #-----------------------------------------------------------------------------
 ## initial data
 #-----------------------------------------------------------------------------
@@ -59,11 +59,11 @@ sim.bh_mass= float(5.0)
 #sim.initial_data_type= str("bump")
 sim.initial_data_type= str("bump_with_bh")
 
-sim.amp= float(1.0e-6)
-sim.r_l= float(24.0)
-sim.r_u= float(32.0)
+sim.amp= float(1.0e-2)
+sim.r_l= float(12.0)
+sim.r_u= float(26.0)
 #-----------------------------------------------------------------------------
-sim.nx= pow(2,10)+1 
+sim.nx= pow(2,12)+1 
 #-----------------------------------------------------------------------------
 sim.set_derived_params()
 #=============================================================================
@@ -71,10 +71,10 @@ sim.set_derived_params()
 #=============================================================================
 sim.walltime= '16:00:00' ### (hh:mm:ss)
 
-sim.data_dir= '/home/jripley/spherically-symmetric-4dST/output'
-#sim.data_dir= '/tigress/jripley/edgb'
+#sim.data_dir= '/home/jripley/spherically-symmetric-4dST/output'
+sim.data_dir= '/tigress/jripley/edgb'
 
-sim.slurm= False
+sim.slurm= True
 #=============================================================================
 if (sim.run_type == 'basic_run'):
    sim.launch()

@@ -166,8 +166,55 @@ void EdGB::solve_for_metric_relaxation(
    vector<double> &n_v,
    vector<double> &s_v)
 {
-   const double err_tolerance= 1e-10;
+   const double err_tolerance= 1e-12;
    double err= 0;
+/*---------------------------------------------------------------------------*/
+/* shift calculation: does not depend on lapse */
+/*---------------------------------------------------------------------------*/
+   do {
+      for (int i=exc_i; i<nx-2; ++i) {
+         double x=  dx*(2*i+1)/2;
+
+         double cf= 1-x/cl;
+         double r=  x/cf;
+         double dr= dx*pow(cf,-2);
+
+         double P= (p_v[i+1] + p_v[i])/2;
+         double Q= (q_v[i+1] + q_v[i])/2;
+         double S= (s_v[i+1] + s_v[i])/2;
+
+         double V=    (   V_v[i+1] +    V_v[i])/2;
+         double Al=   (  Al_v[i+1] +   Al_v[i])/2;
+         double Bep=  ( Bep_v[i+1] +  Bep_v[i])/2;
+         double Bepp= (Bepp_v[i+1] + Bepp_v[i])/2;
+
+         double r_Der_P= (p_v[i+1] - p_v[i])/dr;
+         double r_Der_Q= (q_v[i+1] - q_v[i])/dr;
+         double r_Der_S= (s_v[i+1] - s_v[i])/dr;
+/*---------------------------------------------------------------------------*/
+	 double res_S= compute_res_S(
+            r,
+            S, 
+            P,  Q,
+            V,
+            Al,
+            Bep, Bepp,
+            r_Der_S, r_Der_P, r_Der_Q
+         );
+         double jac_S= 
+            1/(2.*r) - (4*Bep*Q)/pow(r,2) + 5*Bep*pow(P,2)*Q + (9*Al*Bep*pow(P,4)*Q)/2. - (4*Bepp*pow(Q,2))/r - Bep*pow(Q,3) + (32*Bep*Bepp*pow(Q,3))/pow(r,2) - 5*Al*Bep*pow(P,2)*pow(Q,3) + (Al*Bep*pow(Q,5))/2. + (r*pow(P,2))/(4.*pow(S,2)) + (3*Al*r*pow(P,4))/(8.*pow(S,2)) - (2*Bep*pow(P,2)*Q)/pow(S,2) - (3*Al*Bep*pow(P,4)*Q)/pow(S,2) + (r*pow(Q,2))/(4.*pow(S,2)) - (Al*r*pow(P,2)*pow(Q,2))/(4.*pow(S,2)) - (2*Bep*pow(Q,3))/pow(S,2) + (2*Al*Bep*pow(P,2)*pow(Q,3))/pow(S,2) - (Al*r*pow(Q,4))/(8.*pow(S,2)) + (Al*Bep*pow(Q,5))/pow(S,2) - (8*Bep*P*S)/pow(r,2) - (8*Bepp*P*Q*S)/r + (128*Bep*Bepp*P*pow(Q,2)*S)/pow(r,2) + (6*Bep*Q*pow(S,2))/pow(r,2) + (144*Bep*Bepp*pow(P,2)*Q*pow(S,2))/pow(r,2) - (48*Bep*Bepp*pow(Q,3)*pow(S,2))/pow(r,2) + r_Der_S*((-20*Bep*P)/r + (160*pow(Bep,2)*P*Q)/pow(r,2) + (192*pow(Bep,2)*pow(P,2)*S)/pow(r,2)) + r_Der_P*((-8*Bep*S)/r + (64*pow(Bep,2)*Q*S)/pow(r,2) + (144*pow(Bep,2)*P*pow(S,2))/pow(r,2)) + (2 - (32*Bep*Q)/r + (128*pow(Bep,2)*pow(Q,2))/pow(r,2) - (40*Bep*P*S)/r + (320*pow(Bep,2)*P*Q*S)/pow(r,2) + (192*pow(Bep,2)*pow(P,2)*pow(S,2))/pow(r,2))/dr + r_Der_Q*((-4*Bep)/r + (32*pow(Bep,2)*Q)/pow(r,2) + (64*pow(Bep,2)*P*S)/pow(r,2) - (48*pow(Bep,2)*Q*pow(S,2))/pow(r,2)) - 2*Bep*Q*V + (r*V)/(2.*pow(S,2)) - (4*Bep*Q*V)/pow(S,2)
+         ;
+/*---------------------------------------------------------------------------*/
+         s_v[i+1]-= res_S/jac_S;
+         err+= fabs(res_S * cf);
+      }
+      s_v[nx-1]= 0;
+      err/= nx;
+   } while (err>err_tolerance);
+/*---------------------------------------------------------------------------*/
+/* lapse calculation */
+/*---------------------------------------------------------------------------*/
+   err = 0.0;
    do {
       for (int i=exc_i; i<nx-2; ++i) {
          double x=  dx*(2*i+1)/2;
@@ -204,33 +251,17 @@ void EdGB::solve_for_metric_relaxation(
             (-5*Bep*pow(P,2)*Q)/2. - (9*Al*Bep*pow(P,4)*Q)/4. + (Bep*pow(Q,3))/2. + (5*Al*Bep*pow(P,2)*pow(Q,3))/2. - (Al*Bep*pow(Q,5))/4. + (r*P*Q)/(4.*S) + (Al*r*pow(P,3)*Q)/(4.*S) - (2*Bep*P*pow(Q,2))/S - (2*Al*Bep*pow(P,3)*pow(Q,2))/S - (Al*r*P*pow(Q,3))/(4.*S) + (2*Al*Bep*P*pow(Q,4))/S + (2*Bepp*P*Q*S)/r - (16*Bep*Bepp*P*pow(Q,2)*S)/pow(r,2) - (Bep*Q*pow(S,2))/pow(r,2) + (8*pow(Bep,2)*r_Der_Q*Q*pow(S,2))/pow(r,2) - (24*Bep*Bepp*pow(P,2)*Q*pow(S,2))/pow(r,2) + (8*Bep*Bepp*pow(Q,3)*pow(S,2))/pow(r,2) + r_Der_P*((2*Bep*S)/r - (16*pow(Bep,2)*Q*S)/pow(r,2) - (24*pow(Bep,2)*P*pow(S,2))/pow(r,2)) + (1 - (16*Bep*Q)/r + (64*pow(Bep,2)*pow(Q,2))/pow(r,2) - (20*Bep*P*S)/r + (160*pow(Bep,2)*P*Q*S)/pow(r,2) + (96*pow(Bep,2)*pow(P,2)*pow(S,2))/pow(r,2))/dr + Bep*Q*V
 	 ;
 /*---------------------------------------------------------------------------*/
-	 double res_S= compute_res_S(
-            r,
-            S, 
-            P,  Q,
-            V,
-            Al,
-            Bep, Bepp,
-            r_Der_S, r_Der_P, r_Der_Q
-         );
-         double jac_S= 
-            1/(2.*r) - (4*Bep*Q)/pow(r,2) + 5*Bep*pow(P,2)*Q + (9*Al*Bep*pow(P,4)*Q)/2. - (4*Bepp*pow(Q,2))/r - Bep*pow(Q,3) + (32*Bep*Bepp*pow(Q,3))/pow(r,2) - 5*Al*Bep*pow(P,2)*pow(Q,3) + (Al*Bep*pow(Q,5))/2. + (r*pow(P,2))/(4.*pow(S,2)) + (3*Al*r*pow(P,4))/(8.*pow(S,2)) - (2*Bep*pow(P,2)*Q)/pow(S,2) - (3*Al*Bep*pow(P,4)*Q)/pow(S,2) + (r*pow(Q,2))/(4.*pow(S,2)) - (Al*r*pow(P,2)*pow(Q,2))/(4.*pow(S,2)) - (2*Bep*pow(Q,3))/pow(S,2) + (2*Al*Bep*pow(P,2)*pow(Q,3))/pow(S,2) - (Al*r*pow(Q,4))/(8.*pow(S,2)) + (Al*Bep*pow(Q,5))/pow(S,2) - (8*Bep*P*S)/pow(r,2) - (8*Bepp*P*Q*S)/r + (128*Bep*Bepp*P*pow(Q,2)*S)/pow(r,2) + (6*Bep*Q*pow(S,2))/pow(r,2) + (144*Bep*Bepp*pow(P,2)*Q*pow(S,2))/pow(r,2) - (48*Bep*Bepp*pow(Q,3)*pow(S,2))/pow(r,2) + r_Der_S*((-20*Bep*P)/r + (160*pow(Bep,2)*P*Q)/pow(r,2) + (192*pow(Bep,2)*pow(P,2)*S)/pow(r,2)) + r_Der_P*((-8*Bep*S)/r + (64*pow(Bep,2)*Q*S)/pow(r,2) + (144*pow(Bep,2)*P*pow(S,2))/pow(r,2)) + (2 - (32*Bep*Q)/r + (128*pow(Bep,2)*pow(Q,2))/pow(r,2) - (40*Bep*P*S)/r + (320*pow(Bep,2)*P*Q*S)/pow(r,2) + (192*pow(Bep,2)*pow(P,2)*pow(S,2))/pow(r,2))/dr + r_Der_Q*((-4*Bep)/r + (32*pow(Bep,2)*Q)/pow(r,2) + (64*pow(Bep,2)*P*S)/pow(r,2) - (48*pow(Bep,2)*Q*pow(S,2))/pow(r,2)) - 2*Bep*Q*V + (r*V)/(2.*pow(S,2)) - (4*Bep*Q*V)/pow(S,2)
-         ;
-/*---------------------------------------------------------------------------*/
          n_v[i+1]-= res_N/jac_N;
-         s_v[i+1]-= res_S/jac_S;
          err+= fabs(res_N * cf);
-         err+= fabs(res_S * cf);
       }
       n_v[nx-1]= n_v[nx-2];
-      s_v[nx-1]= 0;
       err/= nx;
+      rescale(n_v);
    } while (err>err_tolerance);
-   rescale(n_v);
    return;
 }
 /*===========================================================================*/
-/* public interface to solve for metric fields (for initin data) */
+/* public interface to solve for metric fields (for initial data) */
 /*===========================================================================*/
 void EdGB::solve_metric_fields(
    const int exc_i,
@@ -456,6 +487,9 @@ void EdGB::time_step(const int exc_i,
       p.inter_2, q.inter_2,
       n.inter_2, s.inter_2
    );
+   KO_filter(exc_i,nx,"even",f.inter_2);
+   KO_filter(exc_i,nx,"even",p.inter_2);
+   KO_filter(exc_i,nx,"odd" ,q.inter_2);
 /*---------------------------------------------------------------------------*/
    compute_potentials(f.inter_2);
 
@@ -479,6 +513,9 @@ void EdGB::time_step(const int exc_i,
       p.inter_3, q.inter_3,
       n.inter_3, s.inter_3
    );
+   KO_filter(exc_i,nx,"even",f.inter_3);
+   KO_filter(exc_i,nx,"even",p.inter_3);
+   KO_filter(exc_i,nx,"odd" ,q.inter_3);
 /*---------------------------------------------------------------------------*/
    compute_potentials(f.inter_3);
 
@@ -502,6 +539,9 @@ void EdGB::time_step(const int exc_i,
       p.inter_4, q.inter_4,
       n.inter_4, s.inter_4
    );
+   KO_filter(exc_i,nx,"even",f.inter_4);
+   KO_filter(exc_i,nx,"even",p.inter_4);
+   KO_filter(exc_i,nx,"odd" ,q.inter_4);
 /*---------------------------------------------------------------------------*/
    compute_potentials(f.inter_4);
 
