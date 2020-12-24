@@ -18,8 +18,8 @@ sim.binary= 'default.run'
 #-----------------------------------------------------------------------------
 sim.compactification_length= float(100) 
 #-----------------------------------------------------------------------------
-sim.evolve_time=   float(50)  ### in units of initial black hole mass for ze field 
-sim.num_saved_times= int(1000)
+sim.evolve_time=   float(2000)  ### in units of initial black hole mass for ze field 
+sim.num_saved_times= int(500)
 sim.cfl= 0.2
 #-----------------------------------------------------------------------------
 ## couplings
@@ -40,8 +40,9 @@ sim.Be_2=  0.0
 sim.Be_3=  0.0
 sim.Be_4=  0.0
 
-sim.Be_exp2=  18.75
-#sim.Be_exp2=  20.00
+#sim.Be_exp2=  17.5
+#sim.Be_exp2=  18.75
+sim.Be_exp2=  20.00
 #-----------------------------------------------------------------------------
 sim.phi_r= 15  ### where measuring phi (radial distance)
 #-----------------------------------------------------------------------------
@@ -69,7 +70,7 @@ sim.set_derived_params()
 #=============================================================================
 ## for slurm script
 #=============================================================================
-sim.walltime= '16:00:00' ### (hh:mm:ss)
+sim.walltime= '24:00:00' ### (hh:mm:ss)
 
 #sim.data_dir= '/home/jripley/spherically-symmetric-4dST/output'
 sim.data_dir= '/tigress/jripley/edgb'
