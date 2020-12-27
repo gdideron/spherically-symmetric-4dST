@@ -18,8 +18,8 @@ sim.binary= 'default.run'
 #-----------------------------------------------------------------------------
 sim.compactification_length= float(100) 
 #-----------------------------------------------------------------------------
-sim.evolve_time=   float(2000)  ### in units of initial black hole mass for ze field 
-sim.num_saved_times= int(500)
+sim.evolve_time=   float(10)  ### in units of initial black hole mass for ze field 
+sim.num_saved_times= int(2)
 sim.cfl= 0.2
 #-----------------------------------------------------------------------------
 ## couplings
@@ -42,7 +42,9 @@ sim.Be_4=  0.0
 
 #sim.Be_exp2=  17.5
 #sim.Be_exp2=  18.75
-sim.Be_exp2=  20.00
+#sim.Be_exp2=  20.00
+#sim.Be_exp2=  21.25
+sim.Be_exp2=  22.5
 #-----------------------------------------------------------------------------
 sim.phi_r= 15  ### where measuring phi (radial distance)
 #-----------------------------------------------------------------------------
@@ -64,13 +66,13 @@ sim.amp= float(1.0e-2)
 sim.r_l= float(12.0)
 sim.r_u= float(26.0)
 #-----------------------------------------------------------------------------
-sim.nx= pow(2,12)+1 
+sim.nx= pow(2,11)+1 
 #-----------------------------------------------------------------------------
 sim.set_derived_params()
 #=============================================================================
 ## for slurm script
 #=============================================================================
-sim.walltime= '24:00:00' ### (hh:mm:ss)
+sim.walltime= '72:00:00' ### (hh:mm:ss)
 
 #sim.data_dir= '/home/jripley/spherically-symmetric-4dST/output'
 sim.data_dir= '/tigress/jripley/edgb'
@@ -102,18 +104,13 @@ elif (sim.run_type == 'res_study'):
 #=============================================================================
 ### varying eta with a fixed initial phi amplitude
 #=============================================================================
-elif (sim.run_type == 'search_for_elliptic'):
+elif (sim.run_type == 'elliptic_search'):
 
-   sim.mu_hat= 0.1
-   sim.la_hat= 3.2
+   sim.data_dir= '/tigress/jripley/edgb/elliptic_search'
 
-   sim.data_dir= '/mnt/grtheory/jripley-data/elliptic_search_approx_scalarized'
-   sim.data_dir+= '_muhat_'+str(sim.mu_hat)
-   sim.data_dir+= '_lahat_'+str(sim.la_hat)
+   Be_exp2_range= [15, 50]
 
-   gbc2_range=[300.0,500.0]
-
-   sim.search_for_elliptic(gbc2_range)
+   sim.search_for_elliptic(Be_exp2_range,'Be_exp2')
 #=============================================================================
 else:
    raise ValueError('run_type = '+str(sim.run_type)) 

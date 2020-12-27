@@ -1,5 +1,6 @@
 #=============================================================================
 import os, sys, time, shutil, subprocess
+from typing import List
 #=============================================================================
 class Sim:
 #=============================================================================
@@ -92,7 +93,7 @@ class Sim:
             '{}/run.slurm'.format(self.output_dir)
          )
 #=============================================================================
-   def init_record(self,gbc2_range):
+   def init_record(self,coupling_range:List[float]):
       self.record= (
          self.data_dir
       +	'/record_amp_'+str(self.amp)
@@ -106,40 +107,60 @@ class Sim:
          rec.write('r_l '+str(self.r_l)+'\n')
          rec.write('r_u '+str(self.r_u)+'\n')
          rec.write('bh_mass '+str(self.bh_mass)+'\n')	
-         rec.write('gbc2 initial range '+str(gbc2_range)+'\n')	
+         rec.write('gbc2 initial range '+str(coupling_range)+'\n')	
 #=============================================================================
-   def write_gbc2_to_record(self,result):
+   def write_to_record(self,line:str):
       with open(self.record,'a') as rec:
-         rec.write('gbc2 '+str(self.gbc2)+' '+str(result)+'\n')
+         rec.write(line+'\n')
 #=============================================================================
    def delete_output_dir(self):
       subprocess.call('rm -rf '+self.output_dir, shell='True')
 #=============================================================================
-   def search_for_elliptic(self,gbc2_range):
+   def search_for_elliptic(self,coupling_range:List[float],coupling:str):
       try:
          os.makedirs(self.data_dir)
       except FileExistsError:
          pass
-      self.init_record(gbc2_range)
+      self.init_record(coupling_range)
       first_time= True
-# put some condition here
-#      while ((gbc2_range[1]-gbc2_range[0])/(gbc2_range[1]+gbc2_range[0])>1e-3): 
-#
-#         self.launch()
-#
-#         done= False
-#         while not done:
-#            time.sleep(10)
-#            with open(self.output_dir+'/output.out','r') as f:
-#               for line in f:
-#                  if line.startswith('naked_elliptic_region'):
-#                     gbc2_range[1]= self.gbc2
-#                     done= True
-#                     self.write_gbc2_to_record('naked_elliptic_region')
-#                  if line.startswith('run_finished_successfully'):
-#                     gbc2_range[0]= self.gbc2
-#                     done= True	
-#                     self.write_gbc2_to_record('run_finished_successfully')
+
+      while ((coupling_range[1]-coupling_range[0])/(coupling_range[1]+coupling_range[0])>1e-3): 
+         val= (coupling_range[1]+coupling_range[0])/2.0
+         print(val,coupling_range)
+         if coupling=='Be_exp2':
+            self.Be_exp2= val
+         elif coupling=='Be_2':
+            self.Be_2= val
+         else:
+            raise ValueError('coupling={}'.format(coupling))
+
+         self.launch()
+         done= False
+         
+         while not done:
+            time.sleep(30)
+            with open(self.output_dir+'/output.out','r') as f:
+               for line in f:
+
+                  if line.startswith('naked_elliptic_region'):
+                     if coupling=='Be_exp2':
+                        coupling_range[1]= self.Be_exp2
+                     elif coupling=='Be_2':
+                        coupling_range[1]= self.Be_2
+                     else:
+                        raise ValueError('coupling={}'.format(coupling))
+                     done= True
+                     self.write_to_record('naked_elliptic_region; {}={}'.format(coupling,coupling_range[1]))
+
+                  if line.startswith('run_finished_successfully'):
+                     if coupling=='Be_exp2':
+                        coupling_range[0]= self.Be_exp2
+                     elif coupling=='Be_2':
+                        coupling_range[0]= self.Be_2
+                     else:
+                        raise ValueError('coupling={}'.format(coupling))
+                     done= True	
+                     self.write_to_record('run_finished_successfully; {}={}'.format(coupling,coupling_range[0]))
 #=============================================================================
    def launch(self):
       self.set_derived_params()
