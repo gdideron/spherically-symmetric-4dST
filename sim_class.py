@@ -97,6 +97,7 @@ class Sim:
       self.record= (
          self.data_dir
       +	'/record_amp_'+str(self.amp)
+      +	'_iBeexp2_'+str(self.Be_exp2)
       +	'_nx_'+str(self.nx)
       +	'.txt'
       )

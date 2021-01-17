@@ -524,9 +524,9 @@ void EdGB::time_step(const int exc_i,
       f_k3, p_k3, q_k3, S_free_k3
    );
    for (int i=start_i; i<nx; ++i) {
-      f.inter_4[i]= f.n[i]+0.5*f_k3[i];
-      p.inter_4[i]= p.n[i]+0.5*p_k3[i];
-      q.inter_4[i]= q.n[i]+0.5*q_k3[i];
+      f.inter_4[i]= f.n[i]+f_k3[i];
+      p.inter_4[i]= p.n[i]+p_k3[i];
+      q.inter_4[i]= q.n[i]+q_k3[i];
    }
    if (exc_i==0) {
       f.inter_4[0]= make_Dx_zero(f.inter_4[4], f.inter_4[3], f.inter_4[2], f.inter_4[1]);
