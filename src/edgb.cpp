@@ -533,7 +533,7 @@ void EdGB::time_step(const int exc_i,
       p.inter_4[0]= make_Dx_zero(p.inter_4[4], p.inter_4[3], p.inter_4[2], p.inter_4[1]);
       q.inter_4[0]= 0; 
    } else {
-      s.inter_4[exc_i]= s.n[exc_i]+0.5*S_free_k3;
+      s.inter_4[exc_i]= s.n[exc_i]+S_free_k3;
    }
    solve_for_metric_relaxation(exc_i,
       p.inter_4, q.inter_4,
