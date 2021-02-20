@@ -8,7 +8,7 @@ OUT= $(TOP)output/
 
 SYSLIB= -lm
 
-VPATH= $(BIN) $(SRC) $(INC) $(OBJDIR)
+VPATH= $(SRC) $(INC)
 #=============================================================================
 CC=icpc#g++#
 CFLAGS= -g -O2

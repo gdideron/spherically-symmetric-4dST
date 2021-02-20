@@ -97,7 +97,11 @@ class Sim:
       self.record= (
          self.data_dir
       +	'/record_amp_'+str(self.amp)
-      +	'_iBeexp2_'+str(self.Be_exp2)
+      +	'_B1_'+str(self.Be_1)
+      +	'_B2_'+str(self.Be_2)
+      +	'_B3_'+str(self.Be_3)
+      +	'_B4_'+str(self.Be_4)
+      +	'_Beexp2_'+str(self.Be_exp2)
       +	'_nx_'+str(self.nx)
       +	'.txt'
       )
@@ -130,8 +134,14 @@ class Sim:
          print(val,coupling_range)
          if coupling=='Be_exp2':
             self.Be_exp2= val
+         elif coupling=='Be_1':
+            self.Be_1= val
          elif coupling=='Be_2':
             self.Be_2= val
+         elif coupling=='Be_3':
+            self.Be_3= val
+         elif coupling=='Be_4':
+            self.Be_4= val
          else:
             raise ValueError('coupling={}'.format(coupling))
 

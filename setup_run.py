@@ -36,13 +36,13 @@ sim.Al_3=  0.0
 sim.Al_4=  0.0
 
 sim.Be_1=  0.0
-sim.Be_2=  0.0
+sim.Be_2=  15.0
 sim.Be_3=  0.0
 sim.Be_4=  0.0
 
 #sim.Be_exp2=  -17.5
 #sim.Be_exp2=  -18.75
-sim.Be_exp2= 22.0
+sim.Be_exp2= 0.0
 #-----------------------------------------------------------------------------
 sim.phi_r= 15  ### where measuring phi (radial distance)
 #-----------------------------------------------------------------------------
@@ -64,7 +64,7 @@ sim.amp= float(1.0e-2)
 sim.r_l= float(12.0)
 sim.r_u= float(26.0)
 #-----------------------------------------------------------------------------
-sim.nx= pow(2,15)+1 
+sim.nx= pow(2,14)+1 
 #-----------------------------------------------------------------------------
 sim.set_derived_params()
 #=============================================================================
@@ -104,11 +104,13 @@ elif (sim.run_type == 'res_study'):
 #=============================================================================
 elif (sim.run_type == 'elliptic_search'):
 
-   sim.data_dir= '/tigress/jripley/edgb/elliptic_search_positive_Be'
+#   sim.data_dir= '/tigress/jripley/edgb/elliptic_search_Be_exp2'
+   sim.data_dir= '/tigress/jripley/edgb/elliptic_search_Be_4'
 
-   Be_exp2_range= [15, 40]
+   Be_exp2_range= [15, 60]
 
-   sim.search_for_elliptic(Be_exp2_range,'Be_exp2')
+#   sim.search_for_elliptic(Be_exp2_range,'Be_exp2')
+   sim.search_for_elliptic(Be_exp2_range,'Be_4')
 #=============================================================================
 else:
    raise ValueError('run_type = '+str(sim.run_type)) 
