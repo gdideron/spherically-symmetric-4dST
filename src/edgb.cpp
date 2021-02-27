@@ -298,7 +298,6 @@ void EdGB::compute_fpqS_ki(
    double &S_free_k)
 {
 /*---------------------------------------------------------------------------*/
-   #pragma omp parallel for num_threads(2)
    for (int i=exc_i+2; i<nx-2; ++i) {
       double cf= 1/(1+r_v[i]/cl);
 
