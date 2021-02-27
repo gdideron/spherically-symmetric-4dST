@@ -64,7 +64,8 @@ sim.amp= float(1.0e-2)
 sim.r_l= float(12.0)
 sim.r_u= float(26.0)
 #-----------------------------------------------------------------------------
-sim.nx= pow(2,14)+1 
+sim.Be_2= 25.0
+sim.nx= pow(2,11)+1 
 #-----------------------------------------------------------------------------
 sim.set_derived_params()
 #=============================================================================
@@ -73,7 +74,7 @@ sim.set_derived_params()
 sim.walltime= '96:00:00' ### (hh:mm:ss)
 
 #sim.data_dir= '/home/jripley/spherically-symmetric-4dST/output'
-sim.data_dir= '/tigress/jripley/edgb/mass_loss'
+sim.data_dir= '/tigress/jripley/edgb'
 
 sim.slurm= True
 #=============================================================================
@@ -107,10 +108,10 @@ elif (sim.run_type == 'elliptic_search'):
 #   sim.data_dir= '/tigress/jripley/edgb/elliptic_search_Be_exp2'
    sim.data_dir= '/tigress/jripley/edgb/elliptic_search_Be_4'
 
-   Be_exp2_range= [15, 60]
+   coupling_range= [-200, 0]
 
-#   sim.search_for_elliptic(Be_exp2_range,'Be_exp2')
-   sim.search_for_elliptic(Be_exp2_range,'Be_4')
+#   sim.search_for_elliptic(coupling_range,'Be_exp2')
+   sim.search_for_elliptic(coupling_range,'Be_4')
 #=============================================================================
 else:
    raise ValueError('run_type = '+str(sim.run_type)) 
