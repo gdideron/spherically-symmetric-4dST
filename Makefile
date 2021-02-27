@@ -14,7 +14,7 @@ CC=icpc#g++#
 CFLAGS= -g -O2
 #==========================================================================
 ifeq ($(CC),g++)
-	CFLAGS+= -std=c++14 -Wall -Wextra
+	CFLAGS+= -std=c++14 -Wall -Wextra #-fopenmp
 		#-fcheck=all  
 endif
 

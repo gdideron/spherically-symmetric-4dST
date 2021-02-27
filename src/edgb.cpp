@@ -236,7 +236,6 @@ void EdGB::solve_for_metric_relaxation(
          double r_Der_P= (p_v[i+1] - p_v[i])/dr;
          double r_Der_Q= (q_v[i+1] - q_v[i])/dr;
          double r_Der_N= (n_v[i+1] - n_v[i])/dr;
-         double r_Der_S= (s_v[i+1] - s_v[i])/dr;
 /*---------------------------------------------------------------------------*/
          double res_N= compute_res_N(
             r,
@@ -299,6 +298,7 @@ void EdGB::compute_fpqS_ki(
    double &S_free_k)
 {
 /*---------------------------------------------------------------------------*/
+   #pragma omp parallel for num_threads(2)
    for (int i=exc_i+2; i<nx-2; ++i) {
       double cf= 1/(1+r_v[i]/cl);
 
@@ -801,9 +801,7 @@ void EdGB::compute_eom_rr(
       double Q= q_v[i];
 
       double V=    V_v[i];
-      double Vp=   Vp_v[i];
       double Al=   Al_v[i];
-      double Alp=  Alp_v[i];
       double Bep=  Bep_v[i];
       double Bepp= Bepp_v[i];
 
@@ -813,7 +811,6 @@ void EdGB::compute_eom_rr(
       double r_Der_N= pow(cf,2)*Dx_ptc_4th(n_v[i+2],n_v[i+1],n_v[i-1],n_v[i-2],dx);
       double r_Der_S= pow(cf,2)*Dx_ptc_4th(s_v[i+2],s_v[i+1],s_v[i-1],s_v[i-2],dx);
       double r_Der_P= pow(cf,2)*Dx_ptc_4th(p_v[i+2],p_v[i+1],p_v[i-1],p_v[i-2],dx);
-      double r_Der_Q= pow(cf,2)*Dx_ptc_4th(q_v[i+2],q_v[i+1],q_v[i-1],q_v[i-2],dx);
 
       double t_Der_P= (p_v[i]-p_nm1_v[i])/dt;
       double t_Der_S= (s_v[i]-s_nm1_v[i])/dt;
