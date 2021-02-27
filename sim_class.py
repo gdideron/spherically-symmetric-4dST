@@ -155,34 +155,19 @@ class Sim:
 
                   if line.startswith('naked_elliptic_region'):
                      if coupling=='Be_exp2':
-                        if self.Be_exp2>0:
-                           coupling_range[1]= self.Be_exp2
-                        else:
-                           coupling_range[0]= self.Be_exp2
+                        coupling_range[1]= self.Be_exp2
                         self.write_to_record('naked_elliptic_region; Be_exp2={}'.format(self.Be_exp2))
                      elif coupling=='Be_1':
-                        if self.Be_1>0:
-                           coupling_range[1]= self.Be_1
-                        else:
-                           coupling_range[0]= self.Be_1
+                        coupling_range[1]= self.Be_1
                         self.write_to_record('naked_elliptic_region; Be_1={}'.format(self.Be_1))
                      elif coupling=='Be_2':
-                        if self.Be_2>0:
-                           coupling_range[1]= self.Be_2
-                        else:
-                           coupling_range[0]= self.Be_2
+                        coupling_range[1]= self.Be_2
                         self.write_to_record('naked_elliptic_region; Be_2={}'.format(self.Be_2))
                      elif coupling=='Be_3':
-                        if self.Be_3>0:
-                           coupling_range[1]= self.Be_3
-                        else:
-                           coupling_range[0]= self.Be_3
+                        coupling_range[1]= self.Be_3
                         self.write_to_record('naked_elliptic_region; Be_3={}'.format(self.Be_3))
                      elif coupling=='Be_4':
-                        if self.Be_4>0:
-                           coupling_range[1]= self.Be_4
-                        else:
-                           coupling_range[0]= self.Be_4
+                        coupling_range[1]= self.Be_4
                         self.write_to_record('naked_elliptic_region; Be_4={}'.format(self.Be_4))
                      else:
                         raise ValueError('coupling={}'.format(coupling))
@@ -190,34 +175,19 @@ class Sim:
 
                   if line.startswith('run_finished_successfully'):
                      if coupling=='Be_exp2':
-                        if self.Be_exp2>0:
-                           coupling_range[0]= self.Be_exp2
-                        else:
-                           coupling_range[1]= self.Be_exp2
+                        coupling_range[0]= self.Be_exp2
                         self.write_to_record('run_finished_successfully; Be_exp2={}'.format(self.Be_exp2))
                      elif coupling=='Be_1':
-                        if self.Be_1>0:
-                           coupling_range[0]= self.Be_1
-                        else:
-                           coupling_range[1]= self.Be_1
+                        coupling_range[0]= self.Be_1
                         self.write_to_record('run_finished_successfully; Be_1={}'.format(self.Be_1))
                      elif coupling=='Be_2':
-                        if self.Be_2>0:
-                           coupling_range[0]= self.Be_2
-                        else:
-                           coupling_range[1]= self.Be_2
+                        coupling_range[0]= self.Be_2
                         self.write_to_record('run_finished_successfully; Be_2={}'.format(self.Be_2))
                      elif coupling=='Be_3':
-                        if self.Be_3>0:
-                           coupling_range[0]= self.Be_3
-                        else:
-                           coupling_range[1]= self.Be_3
+                        coupling_range[0]= self.Be_3
                         self.write_to_record('run_finished_successfully; Be_43{}'.format(self.Be_3))
                      elif coupling=='Be_4':
-                        if self.Be_4>0:
-                           coupling_range[0]= self.Be_4
-                        else:
-                           coupling_range[1]= self.Be_4
+                        coupling_range[0]= self.Be_4
                         self.write_to_record('run_finished_successfully; Be_4={}'.format(self.Be_4))
                      else:
                         raise ValueError('coupling={}'.format(coupling))
