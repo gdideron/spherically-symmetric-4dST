@@ -18,7 +18,11 @@ sim.binary= 'default.run'
 #-----------------------------------------------------------------------------
 sim.compactification_length= float(100) 
 #-----------------------------------------------------------------------------
+<<<<<<< HEAD
 sim.evolve_time=   float(500)  ### in units of initial black hole mass for ze field 
+=======
+sim.evolve_time=   float(1000)  ### in units of initial black hole mass for ze field 
+>>>>>>> 1b934b89609c0c9fe636dac5b86790206e64b8aa
 sim.num_saved_times= int(500)
 sim.cfl= 0.2
 #-----------------------------------------------------------------------------
@@ -36,12 +40,10 @@ sim.Al_3=  0.0
 sim.Al_4=  0.0
 
 sim.Be_1=  0.0
-sim.Be_2=  15.0
+sim.Be_2=  30.0
 sim.Be_3=  0.0
 sim.Be_4=  0.0
 
-#sim.Be_exp2=  -17.5
-#sim.Be_exp2=  -18.75
 sim.Be_exp2= 0.0
 #-----------------------------------------------------------------------------
 sim.phi_r= 15  ### where measuring phi (radial distance)
@@ -64,8 +66,12 @@ sim.amp= float(1.0e-2)
 sim.r_l= float(12.0)
 sim.r_u= float(26.0)
 #-----------------------------------------------------------------------------
+<<<<<<< HEAD
 sim.Be_2= 25.0
 sim.nx= pow(2,9)+1 
+=======
+sim.nx= pow(2,11)+1 
+>>>>>>> 1b934b89609c0c9fe636dac5b86790206e64b8aa
 #-----------------------------------------------------------------------------
 sim.set_derived_params()
 #=============================================================================
@@ -81,19 +87,22 @@ sim.slurm= False
 if (sim.run_type == 'basic_run'):
    sim.launch()
 #=============================================================================
+if (sim.run_type == 'ramp'):
+   sim.data_dir= '/tigress/jripley/edgb/ramp_Be_2'
+   for be2 in range(18,23,1):
+      sim.Be_2= be2
+      sim.Be_4= -4*be2
+      sim.launch()
+      time.sleep(1)
+#=============================================================================
 elif (sim.run_type == 'scan'):
-   mu_hat=0.01
-   try:
-      os.makedirs(self.data_dir)
-   except FileExistsError:
-      pass
-   for la_hat in [0,0.2,0.4,0.6,0.8]:
-      for gbc2 in [300,305,310,315,317.5,320,322.5,325]:
-         sim.mu_hat= mu_hat
-         sim.la_hat= la_hat
-         sim.gbc2=  gbc2 
-         sim.launch()
-         time.sleep(2*60*60)
+   sim.data_dir= '/tigress/jripley/edgb/scan_Be_4_large'
+   sim.Be_2= 25
+#   for be4 in range(-60*sim.Be_2-1000,-60*sim.Be_2+1001,200):
+   for be4 in range(-60*sim.Be_2-810000,-60*sim.Be_2-810000+5000,500):
+      sim.Be_4= be4
+      sim.launch()
+      time.sleep(5)
 #=============================================================================
 elif (sim.run_type == 'res_study'):
    num_res= int(input('number of resolutions '))
@@ -108,9 +117,8 @@ elif (sim.run_type == 'elliptic_search'):
 #   sim.data_dir= '/tigress/jripley/edgb/elliptic_search_Be_exp2'
    sim.data_dir= '/tigress/jripley/edgb/elliptic_search_Be_4'
 
-   coupling_range= [-200, 0]
+   coupling_range= [-60*sim.Be_2, 0]
 
-#   sim.search_for_elliptic(coupling_range,'Be_exp2')
    sim.search_for_elliptic(coupling_range,'Be_4')
 #=============================================================================
 else:
