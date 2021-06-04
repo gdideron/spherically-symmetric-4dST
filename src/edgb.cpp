@@ -858,3 +858,50 @@ void EdGB::compute_ncc(
    }
    return;
 }
+/*===========================================================================*/
+/* Effective metric determinant 
+ * (see Reall, Phys.Rev.D 103 (2021) 8, 084027, arXiv:2101.11623) */
+/*===========================================================================*/
+void EdGB::compute_det_effective_metric(
+   const int exc_i,
+   const int nx, const double dx, const double cl, 
+   const vector<double> &r_v, 
+   const vector<double> &n_v, const vector<double> &s_v,
+   const vector<double> &p_v, const vector<double> &q_v,
+   vector<double> &det)
+{
+   for (int i=exc_i+2; i<nx-3; ++i) {
+      double cf= 1/(1+r_v[i]/cl);
+
+      double P = p_v[i];
+      double Q = q_v[i];
+      double S = s_v[i];
+      double N = n_v[i];
+
+      double Bep  = Bep_v[i];
+      double Bepp = Bepp_v[i];
+
+      double r_Der_N= pow(cf,2)*Dx_ptc_4th(n_v[i+2],n_v[i+1],n_v[i-1],n_v[i-2],dx);
+      double r_Der_S= pow(cf,2)*Dx_ptc_4th(s_v[i+2],s_v[i+1],s_v[i-1],s_v[i-2],dx);
+      double r_Der_P= pow(cf,2)*Dx_ptc_4th(p_v[i+2],p_v[i+1],p_v[i-1],p_v[i-2],dx);
+      double r_Der_Q= pow(cf,2)*Dx_ptc_4th(q_v[i+2],q_v[i+1],q_v[i-1],q_v[i-2],dx);
+
+      double t_Der_P= compute_p_k(
+         r_v[i],
+         N, S,
+         P, Q,
+         V_v[i],   Vp_v[i], 
+         Al_v[i], Alp_v[i],
+         Bep,  Bepp,
+         r_Der_N,
+         r_Der_S,
+         r_Der_P,
+         r_Der_Q
+      );
+
+      det[i]= 
+      -  pow(N,2) - 2*pow(Bep,2)*pow(r_Der_P,2)*pow(N,2) - 2*Bepp*pow(N,2)*pow(P,2) + 2*Bepp*pow(N,2)*pow(Q,2) - 2*pow(Bep,2)*pow(r_Der_S,2)*pow(N,2)*pow(Q,2) + 2*Bepp*pow(N,3)*pow(P,2)*S - 4*Bepp*pow(N,2)*P*Q*S + 2*Bepp*N*pow(Q,2)*S + 4*Bepp*pow(N,3)*P*Q*pow(S,2) - 4*Bepp*pow(N,2)*pow(Q,2)*pow(S,2) + 2*Bepp*pow(N,3)*pow(Q,2)*pow(S,3) + t_Der_P*(-(sqrt(2)*Bep*N) + 2*pow(Bep,2)*r_Der_Q*N + 2*pow(Bep,2)*r_Der_S*N*P + 2*sqrt(2)*Bep*Bepp*N*pow(Q,2) + 2*pow(Bep,2)*r_Der_N*P*S) + pow(r_Der_N,2)*(-2*pow(Bep,2)*P*Q*S - 2*pow(Bep,2)*pow(Q,2)*pow(S,2)) + r_Der_P*(-2*sqrt(2)*Bep*Bepp*pow(N,3)*pow(P,2) - 2*sqrt(2)*Bep*Bepp*N*pow(Q,2) + sqrt(2)*Bep*pow(N,2)*S - 2*pow(Bep,2)*r_Der_Q*pow(N,2)*S - 4*sqrt(2)*Bep*Bepp*pow(N,3)*P*Q*S + 2*sqrt(2)*Bep*Bepp*pow(N,2)*pow(Q,2)*S - 2*sqrt(2)*Bep*Bepp*pow(N,3)*pow(Q,2)*pow(S,2)) + r_Der_Q*(sqrt(2)*Bep*pow(N,2) + 2*sqrt(2)*Bep*Bepp*pow(N,2)*pow(P,2) - 2*sqrt(2)*Bep*Bepp*pow(N,3)*pow(P,2)*S + 4*sqrt(2)*Bep*Bepp*pow(N,2)*P*Q*S - 2*sqrt(2)*Bep*Bepp*N*pow(Q,2)*S - 4*sqrt(2)*Bep*Bepp*pow(N,3)*P*Q*pow(S,2) + 4*sqrt(2)*Bep*Bepp*pow(N,2)*pow(Q,2)*pow(S,2) - 2*sqrt(2)*Bep*Bepp*pow(N,3)*pow(Q,2)*pow(S,3)) + r_Der_S*(sqrt(2)*Bep*pow(N,2)*P + 2*sqrt(2)*Bep*Bepp*pow(N,2)*pow(P,3) - 2*sqrt(2)*Bep*Bepp*pow(N,3)*pow(P,2)*Q - 2*sqrt(2)*Bep*Bepp*N*pow(Q,3) - 2*sqrt(2)*Bep*Bepp*pow(N,3)*pow(P,3)*S + 4*sqrt(2)*Bep*Bepp*pow(N,2)*pow(P,2)*Q*S - 2*sqrt(2)*Bep*Bepp*N*P*pow(Q,2)*S - 4*sqrt(2)*Bep*Bepp*pow(N,3)*P*pow(Q,2)*S + 4*sqrt(2)*Bep*Bepp*pow(N,2)*pow(Q,3)*S - 4*sqrt(2)*Bep*Bepp*pow(N,3)*pow(P,2)*Q*pow(S,2) + 4*sqrt(2)*Bep*Bepp*pow(N,2)*P*pow(Q,2)*pow(S,2) - 2*sqrt(2)*Bep*Bepp*pow(N,3)*pow(Q,3)*pow(S,2) - 2*sqrt(2)*Bep*Bepp*pow(N,3)*P*pow(Q,2)*pow(S,3) + r_Der_P*(-4*pow(Bep,2)*pow(N,2)*Q - 2*pow(Bep,2)*pow(N,2)*P*S)) + r_Der_N*(sqrt(2)*Bep*N*Q - 2*pow(Bep,2)*r_Der_Q*N*Q - 2*sqrt(2)*Bep*Bepp*N*pow(Q,3) + sqrt(2)*Bep*N*P*S + 2*sqrt(2)*Bep*Bepp*N*pow(P,3)*S - 2*sqrt(2)*Bep*Bepp*pow(N,2)*pow(P,2)*Q*S - 2*sqrt(2)*Bep*Bepp*pow(Q,3)*S - 2*sqrt(2)*Bep*Bepp*pow(N,2)*pow(P,3)*pow(S,2) + 4*sqrt(2)*Bep*Bepp*N*pow(P,2)*Q*pow(S,2) - 2*sqrt(2)*Bep*Bepp*P*pow(Q,2)*pow(S,2) - 4*sqrt(2)*Bep*Bepp*pow(N,2)*P*pow(Q,2)*pow(S,2) + 4*sqrt(2)*Bep*Bepp*N*pow(Q,3)*pow(S,2) - 4*sqrt(2)*Bep*Bepp*pow(N,2)*pow(P,2)*Q*pow(S,3) + 4*sqrt(2)*Bep*Bepp*N*P*pow(Q,2)*pow(S,3) - 2*sqrt(2)*Bep*Bepp*pow(N,2)*pow(Q,3)*pow(S,3) - 2*sqrt(2)*Bep*Bepp*pow(N,2)*P*pow(Q,2)*pow(S,4) + r_Der_S*(-2*pow(Bep,2)*N*P*Q - 4*pow(Bep,2)*N*pow(Q,2)*S) + r_Der_P*(-4*pow(Bep,2)*N*Q*S - 2*pow(Bep,2)*N*P*pow(S,2))) 
+         ;
+   }
+   return;
+}

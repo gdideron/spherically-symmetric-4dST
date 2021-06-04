@@ -62,6 +62,7 @@ int main(int argc, char **argv)
    Field outgoing_c("outgoing_c",sp.nx,0);
 
    Field ncc("ncc",sp.nx,0);
+   Field det_eff("det_eff",sp.nx,0);
 /*--------------------------------------------------------------------------*/		
 /* initial data */
 /*--------------------------------------------------------------------------*/		
@@ -119,7 +120,16 @@ int main(int argc, char **argv)
       phi_p.np1, phi_q.np1,
       ncc.np1
    );
+   edgb.compute_det_effective_metric(
+      exc_i,
+      sp.nx, sp.dx, sp.cl, 
+      rp.r, 
+      N.np1,     S.np1,
+      phi_p.np1, phi_q.np1,
+      det_eff.np1
+   );
    csv.write(grid_time, ncc);
+   csv.write(grid_time, det_eff);
 
    edgb.compute_radial_characteristics(
       exc_i,
@@ -186,6 +196,14 @@ int main(int argc, char **argv)
             phi_p.np1, phi_q.np1,
             ncc.np1
          );
+         edgb.compute_det_effective_metric(
+            exc_i,
+            sp.nx, sp.dx, sp.cl, 
+            rp.r, 
+            N.np1,     S.np1,
+            phi_p.np1, phi_q.np1,
+            det_eff.np1
+         );
 /*--------------------------------------------------------------------------*/		
          phi_f.set_to_val(0,exc_i-1,0);
          phi_p.set_to_val(0,exc_i-1,0);
@@ -197,7 +215,9 @@ int main(int argc, char **argv)
          res_q.set_to_val( 0,exc_i-1,0);
          eom_rr.set_to_val(0,exc_i-1,0);
 
-         ncc.set_to_val( 0,exc_i-1,0);
+         ncc.set_to_val(0,exc_i-1,0);
+
+         det_eff.set_to_val(0,exc_i-1,0);
 
          ingoing_c.set_to_val( 0,exc_i-1,0);
          outgoing_c.set_to_val(0,exc_i-1,0);
@@ -213,7 +233,8 @@ int main(int argc, char **argv)
          csv.write(grid_time, eom_rr);
 
          csv.write(grid_time, ncc);
-         csv.write(grid_time,  ingoing_c);
+         csv.write(grid_time, det_eff);
+         csv.write(grid_time, ingoing_c);
          csv.write(grid_time, outgoing_c);
 /*--------------------------------------------------------------------------*/		
          cout<<setw(10)<<tC*sp.dt/initial_asymptotic_mass<<"\t";

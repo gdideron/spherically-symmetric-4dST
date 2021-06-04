@@ -52,6 +52,16 @@ public:
       const std::vector<double> &p, const std::vector<double> &q,
       std::vector<double> &ncc
    );
+   void compute_det_effective_metric(
+      const int exc_i,
+      const int nx, const double dx, const double cl, 
+      const vector<double> &r_v, 
+      const vector<double> &n_v, const vector<double> &s_v,
+      const vector<double> &p_v, const vector<double> &q_v,
+      vector<double> &det
+   );
+
+
 private:
    const double dt;
    const double dx;
