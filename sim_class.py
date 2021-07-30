@@ -7,7 +7,7 @@ class Sim:
    def __init__(self,args):
       self.home_dir= str(os.getcwd())
       assert len(args) > 1, (
-         'argv[1] is empty-meed a run_type to run!'
+         'argv[1] is empty-need a run_type to run!'
       )	
       self.run_type = args[1]
       if (len(args)>2 and args[2]=='debug'):
