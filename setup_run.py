@@ -5,7 +5,7 @@
 ## Usage: 
 ## ./setup [run_type] (e.g. ./setup basic_run)
 ##
-import sys, time
+import sys, time, os
 from sim_class import Sim
 #=============================================================================
 args= sys.argv
@@ -70,7 +70,8 @@ sim.set_derived_params()
 #=============================================================================
 sim.walltime= '96:00:00' ### (hh:mm:ss)
 
-sim.data_dir= '/home/jripley/spherically-symmetric-4dST/output'
+project_dir= os.path.dirname(os.path.realpath(__file__))
+sim.data_dir= os.path.join(project_dir,"output")
 #sim.data_dir= '/tigress/jripley/edgb'
 
 sim.slurm= False
