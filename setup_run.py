@@ -80,7 +80,7 @@ sim.slurm= False
 if (sim.run_type == 'basic_run'):
    sim.launch()
 #=============================================================================
-if (sim.run_type == 'ramp'):
+elif (sim.run_type == 'ramp'):
    sim.data_dir= '/tigress/jripley/edgb/ramp_Be_2'
    for be2 in range(18,23,1):
       sim.Be_2= be2
