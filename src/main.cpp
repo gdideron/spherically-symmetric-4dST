@@ -85,8 +85,8 @@ int main(int argc, char **argv)
 /*--------------------------------------------------------------------------*/		
 /* write to file */
 /*--------------------------------------------------------------------------*/		
-   //Sdf out(output_dir,rp.r);
-   Csv out(output_dir);
+   Sdf out(output_dir,rp.r);
+   //Csv out(output_dir);
 
    double grid_time= 0;
 

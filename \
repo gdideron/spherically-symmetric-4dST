@@ -5,7 +5,7 @@
 ## Usage: 
 ## ./setup [run_type] (e.g. ./setup basic_run)
 ##
-import sys, time, os, subprocess
+import sys, time, os
 from sim_class import Sim
 #=============================================================================
 args= sys.argv
@@ -83,17 +83,15 @@ if (sim.run_type == 'basic_run'):
 #=============================================================================
 elif (sim.run_type == 'mass_search'):
     experiment_folder = os.path.join(sim.data_dir,"mass_search")
-    data_list = os.path.join(experiment_folder,"data_list.txt") 
     try:
-        os.makedirs(experiment_folder) 
+        os.makedirs() 
     except FileExistsError:
         pass
+    with open(
     for mass in [1,2.5,5]:
         sim.bh_mass = mass
         sim.launch()
-        sim.write_sim_params(experiment_folder+f'/sim_params_m{mass}.txt')
-        with open(data_list,'a') as f:
-            f.write(sim.data_folder+"\n")
+        
 #=============================================================================
 elif (sim.run_type == 'ramp'):
    sim.data_dir= '/tigress/jripley/edgb/ramp_Be_2'

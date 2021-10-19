@@ -56,18 +56,17 @@ class Sim:
       if (self.nx>(pow(2,13)+1)):
          self.memory= '20' 
 #=============================================================================
-   def write_sim_params(self):
-      with open(self.output_dir+'/sim_params.txt','w') as f:
+   def write_sim_params(self,output_file=None):
+      if (output_file == None):
+          output_file = self.output_dir+'/sim_params.txt'
+      with open(output_file,'w') as f:
          attrs= vars(self)
          for param in attrs:
             f.write('{} {}\n'.format(param,attrs[param]))	
 #=============================================================================
    def make_output_dir(self):
-      self.output_dir= str(
-         self.data_dir+'/'
-      +  '_'.join('_'.join(time.asctime().split(' ')).split(':'))
-      +  '_nx_'+str(self.nx)
-      )
+      self.data_folder = '_'.join('_'.join(time.asctime().split(' ')).split(':')) +  '_nx_'+str(self.nx)
+      self.output_dir= str( self.data_dir+'/' + self.data_folder )
       os.makedirs(self.output_dir)
 #=============================================================================
    def make_output_file(self):
@@ -162,7 +161,7 @@ class Sim:
                         self.write_to_record('naked_elliptic_region; Be_1={}'.format(self.Be_1))
                      elif coupling=='Be_2':
                         coupling_range[1]= self.Be_2
-                        self.write_to_record('naked_elliptic_region; Be_2={}'.format(self.Be_2))
+                        self.write_to_record('naked_elliptic_region; Be_2={}'.format(self.Be_2))()
                      elif coupling=='Be_3':
                         coupling_range[1]= self.Be_3
                         self.write_to_record('naked_elliptic_region; Be_3={}'.format(self.Be_3))
