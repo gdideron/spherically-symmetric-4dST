@@ -39,13 +39,13 @@ void set_initial_data(
             double bump= exp(-1./(r_u-r))*exp(-1./(r-r_l)); 
 
             f.n[i]= pow(r-r_l,2)*pow(r_u-r,2)*bump; 
-            p.n[i]= 0;
             q.n[i]= (
             2*(r-r_l)*pow(r_u-r,2)
             -	2*pow(r-r_l,2)*(r_u-r)
             +	pow(r_u-r,2)
             -	pow(r-r_l,2)
             )*bump;
+            p.n[i]= q.n[i];
          } else {
             f.n[i]= 0;
             p.n[i]= 0;
@@ -61,6 +61,22 @@ void set_initial_data(
          f.n[i]*= amp/max_vN;
          q.n[i]*= amp/max_vN;
          p.n[i]*= amp/max_vN;
+      }
+/*-------------------------------------------------------------------------*/
+   } else 	
+   if (sp.initial_data_type=="centered_gaussian") {
+      double amp= sp.amp;
+
+      for (int i=sp.initial_exc_i; i<sp.nx-1; ++i) {
+         double r= rvec[i];
+	 double exponent= -r*r/(2*bh_mass*bh_mass);
+
+         f.n[i]= amp*exp(exponent); 
+         q.n[i]= 2./r*exponent*f.n[i];
+         p.n[i]= 0;
+
+         N.n[i]= 1;
+         S.n[i]= pow(2*bh_mass/r,0.5);
       }
 /*-------------------------------------------------------------------------*/
    } else 	
