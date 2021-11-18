@@ -18,7 +18,7 @@ sim.binary= 'default.run'
 #-----------------------------------------------------------------------------
 sim.compactification_length= float(100) 
 #-----------------------------------------------------------------------------
-sim.evolve_time=   float(500)  ### in units of initial black hole mass for ze field 
+sim.evolve_time=   float(200)  ### in units of initial black hole mass for ze field 
 sim.num_saved_times= int(500)
 sim.cfl= 0.2
 #-----------------------------------------------------------------------------
@@ -36,9 +36,9 @@ sim.Al_3=  0.0
 sim.Al_4=  0.0
 
 sim.Be_1=  0.0
-sim.Be_2=  30.0
+sim.Be_2=  25.0
 sim.Be_3=  0.0
-sim.Be_4=  0.0
+sim.Be_4=  -7.5
 
 sim.Be_exp2= 0.0
 #-----------------------------------------------------------------------------
@@ -58,12 +58,11 @@ sim.bh_mass= float(5.0)
 #sim.initial_data_type= str("bump")
 sim.initial_data_type= str("bump_with_bh")
 
-sim.amp= float(1.0e-2)
+sim.amp= float(0.01)
 sim.r_l= float(12.0)
 sim.r_u= float(26.0)
 #-----------------------------------------------------------------------------
-sim.Be_2= 25.0
-sim.nx= pow(2,9)+1 
+sim.nx= pow(2,12)+1 
 #-----------------------------------------------------------------------------
 sim.set_derived_params()
 #=============================================================================
@@ -79,7 +78,7 @@ sim.slurm= False
 if (sim.run_type == 'basic_run'):
    sim.launch()
 #=============================================================================
-if (sim.run_type == 'ramp'):
+elif (sim.run_type == 'ramp'):
    sim.data_dir= '/tigress/jripley/edgb/ramp_Be_2'
    for be2 in range(18,23,1):
       sim.Be_2= be2
@@ -90,7 +89,6 @@ if (sim.run_type == 'ramp'):
 elif (sim.run_type == 'scan'):
    sim.data_dir= '/tigress/jripley/edgb/scan_Be_4_large'
    sim.Be_2= 25
-#   for be4 in range(-60*sim.Be_2-1000,-60*sim.Be_2+1001,200):
    for be4 in range(-60*sim.Be_2-810000,-60*sim.Be_2-810000+5000,500):
       sim.Be_4= be4
       sim.launch()
