@@ -244,14 +244,485 @@ inline double EdGB::compute_p_k(
    double Qr= Q/r;
    double Sr= S/r;
 
-   double p_k= 
-      2*Qr*pow(r,4)*N - 32*Bep*pow(Qr,2)*pow(r,4)*N - 2*Al*pow(Qr,3)*pow(r,6)*N + 32*Al*Bep*pow(Qr,4)*pow(r,6)*N - 128*Al*pow(Bep,2)*pow(Qr,5)*pow(r,6)*N - 5*Al*Bep*pow(Qr,4)*pow(r,8)*pow(Sr,2)*N - 16*Bep*Bepp*pow(Qr,4)*pow(r,8)*pow(Sr,2)*N + 16*Al*pow(Bep,2)*pow(Qr,5)*pow(r,8)*pow(Sr,2)*N + 4*Bep*pow(r,4)*pow(Sr,4)*N - 32*pow(Bep,2)*pow(Qr,3)*pow(r,4)*(-4 + pow(r,2)*pow(Sr,2))*N + 24*Bep*pow(Qr,6)*pow(r,8)*(-2*Alp*Bep + Al*Bepp*pow(r,2)*pow(Sr,2))*N - pow(r,4)*Vp*N + 16*Bep*Qr*pow(r,4)*Vp*N - 64*pow(Bep,2)*pow(Qr,2)*pow(r,4)*Vp*N + 2*pow(r,4)*Sr*N*P - 60*Bep*Qr*pow(r,4)*Sr*N*P + 384*pow(Bep,2)*pow(Qr,2)*pow(r,4)*Sr*N*P - 2*Al*pow(Qr,2)*pow(r,6)*Sr*N*P + 60*Al*Bep*pow(Qr,3)*pow(r,6)*Sr*N*P - 384*Al*pow(Bep,2)*pow(Qr,4)*pow(r,6)*Sr*N*P + 32*Al*Bep*Bepp*pow(Qr,5)*pow(r,8)*Sr*N*P + 32*Bep*Bepp*Qr*pow(r,4)*pow(Sr,3)*N*P - 32*pow(Bep,2)*pow(Qr,2)*pow(r,6)*pow(Sr,3)*N*P + 16*Al*pow(Bep,2)*pow(Qr,4)*pow(r,8)*pow(Sr,3)*N*P - 32*Bep*Bepp*pow(Qr,3)*pow(r,4)*Sr*(pow(r,2) + 8*Bepp*pow(r,2)*pow(Sr,2))*N*P + 16*Bep*pow(r,4)*Sr*Vp*N*P - 128*pow(Bep,2)*Qr*pow(r,4)*Sr*Vp*N*P + 2*Al*Qr*pow(r,4)*N*pow(P,2) - 32*Al*Bep*pow(Qr,2)*pow(r,4)*N*pow(P,2) + 128*Al*pow(Bep,2)*pow(Qr,3)*pow(r,4)*N*pow(P,2) + (3*Alp*pow(Qr,2)*pow(r,6)*N*pow(P,2))/2. - 24*Alp*Bep*pow(Qr,3)*pow(r,6)*N*pow(P,2) - 34*Bep*pow(r,4)*pow(Sr,2)*N*pow(P,2) + 416*pow(Bep,2)*Qr*pow(r,4)*pow(Sr,2)*N*pow(P,2) + 38*Al*Bep*pow(Qr,2)*pow(r,6)*pow(Sr,2)*N*pow(P,2) - 416*Al*pow(Bep,2)*pow(Qr,3)*pow(r,6)*pow(Sr,2)*N*pow(P,2) - 16*Al*Bep*Bepp*pow(Qr,4)*pow(r,8)*pow(Sr,2)*N*pow(P,2) + 32*Bep*Bepp*pow(r,4)*pow(Sr,4)*N*pow(P,2) - 16*Bep*Bepp*pow(Qr,2)*pow(r,4)*pow(Sr,2)*(pow(r,2) + 16*Bepp*pow(r,2)*pow(Sr,2))*N*pow(P,2) - 64*pow(Bep,2)*pow(r,4)*pow(Sr,2)*Vp*N*pow(P,2) + 2*Al*pow(r,4)*Sr*N*pow(P,3) - 60*Al*Bep*Qr*pow(r,4)*Sr*N*pow(P,3) + 192*Alp*pow(Bep,2)*pow(Qr,3)*pow(r,6)*Sr*N*pow(P,3) - 32*Al*Bep*Bepp*pow(Qr,3)*pow(r,6)*Sr*N*pow(P,3) + 160*pow(Bep,2)*pow(r,4)*pow(Sr,3)*N*pow(P,3) - 8*Bep*pow(Qr,2)*pow(r,4)*Sr*(-48*Al*Bep + 3*Alp*pow(r,2) + 20*Al*Bep*pow(r,2)*pow(Sr,2))*N*pow(P,3) - (3*Alp*pow(r,4)*N*pow(P,4))/4. + 12*Alp*Bep*Qr*pow(r,4)*N*pow(P,4) - 33*Al*Bep*pow(r,4)*pow(Sr,2)*N*pow(P,4) + 400*Al*pow(Bep,2)*Qr*pow(r,4)*pow(Sr,2)*N*pow(P,4) + 8*Bep*pow(Qr,2)*pow(r,4)*(-6*Alp*Bep + 12*Alp*Bep*pow(r,2)*pow(Sr,2) - Al*Bepp*pow(r,2)*pow(Sr,2))*N*pow(P,4) + 12*Alp*Bep*pow(r,4)*Sr*N*pow(P,5) - 96*Alp*pow(Bep,2)*Qr*pow(r,4)*Sr*N*pow(P,5) + 144*Al*pow(Bep,2)*pow(r,4)*pow(Sr,3)*N*pow(P,5) - 48*Alp*pow(Bep,2)*pow(r,4)*pow(Sr,2)*N*pow(P,6) + (64*pow(Bep,2)*pow(r,4)*pow(r_Der_N,2)*pow(Sr,3)*(Qr*pow(r,2)*Sr + P)*(-1 + 8*Bep*Qr + 8*Bep*Sr*P))/N - 12*Alp*Bep*pow(Qr,5)*pow(r,7)*N*(-r + 8*Bep*r*Sr*P) + pow(r_Der_S,2)*(-64*pow(Bep,2)*Qr*pow(r,4)*pow(Sr,2)*N + 512*pow(Bep,3)*pow(Qr,2)*pow(r,4)*pow(Sr,2)*N + 256*pow(Bep,3)*Qr*pow(r,4)*pow(Sr,3)*N*P) - (3*Alp*pow(Qr,4)*pow(r,6)*N*(pow(r,2) - 16*Bep*pow(r,2)*Sr*P - 128*pow(Bep,2)*pow(P,2) + 64*pow(Bep,2)*pow(r,2)*pow(Sr,2)*pow(P,2)))/4. + r_Der_P*(pow(r,5)*Sr*N - 16*Bep*Qr*pow(r,5)*Sr*N - Al*pow(Qr,2)*pow(r,7)*Sr*N + 16*Al*Bep*pow(Qr,3)*pow(r,7)*Sr*N - 64*Al*pow(Bep,2)*pow(Qr,4)*pow(r,7)*Sr*N + 32*pow(Bep,2)*pow(r,3)*pow(Sr,3)*N - 32*pow(Bep,2)*pow(r,5)*pow(Sr,5)*N + 64*pow(Bep,2)*pow(Qr,2)*pow(r,3)*Sr*(pow(r,2) - 4*Bepp*pow(r,2)*pow(Sr,2) + 4*Bepp*pow(r,4)*pow(Sr,4))*N + r_Der_Q*(-256*pow(Bep,3)*pow(r,3)*pow(Sr,3)*N + 256*pow(Bep,3)*pow(r,5)*pow(Sr,5)*N) + 4*Al*Qr*pow(r,5)*N*P - 64*Al*Bep*pow(Qr,2)*pow(r,5)*N*P + 256*Al*pow(Bep,2)*pow(Qr,3)*pow(r,5)*N*P - 16*Bep*pow(r,5)*pow(Sr,2)*N*P + 128*pow(Bep,2)*Qr*pow(r,5)*pow(Sr,2)*N*P + 16*Al*Bep*pow(Qr,2)*pow(r,7)*pow(Sr,2)*N*P - 128*Al*pow(Bep,2)*pow(Qr,3)*pow(r,7)*pow(Sr,2)*N*P + 3*Al*pow(r,5)*Sr*N*pow(P,2) - 112*Al*Bep*Qr*pow(r,5)*Sr*N*pow(P,2) + 704*Al*pow(Bep,2)*pow(Qr,2)*pow(r,5)*Sr*N*pow(P,2) + 64*pow(Bep,2)*pow(r,5)*pow(Sr,3)*N*pow(P,2) - 64*Al*pow(Bep,2)*pow(Qr,2)*pow(r,7)*pow(Sr,3)*N*pow(P,2) - 48*Al*Bep*pow(r,5)*pow(Sr,2)*N*pow(P,3) + 640*Al*pow(Bep,2)*Qr*pow(r,5)*pow(Sr,2)*N*pow(P,3) + 192*Al*pow(Bep,2)*pow(r,5)*pow(Sr,3)*N*pow(P,4)) + 4*Bep*pow(r,4)*pow(Sr,2)*N*V - 64*pow(Bep,2)*Qr*pow(r,4)*pow(Sr,2)*N*V - 64*pow(Bep,2)*pow(r,4)*pow(Sr,3)*N*P*V - 2*Bep*pow(Qr,2)*pow(r,4)*pow(Sr,2)*N*(-3*pow(r,2) + 16*Bepp*pow(r,2)*pow(Sr,2) - 16*Bepp*pow(r,2)*V) + r_Der_Q*(pow(r,4)*N - 16*Bep*Qr*pow(r,4)*N - 3*Al*pow(Qr,2)*pow(r,6)*N + 48*Al*Bep*pow(Qr,3)*pow(r,6)*N - 192*Al*pow(Bep,2)*pow(Qr,4)*pow(r,6)*N + 24*Al*pow(Bep,2)*pow(Qr,4)*pow(r,8)*pow(Sr,2)*N - 32*pow(Bep,2)*pow(r,4)*pow(Sr,4)*N - 16*pow(Bep,2)*pow(Qr,2)*pow(r,4)*(-4 + pow(r,2)*pow(Sr,2))*N - 16*Bep*pow(r,4)*Sr*N*P + 96*pow(Bep,2)*Qr*pow(r,4)*Sr*N*P + 48*Al*Bep*pow(Qr,2)*pow(r,6)*Sr*N*P - 352*Al*pow(Bep,2)*pow(Qr,3)*pow(r,6)*Sr*N*P - 256*pow(Bep,2)*Bepp*Qr*pow(r,4)*pow(Sr,3)*N*P + Al*pow(r,4)*N*pow(P,2) - 16*Al*Bep*Qr*pow(r,4)*N*pow(P,2) + 64*Al*pow(Bep,2)*pow(Qr,2)*pow(r,4)*N*pow(P,2) + 48*pow(Bep,2)*pow(r,4)*pow(Sr,2)*N*pow(P,2) - 208*Al*pow(Bep,2)*pow(Qr,2)*pow(r,6)*pow(Sr,2)*N*pow(P,2) - 256*pow(Bep,2)*Bepp*pow(r,4)*pow(Sr,4)*N*pow(P,2) - 16*Al*Bep*pow(r,4)*Sr*N*pow(P,3) + 96*Al*pow(Bep,2)*Qr*pow(r,4)*Sr*N*pow(P,3) + 56*Al*pow(Bep,2)*pow(r,4)*pow(Sr,2)*N*pow(P,4) + 32*pow(Bep,2)*pow(r,4)*pow(Sr,2)*N*V) + r_Der_N*(Qr*pow(r,5) + 8*Bep*pow(r,3)*pow(Sr,2) - 64*pow(Bep,2)*Qr*pow(r,3)*pow(Sr,2) - 16*Bep*pow(r,5)*pow(Sr,4) + 128*pow(Bep,2)*Qr*pow(r,5)*pow(Sr,4) - 16*Al*pow(Bep,2)*pow(Qr,5)*pow(r,7)*(4 + 3*pow(r,2)*pow(Sr,2)) - 4*Bep*pow(Qr,2)*pow(r,3)*(4*pow(r,2) + 16*Bepp*pow(r,2)*pow(Sr,2) + pow(r,4)*pow(Sr,2)) + pow(r,5)*Sr*P - 40*Bep*Qr*pow(r,5)*Sr*P - 64*pow(Bep,2)*pow(r,3)*pow(Sr,3)*P - 192*Bep*Bepp*Qr*pow(r,5)*pow(Sr,3)*P + 96*pow(Bep,2)*pow(r,5)*pow(Sr,5)*P + pow(Qr,2)*pow(r,3)*Sr*(256*pow(Bep,2)*pow(r,2) + Al*pow(r,4) + 2048*pow(Bep,2)*Bepp*pow(r,2)*pow(Sr,2) + 16*pow(Bep,2)*pow(r,4)*pow(Sr,2))*P - 20*Bep*pow(r,5)*pow(Sr,2)*pow(P,2) - 128*Bep*Bepp*pow(r,5)*pow(Sr,4)*pow(P,2) - 4*Al*Bep*pow(Qr,2)*pow(r,5)*(12 + 5*pow(r,2)*pow(Sr,2))*pow(P,2) + Qr*r*(3*Al*pow(r,4) + 256*pow(Bep,2)*pow(r,4)*pow(Sr,2) + 2304*pow(Bep,2)*Bepp*pow(r,4)*pow(Sr,4))*pow(P,2) - 72*Al*Bep*Qr*pow(r,5)*Sr*pow(P,3) + 16*Al*pow(Bep,2)*pow(Qr,2)*pow(r,5)*Sr*(32 + 5*pow(r,2)*pow(Sr,2))*pow(P,3) + r*Sr*(Al*pow(r,4) + 80*pow(Bep,2)*pow(r,4)*pow(Sr,2) + 768*pow(Bep,2)*Bepp*pow(r,4)*pow(Sr,4))*pow(P,3) - 18*Al*Bep*pow(r,5)*pow(Sr,2)*pow(P,4) + 368*Al*pow(Bep,2)*Qr*pow(r,5)*pow(Sr,2)*pow(P,4) + 72*Al*pow(Bep,2)*pow(r,5)*pow(Sr,3)*pow(P,5) - 2*Al*Bep*pow(Qr,4)*pow(r,6)*(-8*r - 3*pow(r,3)*pow(Sr,2) + 64*Bep*r*Sr*P + 12*Bep*pow(r,3)*pow(Sr,3)*P) + r_Der_Q*(-64*pow(Bep,2)*pow(r,3)*pow(Sr,2) + 512*pow(Bep,3)*Qr*pow(r,3)*pow(Sr,2) + 512*pow(Bep,3)*pow(r,3)*pow(Sr,3)*P) + r_Der_P*(-192*pow(Bep,2)*pow(r,4)*pow(Sr,3) + 1536*pow(Bep,3)*Qr*pow(r,4)*pow(Sr,3) + 128*pow(Bep,2)*pow(r,6)*pow(Sr,5) - 1024*pow(Bep,3)*Qr*pow(r,6)*pow(Sr,5) + 1280*pow(Bep,3)*pow(r,4)*pow(Sr,4)*P - 768*pow(Bep,3)*pow(r,6)*pow(Sr,6)*P) + pow(Qr,3)*pow(r,3)*(64*pow(Bep,2)*pow(r,2) - Al*pow(r,4) + 512*pow(Bep,2)*Bepp*pow(r,2)*pow(Sr,2) + 32*pow(Bep,2)*pow(r,4)*pow(Sr,2) + 8*Al*Bep*pow(r,4)*Sr*P + 192*Al*pow(Bep,2)*pow(r,2)*pow(P,2) + 64*Al*pow(Bep,2)*pow(r,4)*pow(Sr,2)*pow(P,2)) + r_Der_S*(-16*Bep*pow(r,3)*Sr - 128*pow(Bep,2)*Qr*pow(r,3)*Sr*(-2 + pow(r,2)*pow(Sr,2)) + 1024*pow(Bep,3)*pow(Qr,2)*pow(r,3)*Sr*(-1 + pow(r,2)*pow(Sr,2)) + 192*pow(Bep,2)*pow(r,3)*pow(Sr,2)*P + 768*pow(Bep,3)*Qr*pow(r,3)*pow(Sr,2)*(-2 + pow(r,2)*pow(Sr,2))*P - 512*pow(Bep,3)*pow(r,3)*pow(Sr,3)*pow(P,2)) + 8*Bep*pow(r,5)*pow(Sr,2)*V - 64*pow(Bep,2)*Qr*pow(r,5)*pow(Sr,2)*V - 32*pow(Bep,2)*pow(r,5)*pow(Sr,3)*P*V) + r_Der_S*(-4*Bep*pow(Qr,2)*pow(r,6)*Sr*N + 6*Al*Bep*pow(Qr,4)*pow(r,8)*Sr*N - 48*Al*pow(Bep,2)*pow(Qr,5)*pow(r,8)*Sr*N - 16*Bep*pow(r,4)*pow(Sr,3)*N + 160*pow(Bep,2)*Qr*pow(r,4)*pow(Sr,3)*N - 256*pow(Bep,3)*Qr*pow(r,4)*r_Der_Q*pow(Sr,3)*N - 32*pow(Bep,2)*pow(Qr,3)*pow(r,4)*Sr*(-pow(r,2) + 8*Bepp*pow(r,2)*pow(Sr,2))*N + pow(r,4)*N*P - 24*Bep*Qr*pow(r,4)*N*P - 8*Al*Bep*pow(Qr,3)*pow(r,6)*N*P - 64*Bep*Bepp*Qr*pow(r,4)*pow(Sr,2)*N*P - 24*Al*pow(Bep,2)*pow(Qr,4)*pow(r,8)*pow(Sr,2)*N*P + 96*pow(Bep,2)*pow(r,4)*pow(Sr,4)*N*P + pow(Qr,2)*pow(r,2)*(128*pow(Bep,2)*pow(r,2) + Al*pow(r,4) + 512*pow(Bep,2)*Bepp*pow(r,2)*pow(Sr,2) + 16*pow(Bep,2)*pow(r,4)*pow(Sr,2))*N*P - 20*Bep*pow(r,4)*Sr*N*pow(P,2) - 20*Al*Bep*pow(Qr,2)*pow(r,6)*Sr*N*pow(P,2) + 128*Al*pow(Bep,2)*pow(Qr,3)*pow(r,6)*Sr*N*pow(P,2) - 128*Bep*Bepp*pow(r,4)*pow(Sr,3)*N*pow(P,2) + 64*pow(Bep,2)*Qr*pow(r,2)*Sr*(3*pow(r,2) + 20*Bepp*pow(r,2)*pow(Sr,2))*N*pow(P,2) - 24*Al*Bep*Qr*pow(r,4)*N*pow(P,3) + 16*Al*pow(Bep,2)*pow(Qr,2)*pow(r,4)*(8 + 5*pow(r,2)*pow(Sr,2))*N*pow(P,3) + (Al*pow(r,4) + 80*pow(Bep,2)*pow(r,4)*pow(Sr,2) + 768*pow(Bep,2)*Bepp*pow(r,4)*pow(Sr,4))*N*pow(P,3) - 18*Al*Bep*pow(r,4)*Sr*N*pow(P,4) + 176*Al*pow(Bep,2)*Qr*pow(r,4)*Sr*N*pow(P,4) + 72*Al*pow(Bep,2)*pow(r,4)*pow(Sr,2)*N*pow(P,5) + r_Der_P*(-64*pow(Bep,2)*pow(r,3)*pow(Sr,2)*N + 512*pow(Bep,3)*Qr*pow(r,3)*pow(Sr,2)*N + 128*pow(Bep,2)*pow(r,5)*pow(Sr,4)*N - 1024*pow(Bep,3)*Qr*pow(r,5)*pow(Sr,4)*N - 256*pow(Bep,3)*pow(r,3)*pow(Sr,3)*(-1 + 3*pow(r,2)*pow(Sr,2))*N*P) + 8*Bep*pow(r,4)*Sr*N*V - 64*pow(Bep,2)*Qr*pow(r,4)*Sr*N*V - 32*pow(Bep,2)*pow(r,4)*pow(Sr,2)*N*P*V)
+   // Mathematica variable name conversion
+   double nn= N;
+   double r_Der_nn= r_Der_N;
+   double ssr= Sr;
+   double r_Der_ss = r_Der_S;
+
+   // Original equations re-arranged
+   double A=
+      pow(r,4)
    ;
-   p_k/=
-      pow(r,4) - 16*Bep*Qr*pow(r,4) + 16*Al*Bep*pow(Qr,3)*pow(r,6) - 64*Al*pow(Bep,2)*pow(Qr,4)*pow(r,6) - 32*pow(Bep,2)*pow(r,4)*pow(Sr,4) + 256*pow(Bep,3)*pow(r,4)*r_Der_Q*pow(Sr,4) - pow(Qr,2)*pow(r,2)*(-64*pow(Bep,2)*pow(r,2) + Al*pow(r,4) - 256*pow(Bep,2)*Bepp*pow(r,4)*pow(Sr,4)) - 16*Bep*pow(r,3)*(-r + 8*Bep*Qr*r)*(-1 + Al*pow(Qr,2)*pow(r,2))*Sr*P - pow(r,2)*(-3*Al*pow(r,2) + 48*Al*Bep*Qr*pow(r,2) - 192*Al*pow(Bep,2)*pow(Qr,2)*pow(r,2) - 64*pow(Bep,2)*pow(r,2)*pow(Sr,2) + 64*Al*pow(Bep,2)*pow(Qr,2)*pow(r,4)*pow(Sr,2))*pow(P,2) + 48*Al*Bep*pow(r,3)*(-r + 8*Bep*Qr*r)*Sr*pow(P,3) + 192*Al*pow(Bep,2)*pow(r,4)*pow(Sr,2)*pow(P,4) - (128*pow(Bep,2)*pow(r,5)*r_Der_N*pow(Sr,4)*(-1 + 8*Bep*Qr + 6*Bep*Sr*P))/N + r_Der_S*(128*pow(Bep,2)*pow(r,4)*pow(Sr,3) - 1024*pow(Bep,3)*Qr*pow(r,4)*pow(Sr,3) - 768*pow(Bep,3)*pow(r,4)*pow(Sr,4)*P)
+   double F= 
+      pow(r,4)*r_Der_Q*nn + pow(r,5)*r_Der_P*ssr*nn + \
+pow(r,4)*r_Der_ss*nn*P + pow(r,4)*r_Der_nn*(Qr*r + r*ssr*P) + \
+pow(r,3)*(2*Qr*r*nn - r*Vp*nn + 2*r*ssr*nn*P)
    ;
+   double Ac= 
+   pow(r,4) - 16*Bep*Qr*pow(r,4) + 16*Al*Bep*pow(Qr,3)*pow(r,6) - \
+64*Al*pow(Bep,2)*pow(Qr,4)*pow(r,6) - \
+32*pow(Bep,2)*pow(r,4)*pow(ssr,4) + \
+256*pow(Bep,3)*pow(r,4)*r_Der_Q*pow(ssr,4) - \
+pow(Qr,2)*pow(r,2)*(-64*pow(Bep,2)*pow(r,2) + Al*pow(r,4) - \
+256*pow(Bep,2)*Bepp*pow(r,4)*pow(ssr,4)) - 16*Bep*pow(r,3)*(-r + \
+8*Bep*Qr*r)*(-1 + Al*pow(Qr,2)*pow(r,2))*ssr*P - \
+pow(r,2)*(-3*Al*pow(r,2) + 48*Al*Bep*Qr*pow(r,2) - \
+192*Al*pow(Bep,2)*pow(Qr,2)*pow(r,2) - \
+64*pow(Bep,2)*pow(r,2)*pow(ssr,2) + \
+64*Al*pow(Bep,2)*pow(Qr,2)*pow(r,4)*pow(ssr,2))*pow(P,2) + \
+48*Al*Bep*pow(r,3)*(-r + 8*Bep*Qr*r)*ssr*pow(P,3) + \
+192*Al*pow(Bep,2)*pow(r,4)*pow(ssr,2)*pow(P,4) - \
+(128*pow(Bep,2)*pow(r,5)*r_Der_nn*pow(ssr,4)*(-1 + 8*Bep*Qr + \
+6*Bep*ssr*P))/nn + r_Der_ss*(128*pow(Bep,2)*pow(r,4)*pow(ssr,3) - \
+1024*pow(Bep,3)*Qr*pow(r,4)*pow(ssr,3) - \
+768*pow(Bep,3)*pow(r,4)*pow(ssr,4)*P)
+   ;
+   double f=
+   -32*Bep*pow(Qr,2)*pow(r,4)*nn - 2*Al*pow(Qr,3)*pow(r,6)*nn + \
+32*Al*Bep*pow(Qr,4)*pow(r,6)*nn - \
+128*Al*pow(Bep,2)*pow(Qr,5)*pow(r,6)*nn - \
+(3*Alp*pow(Qr,4)*pow(r,8)*nn)/4. + 12*Alp*Bep*pow(Qr,5)*pow(r,8)*nn - \
+5*Al*Bep*pow(Qr,4)*pow(r,8)*pow(ssr,2)*nn - \
+16*Bep*Bepp*pow(Qr,4)*pow(r,8)*pow(ssr,2)*nn + \
+16*Al*pow(Bep,2)*pow(Qr,5)*pow(r,8)*pow(ssr,2)*nn + \
+4*Bep*pow(r,4)*pow(ssr,4)*nn - 32*pow(Bep,2)*pow(Qr,3)*pow(r,4)*(-4 + \
+pow(r,2)*pow(ssr,2))*nn + 24*Bep*pow(Qr,6)*pow(r,8)*(-2*Alp*Bep + \
+Al*Bepp*pow(r,2)*pow(ssr,2))*nn + 16*Bep*Qr*pow(r,4)*Vp*nn - \
+64*pow(Bep,2)*pow(Qr,2)*pow(r,4)*Vp*nn - 60*Bep*Qr*pow(r,4)*ssr*nn*P \
++ 384*pow(Bep,2)*pow(Qr,2)*pow(r,4)*ssr*nn*P - \
+2*Al*pow(Qr,2)*pow(r,6)*ssr*nn*P + \
+60*Al*Bep*pow(Qr,3)*pow(r,6)*ssr*nn*P - \
+32*Bep*Bepp*pow(Qr,3)*pow(r,6)*ssr*nn*P - \
+384*Al*pow(Bep,2)*pow(Qr,4)*pow(r,6)*ssr*nn*P + \
+12*Alp*Bep*pow(Qr,4)*pow(r,8)*ssr*nn*P - 32*Bep*(3*Alp*Bep - \
+Al*Bepp)*pow(Qr,5)*pow(r,8)*ssr*nn*P + \
+32*Bep*Bepp*Qr*pow(r,4)*pow(ssr,3)*nn*P - \
+32*pow(Bep,2)*pow(Qr,2)*pow(r,6)*pow(ssr,3)*nn*P - \
+256*Bep*pow(Bepp,2)*pow(Qr,3)*pow(r,6)*pow(ssr,3)*nn*P + \
+16*Al*pow(Bep,2)*pow(Qr,4)*pow(r,8)*pow(ssr,3)*nn*P + \
+16*Bep*pow(r,4)*ssr*Vp*nn*P - 128*pow(Bep,2)*Qr*pow(r,4)*ssr*Vp*nn*P \
++ 2*Al*Qr*pow(r,4)*nn*pow(P,2) - \
+32*Al*Bep*pow(Qr,2)*pow(r,4)*nn*pow(P,2) + \
+128*Al*pow(Bep,2)*pow(Qr,3)*pow(r,4)*nn*pow(P,2) + \
+(3*Alp*pow(Qr,2)*pow(r,6)*nn*pow(P,2))/2. - \
+24*Alp*Bep*pow(Qr,3)*pow(r,6)*nn*pow(P,2) - \
+34*Bep*pow(r,4)*pow(ssr,2)*nn*pow(P,2) + \
+416*pow(Bep,2)*Qr*pow(r,4)*pow(ssr,2)*nn*pow(P,2) + \
+38*Al*Bep*pow(Qr,2)*pow(r,6)*pow(ssr,2)*nn*pow(P,2) - \
+416*Al*pow(Bep,2)*pow(Qr,3)*pow(r,6)*pow(ssr,2)*nn*pow(P,2) + \
+32*Bep*Bepp*pow(r,4)*pow(ssr,4)*nn*pow(P,2) - \
+16*Bep*Bepp*pow(Qr,2)*pow(r,4)*pow(ssr,2)*(pow(r,2) + \
+16*Bepp*pow(r,2)*pow(ssr,2))*nn*pow(P,2) - \
+16*Bep*pow(Qr,4)*pow(r,6)*(-6*Alp*Bep + 3*Alp*Bep*pow(r,2)*pow(ssr,2) \
++ Al*Bepp*pow(r,2)*pow(ssr,2))*nn*pow(P,2) - \
+64*pow(Bep,2)*pow(r,4)*pow(ssr,2)*Vp*nn*pow(P,2) + \
+2*Al*pow(r,4)*ssr*nn*pow(P,3) - 60*Al*Bep*Qr*pow(r,4)*ssr*nn*pow(P,3) \
+- 32*Al*Bep*Bepp*pow(Qr,3)*pow(r,6)*ssr*nn*pow(P,3) - \
+32*Al*pow(Bep,2)*pow(Qr,2)*pow(r,4)*ssr*(-12 + \
+5*pow(r,2)*pow(ssr,2))*nn*pow(P,3) + \
+8*Bep*pow(r,2)*ssr*(-3*Alp*pow(Qr,2)*pow(r,4) + \
+24*Alp*Bep*pow(Qr,3)*pow(r,4) + \
+20*Bep*pow(r,2)*pow(ssr,2))*nn*pow(P,3) - \
+33*Al*Bep*pow(r,4)*pow(ssr,2)*nn*pow(P,4) + \
+400*Al*pow(Bep,2)*Qr*pow(r,4)*pow(ssr,2)*nn*pow(P,4) - \
+8*Al*Bep*Bepp*pow(Qr,2)*pow(r,6)*pow(ssr,2)*nn*pow(P,4) + \
+(3*Alp*pow(r,2)*(-pow(r,2) + 16*Bep*Qr*pow(r,2) - \
+64*pow(Bep,2)*pow(Qr,2)*pow(r,2) + \
+128*pow(Bep,2)*pow(Qr,2)*pow(r,4)*pow(ssr,2))*nn*pow(P,4))/4. - \
+12*Alp*Bep*pow(r,3)*(-r + 8*Bep*Qr*r)*ssr*nn*pow(P,5) + \
+144*Al*pow(Bep,2)*pow(r,4)*pow(ssr,3)*nn*pow(P,5) - \
+48*Alp*pow(Bep,2)*pow(r,4)*pow(ssr,2)*nn*pow(P,6) + \
+(64*pow(Bep,2)*pow(r,4)*pow(r_Der_nn,2)*pow(ssr,3)*(Qr*pow(r,2)*ssr + \
+P)*(-1 + 8*Bep*Qr + 8*Bep*ssr*P))/nn + \
+pow(r_Der_ss,2)*(-64*pow(Bep,2)*Qr*pow(r,4)*pow(ssr,2)*nn + \
+512*pow(Bep,3)*pow(Qr,2)*pow(r,4)*pow(ssr,2)*nn + \
+256*pow(Bep,3)*Qr*pow(r,4)*pow(ssr,3)*nn*P) + \
+r_Der_P*(-16*Bep*Qr*pow(r,5)*ssr*nn - Al*pow(Qr,2)*pow(r,7)*ssr*nn + \
+16*Al*Bep*pow(Qr,3)*pow(r,7)*ssr*nn - \
+64*Al*pow(Bep,2)*pow(Qr,4)*pow(r,7)*ssr*nn - \
+32*pow(Bep,2)*pow(r,3)*pow(ssr,3)*(-1 + pow(r,2)*pow(ssr,2))*nn + \
+256*pow(Bep,3)*pow(r,3)*r_Der_Q*pow(ssr,3)*(-1 + \
+pow(r,2)*pow(ssr,2))*nn + \
+64*pow(Bep,2)*pow(Qr,2)*pow(r,3)*ssr*(pow(r,2) - \
+4*Bepp*pow(r,2)*pow(ssr,2) + 4*Bepp*pow(r,4)*pow(ssr,4))*nn + \
+4*Al*Qr*pow(r,5)*nn*P - 64*Al*Bep*pow(Qr,2)*pow(r,5)*nn*P + \
+256*Al*pow(Bep,2)*pow(Qr,3)*pow(r,5)*nn*P - \
+16*Bep*pow(r,5)*pow(ssr,2)*nn*P + \
+128*pow(Bep,2)*Qr*pow(r,5)*pow(ssr,2)*nn*P + \
+16*Al*Bep*pow(Qr,2)*pow(r,7)*pow(ssr,2)*nn*P - \
+128*Al*pow(Bep,2)*pow(Qr,3)*pow(r,7)*pow(ssr,2)*nn*P + \
+3*Al*pow(r,5)*ssr*nn*pow(P,2) - \
+112*Al*Bep*Qr*pow(r,5)*ssr*nn*pow(P,2) + \
+704*Al*pow(Bep,2)*pow(Qr,2)*pow(r,5)*ssr*nn*pow(P,2) + \
+64*pow(Bep,2)*pow(r,5)*pow(ssr,3)*nn*pow(P,2) - \
+64*Al*pow(Bep,2)*pow(Qr,2)*pow(r,7)*pow(ssr,3)*nn*pow(P,2) - \
+48*Al*Bep*pow(r,5)*pow(ssr,2)*nn*pow(P,3) + \
+640*Al*pow(Bep,2)*Qr*pow(r,5)*pow(ssr,2)*nn*pow(P,3) + \
+192*Al*pow(Bep,2)*pow(r,5)*pow(ssr,3)*nn*pow(P,4)) + \
+4*Bep*pow(r,4)*pow(ssr,2)*nn*V - \
+64*pow(Bep,2)*Qr*pow(r,4)*pow(ssr,2)*nn*V - \
+64*pow(Bep,2)*pow(r,4)*pow(ssr,3)*nn*P*V - \
+2*Bep*pow(Qr,2)*pow(r,4)*pow(ssr,2)*nn*(-3*pow(r,2) + \
+16*Bepp*pow(r,2)*pow(ssr,2) - 16*Bepp*pow(r,2)*V) + \
+r_Der_Q*(-16*Bep*Qr*pow(r,4)*nn - 3*Al*pow(Qr,2)*pow(r,6)*nn + \
+48*Al*Bep*pow(Qr,3)*pow(r,6)*nn - \
+192*Al*pow(Bep,2)*pow(Qr,4)*pow(r,6)*nn + \
+24*Al*pow(Bep,2)*pow(Qr,4)*pow(r,8)*pow(ssr,2)*nn - \
+32*pow(Bep,2)*pow(r,4)*pow(ssr,4)*nn - \
+16*pow(Bep,2)*pow(Qr,2)*pow(r,4)*(-4 + pow(r,2)*pow(ssr,2))*nn - \
+16*Bep*pow(r,4)*ssr*nn*P + 96*pow(Bep,2)*Qr*pow(r,4)*ssr*nn*P + \
+48*Al*Bep*pow(Qr,2)*pow(r,6)*ssr*nn*P - \
+352*Al*pow(Bep,2)*pow(Qr,3)*pow(r,6)*ssr*nn*P - \
+256*pow(Bep,2)*Bepp*Qr*pow(r,4)*pow(ssr,3)*nn*P + \
+Al*pow(r,4)*nn*pow(P,2) - 16*Al*Bep*Qr*pow(r,4)*nn*pow(P,2) + \
+64*Al*pow(Bep,2)*pow(Qr,2)*pow(r,4)*nn*pow(P,2) + \
+48*pow(Bep,2)*pow(r,4)*pow(ssr,2)*nn*pow(P,2) - \
+208*Al*pow(Bep,2)*pow(Qr,2)*pow(r,6)*pow(ssr,2)*nn*pow(P,2) - \
+256*pow(Bep,2)*Bepp*pow(r,4)*pow(ssr,4)*nn*pow(P,2) - \
+16*Al*Bep*pow(r,4)*ssr*nn*pow(P,3) + \
+96*Al*pow(Bep,2)*Qr*pow(r,4)*ssr*nn*pow(P,3) + \
+56*Al*pow(Bep,2)*pow(r,4)*pow(ssr,2)*nn*pow(P,4) + \
+32*pow(Bep,2)*pow(r,4)*pow(ssr,2)*nn*V) + \
+r_Der_nn*(-16*Bep*pow(Qr,2)*pow(r,5) + 8*Bep*pow(r,3)*pow(ssr,2) - \
+64*pow(Bep,2)*Qr*pow(r,3)*pow(ssr,2) - \
+4*Bep*pow(Qr,2)*pow(r,5)*(16*Bepp + pow(r,2))*pow(ssr,2) - \
+16*Bep*pow(r,5)*pow(ssr,4) + 128*pow(Bep,2)*Qr*pow(r,5)*pow(ssr,4) - \
+16*Al*pow(Bep,2)*pow(Qr,5)*pow(r,7)*(4 + 3*pow(r,2)*pow(ssr,2)) + \
+2*Al*Bep*pow(Qr,4)*pow(r,7)*(8 + 3*pow(r,2)*pow(ssr,2)) - \
+pow(Qr,3)*pow(r,3)*(-64*pow(Bep,2)*pow(r,2) + Al*pow(r,4) - \
+512*pow(Bep,2)*Bepp*pow(r,2)*pow(ssr,2) - \
+32*pow(Bep,2)*pow(r,4)*pow(ssr,2)) - 40*Bep*Qr*pow(r,5)*ssr*P + \
+8*Al*Bep*pow(Qr,3)*pow(r,7)*ssr*P - \
+64*pow(Bep,2)*pow(r,3)*pow(ssr,3)*P - \
+192*Bep*Bepp*Qr*pow(r,5)*pow(ssr,3)*P + \
+96*pow(Bep,2)*pow(r,5)*pow(ssr,5)*P - \
+8*Al*pow(Bep,2)*pow(Qr,4)*pow(r,7)*ssr*(16 + 3*pow(r,2)*pow(ssr,2))*P \
++ pow(Qr,2)*pow(r,3)*ssr*(256*pow(Bep,2)*pow(r,2) + Al*pow(r,4) + \
+2048*pow(Bep,2)*Bepp*pow(r,2)*pow(ssr,2) + \
+16*pow(Bep,2)*pow(r,4)*pow(ssr,2))*P - \
+20*Bep*pow(r,5)*pow(ssr,2)*pow(P,2) - \
+128*Bep*Bepp*pow(r,5)*pow(ssr,4)*pow(P,2) + \
+64*Al*pow(Bep,2)*pow(Qr,3)*pow(r,5)*(3 + \
+pow(r,2)*pow(ssr,2))*pow(P,2) - 4*Al*Bep*pow(Qr,2)*pow(r,5)*(12 + \
+5*pow(r,2)*pow(ssr,2))*pow(P,2) + Qr*r*(3*Al*pow(r,4) + \
+256*pow(Bep,2)*pow(r,4)*pow(ssr,2) + \
+2304*pow(Bep,2)*Bepp*pow(r,4)*pow(ssr,4))*pow(P,2) + \
+r*ssr*(Al*pow(r,4) - 72*Al*Bep*Qr*pow(r,4) + \
+512*Al*pow(Bep,2)*pow(Qr,2)*pow(r,4) + \
+80*pow(Bep,2)*pow(r,4)*pow(ssr,2) + \
+80*Al*pow(Bep,2)*pow(Qr,2)*pow(r,6)*pow(ssr,2) + \
+768*pow(Bep,2)*Bepp*pow(r,4)*pow(ssr,4))*pow(P,3) + \
+2*Al*Bep*pow(r,4)*(-9*r + 184*Bep*Qr*r)*pow(ssr,2)*pow(P,4) + \
+72*Al*pow(Bep,2)*pow(r,5)*pow(ssr,3)*pow(P,5) + \
+r_Der_Q*(-64*pow(Bep,2)*pow(r,3)*pow(ssr,2) + \
+512*pow(Bep,3)*Qr*pow(r,3)*pow(ssr,2) + \
+512*pow(Bep,3)*pow(r,3)*pow(ssr,3)*P) + \
+r_Der_P*(-192*pow(Bep,2)*pow(r,4)*pow(ssr,3) + \
+1536*pow(Bep,3)*Qr*pow(r,4)*pow(ssr,3) + \
+128*pow(Bep,2)*pow(r,6)*pow(ssr,5) - \
+1024*pow(Bep,3)*Qr*pow(r,6)*pow(ssr,5) + \
+1280*pow(Bep,3)*pow(r,4)*pow(ssr,4)*P - \
+768*pow(Bep,3)*pow(r,6)*pow(ssr,6)*P) + \
+r_Der_ss*(-16*Bep*pow(r,3)*ssr - 128*pow(Bep,2)*Qr*pow(r,3)*ssr*(-2 + \
+pow(r,2)*pow(ssr,2)) + 1024*pow(Bep,3)*pow(Qr,2)*pow(r,3)*ssr*(-1 + \
+pow(r,2)*pow(ssr,2)) + 192*pow(Bep,2)*pow(r,3)*pow(ssr,2)*P + \
+768*pow(Bep,3)*Qr*pow(r,3)*pow(ssr,2)*(-2 + pow(r,2)*pow(ssr,2))*P - \
+512*pow(Bep,3)*pow(r,3)*pow(ssr,3)*pow(P,2)) + \
+8*Bep*pow(r,5)*pow(ssr,2)*V - 64*pow(Bep,2)*Qr*pow(r,5)*pow(ssr,2)*V \
+- 32*pow(Bep,2)*pow(r,5)*pow(ssr,3)*P*V) + \
+r_Der_ss*(-4*Bep*pow(Qr,2)*pow(r,6)*ssr*nn + \
+6*Al*Bep*pow(Qr,4)*pow(r,8)*ssr*nn - \
+48*Al*pow(Bep,2)*pow(Qr,5)*pow(r,8)*ssr*nn - \
+16*Bep*pow(r,4)*pow(ssr,3)*nn + \
+160*pow(Bep,2)*Qr*pow(r,4)*pow(ssr,3)*nn - \
+256*pow(Bep,3)*Qr*pow(r,4)*r_Der_Q*pow(ssr,3)*nn - \
+32*pow(Bep,2)*pow(Qr,3)*pow(r,4)*ssr*(-pow(r,2) + \
+8*Bepp*pow(r,2)*pow(ssr,2))*nn - 24*Bep*Qr*pow(r,4)*nn*P - \
+8*Al*Bep*pow(Qr,3)*pow(r,6)*nn*P - \
+64*Bep*Bepp*Qr*pow(r,4)*pow(ssr,2)*nn*P - \
+24*Al*pow(Bep,2)*pow(Qr,4)*pow(r,8)*pow(ssr,2)*nn*P + \
+96*pow(Bep,2)*pow(r,4)*pow(ssr,4)*nn*P + \
+pow(Qr,2)*pow(r,2)*(128*pow(Bep,2)*pow(r,2) + Al*pow(r,4) + \
+512*pow(Bep,2)*Bepp*pow(r,2)*pow(ssr,2) + \
+16*pow(Bep,2)*pow(r,4)*pow(ssr,2))*nn*P - \
+20*Bep*pow(r,4)*ssr*nn*pow(P,2) - \
+20*Al*Bep*pow(Qr,2)*pow(r,6)*ssr*nn*pow(P,2) + \
+128*Al*pow(Bep,2)*pow(Qr,3)*pow(r,6)*ssr*nn*pow(P,2) - \
+128*Bep*Bepp*pow(r,4)*pow(ssr,3)*nn*pow(P,2) + \
+64*pow(Bep,2)*Qr*pow(r,2)*ssr*(3*pow(r,2) + \
+20*Bepp*pow(r,2)*pow(ssr,2))*nn*pow(P,2) + (Al*pow(r,4) - \
+24*Al*Bep*Qr*pow(r,4) + 128*Al*pow(Bep,2)*pow(Qr,2)*pow(r,4) + \
+80*pow(Bep,2)*pow(r,4)*pow(ssr,2) + \
+80*Al*pow(Bep,2)*pow(Qr,2)*pow(r,6)*pow(ssr,2) + \
+768*pow(Bep,2)*Bepp*pow(r,4)*pow(ssr,4))*nn*pow(P,3) + \
+2*Al*Bep*pow(r,3)*(-9*r + 88*Bep*Qr*r)*ssr*nn*pow(P,4) + \
+72*Al*pow(Bep,2)*pow(r,4)*pow(ssr,2)*nn*pow(P,5) + \
+r_Der_P*(512*pow(Bep,3)*Qr*pow(r,3)*pow(ssr,2)*nn - \
+1024*pow(Bep,3)*Qr*pow(r,5)*pow(ssr,4)*nn + \
+64*pow(Bep,2)*pow(r,3)*pow(ssr,2)*(-1 + 2*pow(r,2)*pow(ssr,2))*nn - \
+256*pow(Bep,3)*pow(r,3)*pow(ssr,3)*(-1 + 3*pow(r,2)*pow(ssr,2))*nn*P) \
++ 8*Bep*pow(r,4)*ssr*nn*V - 64*pow(Bep,2)*Qr*pow(r,4)*ssr*nn*V - \
+32*pow(Bep,2)*pow(r,4)*pow(ssr,2)*nn*P*V)
+;
+   double p_k=
+      (F+f)/Ac
+      ;
+ 
+   // Fixed equations
+//   double A=
+//      pow(r,4)
+//   ;
+//   double F= 
+//      pow(r,4)*r_Der_Q*nn + pow(r,5)*r_Der_P*ssr*nn + \
+//pow(r,4)*r_Der_ss*nn*P + pow(r,4)*r_Der_nn*(Qr*r + r*ssr*P) + \
+//pow(r,3)*(2*Qr*r*nn - r*Vp*nn + 2*r*ssr*nn*P)
+//   ;
+//
+//   double p_k= 
+//      1./A*F + Pi
+//   ;
    return p_k;
 }
+///*===========================================================================*/
+//// Both p_k and Pi_k compute F and A, maybe compute both once?
+//inline double EdGB::compute_Pi_k(
+//   const double r,
+//   const double N, const double S,
+//   const double P, const double Q,
+//   const double Pi,
+//   const double V, const double Vp, 
+//   const double Al,  const double Alp,
+//   const double Bep, const double Bepp,
+//   const double tau,
+//   const double r_Der_N,
+//   const double r_Der_S,
+//   const double r_Der_P,
+//   const double r_Der_Q) const
+//{
+//   double Qr= Q/r;
+//   double Sr= S/r;
+//
+//   double A=
+//      pow(r,4)
+//   ;
+//   double F= 
+//      pow(r,4)*r_Der_Q*nn + pow(r,5)*r_Der_P*ssr*nn + \
+//pow(r,4)*r_Der_ss*nn*P + pow(r,4)*r_Der_nn*(Qr*r + r*ssr*P) + \
+//pow(r,3)*(2*Qr*r*nn - r*Vp*nn + 2*r*ssr*nn*P)
+//   ;
+//   double Ac= 
+//   pow(r,4) - 16*Bep*Qr*pow(r,4) + 16*Al*Bep*pow(Qr,3)*pow(r,6) - \
+//64*Al*pow(Bep,2)*pow(Qr,4)*pow(r,6) - \
+//32*pow(Bep,2)*pow(r,4)*pow(ssr,4) + \
+//256*pow(Bep,3)*pow(r,4)*r_Der_Q*pow(ssr,4) - \
+//pow(Qr,2)*pow(r,2)*(-64*pow(Bep,2)*pow(r,2) + Al*pow(r,4) - \
+//256*pow(Bep,2)*Bepp*pow(r,4)*pow(ssr,4)) - 16*Bep*pow(r,3)*(-r + \
+//8*Bep*Qr*r)*(-1 + Al*pow(Qr,2)*pow(r,2))*ssr*P - \
+//pow(r,2)*(-3*Al*pow(r,2) + 48*Al*Bep*Qr*pow(r,2) - \
+//192*Al*pow(Bep,2)*pow(Qr,2)*pow(r,2) - \
+//64*pow(Bep,2)*pow(r,2)*pow(ssr,2) + \
+//64*Al*pow(Bep,2)*pow(Qr,2)*pow(r,4)*pow(ssr,2))*pow(P,2) + \
+//48*Al*Bep*pow(r,3)*(-r + 8*Bep*Qr*r)*ssr*pow(P,3) + \
+//192*Al*pow(Bep,2)*pow(r,4)*pow(ssr,2)*pow(P,4) - \
+//(128*pow(Bep,2)*pow(r,5)*r_Der_nn*pow(ssr,4)*(-1 + 8*Bep*Qr + \
+//6*Bep*ssr*P))/nn + r_Der_ss*(128*pow(Bep,2)*pow(r,4)*pow(ssr,3) - \
+//1024*pow(Bep,3)*Qr*pow(r,4)*pow(ssr,3) - \
+//768*pow(Bep,3)*pow(r,4)*pow(ssr,4)*P)
+//   ;
+//   double f=
+//   -32*Bep*pow(Qr,2)*pow(r,4)*nn - 2*Al*pow(Qr,3)*pow(r,6)*nn + \
+//32*Al*Bep*pow(Qr,4)*pow(r,6)*nn - \
+//128*Al*pow(Bep,2)*pow(Qr,5)*pow(r,6)*nn - \
+//(3*Alp*pow(Qr,4)*pow(r,8)*nn)/4. + 12*Alp*Bep*pow(Qr,5)*pow(r,8)*nn - \
+//5*Al*Bep*pow(Qr,4)*pow(r,8)*pow(ssr,2)*nn - \
+//16*Bep*Bepp*pow(Qr,4)*pow(r,8)*pow(ssr,2)*nn + \
+//16*Al*pow(Bep,2)*pow(Qr,5)*pow(r,8)*pow(ssr,2)*nn + \
+//4*Bep*pow(r,4)*pow(ssr,4)*nn - 32*pow(Bep,2)*pow(Qr,3)*pow(r,4)*(-4 + \
+//pow(r,2)*pow(ssr,2))*nn + 24*Bep*pow(Qr,6)*pow(r,8)*(-2*Alp*Bep + \
+//Al*Bepp*pow(r,2)*pow(ssr,2))*nn + 16*Bep*Qr*pow(r,4)*Vp*nn - \
+//64*pow(Bep,2)*pow(Qr,2)*pow(r,4)*Vp*nn - 60*Bep*Qr*pow(r,4)*ssr*nn*P \
+//+ 384*pow(Bep,2)*pow(Qr,2)*pow(r,4)*ssr*nn*P - \
+//2*Al*pow(Qr,2)*pow(r,6)*ssr*nn*P + \
+//60*Al*Bep*pow(Qr,3)*pow(r,6)*ssr*nn*P - \
+//32*Bep*Bepp*pow(Qr,3)*pow(r,6)*ssr*nn*P - \
+//384*Al*pow(Bep,2)*pow(Qr,4)*pow(r,6)*ssr*nn*P + \
+//12*Alp*Bep*pow(Qr,4)*pow(r,8)*ssr*nn*P - 32*Bep*(3*Alp*Bep - \
+//Al*Bepp)*pow(Qr,5)*pow(r,8)*ssr*nn*P + \
+//32*Bep*Bepp*Qr*pow(r,4)*pow(ssr,3)*nn*P - \
+//32*pow(Bep,2)*pow(Qr,2)*pow(r,6)*pow(ssr,3)*nn*P - \
+//256*Bep*pow(Bepp,2)*pow(Qr,3)*pow(r,6)*pow(ssr,3)*nn*P + \
+//16*Al*pow(Bep,2)*pow(Qr,4)*pow(r,8)*pow(ssr,3)*nn*P + \
+//16*Bep*pow(r,4)*ssr*Vp*nn*P - 128*pow(Bep,2)*Qr*pow(r,4)*ssr*Vp*nn*P \
+//+ 2*Al*Qr*pow(r,4)*nn*pow(P,2) - \
+//32*Al*Bep*pow(Qr,2)*pow(r,4)*nn*pow(P,2) + \
+//128*Al*pow(Bep,2)*pow(Qr,3)*pow(r,4)*nn*pow(P,2) + \
+//(3*Alp*pow(Qr,2)*pow(r,6)*nn*pow(P,2))/2. - \
+//24*Alp*Bep*pow(Qr,3)*pow(r,6)*nn*pow(P,2) - \
+//34*Bep*pow(r,4)*pow(ssr,2)*nn*pow(P,2) + \
+//416*pow(Bep,2)*Qr*pow(r,4)*pow(ssr,2)*nn*pow(P,2) + \
+//38*Al*Bep*pow(Qr,2)*pow(r,6)*pow(ssr,2)*nn*pow(P,2) - \
+//416*Al*pow(Bep,2)*pow(Qr,3)*pow(r,6)*pow(ssr,2)*nn*pow(P,2) + \
+//32*Bep*Bepp*pow(r,4)*pow(ssr,4)*nn*pow(P,2) - \
+//16*Bep*Bepp*pow(Qr,2)*pow(r,4)*pow(ssr,2)*(pow(r,2) + \
+//16*Bepp*pow(r,2)*pow(ssr,2))*nn*pow(P,2) - \
+//16*Bep*pow(Qr,4)*pow(r,6)*(-6*Alp*Bep + 3*Alp*Bep*pow(r,2)*pow(ssr,2) \
+//+ Al*Bepp*pow(r,2)*pow(ssr,2))*nn*pow(P,2) - \
+//64*pow(Bep,2)*pow(r,4)*pow(ssr,2)*Vp*nn*pow(P,2) + \
+//2*Al*pow(r,4)*ssr*nn*pow(P,3) - 60*Al*Bep*Qr*pow(r,4)*ssr*nn*pow(P,3) \
+//- 32*Al*Bep*Bepp*pow(Qr,3)*pow(r,6)*ssr*nn*pow(P,3) - \
+//32*Al*pow(Bep,2)*pow(Qr,2)*pow(r,4)*ssr*(-12 + \
+//5*pow(r,2)*pow(ssr,2))*nn*pow(P,3) + \
+//8*Bep*pow(r,2)*ssr*(-3*Alp*pow(Qr,2)*pow(r,4) + \
+//24*Alp*Bep*pow(Qr,3)*pow(r,4) + \
+//20*Bep*pow(r,2)*pow(ssr,2))*nn*pow(P,3) - \
+//33*Al*Bep*pow(r,4)*pow(ssr,2)*nn*pow(P,4) + \
+//400*Al*pow(Bep,2)*Qr*pow(r,4)*pow(ssr,2)*nn*pow(P,4) - \
+//8*Al*Bep*Bepp*pow(Qr,2)*pow(r,6)*pow(ssr,2)*nn*pow(P,4) + \
+//(3*Alp*pow(r,2)*(-pow(r,2) + 16*Bep*Qr*pow(r,2) - \
+//64*pow(Bep,2)*pow(Qr,2)*pow(r,2) + \
+//128*pow(Bep,2)*pow(Qr,2)*pow(r,4)*pow(ssr,2))*nn*pow(P,4))/4. - \
+//12*Alp*Bep*pow(r,3)*(-r + 8*Bep*Qr*r)*ssr*nn*pow(P,5) + \
+//144*Al*pow(Bep,2)*pow(r,4)*pow(ssr,3)*nn*pow(P,5) - \
+//48*Alp*pow(Bep,2)*pow(r,4)*pow(ssr,2)*nn*pow(P,6) + \
+//(64*pow(Bep,2)*pow(r,4)*pow(r_Der_nn,2)*pow(ssr,3)*(Qr*pow(r,2)*ssr + \
+//P)*(-1 + 8*Bep*Qr + 8*Bep*ssr*P))/nn + \
+//pow(r_Der_ss,2)*(-64*pow(Bep,2)*Qr*pow(r,4)*pow(ssr,2)*nn + \
+//512*pow(Bep,3)*pow(Qr,2)*pow(r,4)*pow(ssr,2)*nn + \
+//256*pow(Bep,3)*Qr*pow(r,4)*pow(ssr,3)*nn*P) + \
+//r_Der_P*(-16*Bep*Qr*pow(r,5)*ssr*nn - Al*pow(Qr,2)*pow(r,7)*ssr*nn + \
+//16*Al*Bep*pow(Qr,3)*pow(r,7)*ssr*nn - \
+//64*Al*pow(Bep,2)*pow(Qr,4)*pow(r,7)*ssr*nn - \
+//32*pow(Bep,2)*pow(r,3)*pow(ssr,3)*(-1 + pow(r,2)*pow(ssr,2))*nn + \
+//256*pow(Bep,3)*pow(r,3)*r_Der_Q*pow(ssr,3)*(-1 + \
+//pow(r,2)*pow(ssr,2))*nn + \
+//64*pow(Bep,2)*pow(Qr,2)*pow(r,3)*ssr*(pow(r,2) - \
+//4*Bepp*pow(r,2)*pow(ssr,2) + 4*Bepp*pow(r,4)*pow(ssr,4))*nn + \
+//4*Al*Qr*pow(r,5)*nn*P - 64*Al*Bep*pow(Qr,2)*pow(r,5)*nn*P + \
+//256*Al*pow(Bep,2)*pow(Qr,3)*pow(r,5)*nn*P - \
+//16*Bep*pow(r,5)*pow(ssr,2)*nn*P + \
+//128*pow(Bep,2)*Qr*pow(r,5)*pow(ssr,2)*nn*P + \
+//16*Al*Bep*pow(Qr,2)*pow(r,7)*pow(ssr,2)*nn*P - \
+//128*Al*pow(Bep,2)*pow(Qr,3)*pow(r,7)*pow(ssr,2)*nn*P + \
+//3*Al*pow(r,5)*ssr*nn*pow(P,2) - \
+//112*Al*Bep*Qr*pow(r,5)*ssr*nn*pow(P,2) + \
+//704*Al*pow(Bep,2)*pow(Qr,2)*pow(r,5)*ssr*nn*pow(P,2) + \
+//64*pow(Bep,2)*pow(r,5)*pow(ssr,3)*nn*pow(P,2) - \
+//64*Al*pow(Bep,2)*pow(Qr,2)*pow(r,7)*pow(ssr,3)*nn*pow(P,2) - \
+//48*Al*Bep*pow(r,5)*pow(ssr,2)*nn*pow(P,3) + \
+//640*Al*pow(Bep,2)*Qr*pow(r,5)*pow(ssr,2)*nn*pow(P,3) + \
+//192*Al*pow(Bep,2)*pow(r,5)*pow(ssr,3)*nn*pow(P,4)) + \
+//4*Bep*pow(r,4)*pow(ssr,2)*nn*V - \
+//64*pow(Bep,2)*Qr*pow(r,4)*pow(ssr,2)*nn*V - \
+//64*pow(Bep,2)*pow(r,4)*pow(ssr,3)*nn*P*V - \
+//2*Bep*pow(Qr,2)*pow(r,4)*pow(ssr,2)*nn*(-3*pow(r,2) + \
+//16*Bepp*pow(r,2)*pow(ssr,2) - 16*Bepp*pow(r,2)*V) + \
+//r_Der_Q*(-16*Bep*Qr*pow(r,4)*nn - 3*Al*pow(Qr,2)*pow(r,6)*nn + \
+//48*Al*Bep*pow(Qr,3)*pow(r,6)*nn - \
+//192*Al*pow(Bep,2)*pow(Qr,4)*pow(r,6)*nn + \
+//24*Al*pow(Bep,2)*pow(Qr,4)*pow(r,8)*pow(ssr,2)*nn - \
+//32*pow(Bep,2)*pow(r,4)*pow(ssr,4)*nn - \
+//16*pow(Bep,2)*pow(Qr,2)*pow(r,4)*(-4 + pow(r,2)*pow(ssr,2))*nn - \
+//16*Bep*pow(r,4)*ssr*nn*P + 96*pow(Bep,2)*Qr*pow(r,4)*ssr*nn*P + \
+//48*Al*Bep*pow(Qr,2)*pow(r,6)*ssr*nn*P - \
+//352*Al*pow(Bep,2)*pow(Qr,3)*pow(r,6)*ssr*nn*P - \
+//256*pow(Bep,2)*Bepp*Qr*pow(r,4)*pow(ssr,3)*nn*P + \
+//Al*pow(r,4)*nn*pow(P,2) - 16*Al*Bep*Qr*pow(r,4)*nn*pow(P,2) + \
+//64*Al*pow(Bep,2)*pow(Qr,2)*pow(r,4)*nn*pow(P,2) + \
+//48*pow(Bep,2)*pow(r,4)*pow(ssr,2)*nn*pow(P,2) - \
+//208*Al*pow(Bep,2)*pow(Qr,2)*pow(r,6)*pow(ssr,2)*nn*pow(P,2) - \
+//256*pow(Bep,2)*Bepp*pow(r,4)*pow(ssr,4)*nn*pow(P,2) - \
+//16*Al*Bep*pow(r,4)*ssr*nn*pow(P,3) + \
+//96*Al*pow(Bep,2)*Qr*pow(r,4)*ssr*nn*pow(P,3) + \
+//56*Al*pow(Bep,2)*pow(r,4)*pow(ssr,2)*nn*pow(P,4) + \
+//32*pow(Bep,2)*pow(r,4)*pow(ssr,2)*nn*V) + \
+//r_Der_nn*(-16*Bep*pow(Qr,2)*pow(r,5) + 8*Bep*pow(r,3)*pow(ssr,2) - \
+//64*pow(Bep,2)*Qr*pow(r,3)*pow(ssr,2) - \
+//4*Bep*pow(Qr,2)*pow(r,5)*(16*Bepp + pow(r,2))*pow(ssr,2) - \
+//16*Bep*pow(r,5)*pow(ssr,4) + 128*pow(Bep,2)*Qr*pow(r,5)*pow(ssr,4) - \
+//16*Al*pow(Bep,2)*pow(Qr,5)*pow(r,7)*(4 + 3*pow(r,2)*pow(ssr,2)) + \
+//2*Al*Bep*pow(Qr,4)*pow(r,7)*(8 + 3*pow(r,2)*pow(ssr,2)) - \
+//pow(Qr,3)*pow(r,3)*(-64*pow(Bep,2)*pow(r,2) + Al*pow(r,4) - \
+//512*pow(Bep,2)*Bepp*pow(r,2)*pow(ssr,2) - \
+//32*pow(Bep,2)*pow(r,4)*pow(ssr,2)) - 40*Bep*Qr*pow(r,5)*ssr*P + \
+//8*Al*Bep*pow(Qr,3)*pow(r,7)*ssr*P - \
+//64*pow(Bep,2)*pow(r,3)*pow(ssr,3)*P - \
+//192*Bep*Bepp*Qr*pow(r,5)*pow(ssr,3)*P + \
+//96*pow(Bep,2)*pow(r,5)*pow(ssr,5)*P - \
+//8*Al*pow(Bep,2)*pow(Qr,4)*pow(r,7)*ssr*(16 + 3*pow(r,2)*pow(ssr,2))*P \
+//+ pow(Qr,2)*pow(r,3)*ssr*(256*pow(Bep,2)*pow(r,2) + Al*pow(r,4) + \
+//2048*pow(Bep,2)*Bepp*pow(r,2)*pow(ssr,2) + \
+//16*pow(Bep,2)*pow(r,4)*pow(ssr,2))*P - \
+//20*Bep*pow(r,5)*pow(ssr,2)*pow(P,2) - \
+//128*Bep*Bepp*pow(r,5)*pow(ssr,4)*pow(P,2) + \
+//64*Al*pow(Bep,2)*pow(Qr,3)*pow(r,5)*(3 + \
+//pow(r,2)*pow(ssr,2))*pow(P,2) - 4*Al*Bep*pow(Qr,2)*pow(r,5)*(12 + \
+//5*pow(r,2)*pow(ssr,2))*pow(P,2) + Qr*r*(3*Al*pow(r,4) + \
+//256*pow(Bep,2)*pow(r,4)*pow(ssr,2) + \
+//2304*pow(Bep,2)*Bepp*pow(r,4)*pow(ssr,4))*pow(P,2) + \
+//r*ssr*(Al*pow(r,4) - 72*Al*Bep*Qr*pow(r,4) + \
+//512*Al*pow(Bep,2)*pow(Qr,2)*pow(r,4) + \
+//80*pow(Bep,2)*pow(r,4)*pow(ssr,2) + \
+//80*Al*pow(Bep,2)*pow(Qr,2)*pow(r,6)*pow(ssr,2) + \
+//768*pow(Bep,2)*Bepp*pow(r,4)*pow(ssr,4))*pow(P,3) + \
+//2*Al*Bep*pow(r,4)*(-9*r + 184*Bep*Qr*r)*pow(ssr,2)*pow(P,4) + \
+//72*Al*pow(Bep,2)*pow(r,5)*pow(ssr,3)*pow(P,5) + \
+//r_Der_Q*(-64*pow(Bep,2)*pow(r,3)*pow(ssr,2) + \
+//512*pow(Bep,3)*Qr*pow(r,3)*pow(ssr,2) + \
+//512*pow(Bep,3)*pow(r,3)*pow(ssr,3)*P) + \
+//r_Der_P*(-192*pow(Bep,2)*pow(r,4)*pow(ssr,3) + \
+//1536*pow(Bep,3)*Qr*pow(r,4)*pow(ssr,3) + \
+//128*pow(Bep,2)*pow(r,6)*pow(ssr,5) - \
+//1024*pow(Bep,3)*Qr*pow(r,6)*pow(ssr,5) + \
+//1280*pow(Bep,3)*pow(r,4)*pow(ssr,4)*P - \
+//768*pow(Bep,3)*pow(r,6)*pow(ssr,6)*P) + \
+//r_Der_ss*(-16*Bep*pow(r,3)*ssr - 128*pow(Bep,2)*Qr*pow(r,3)*ssr*(-2 + \
+//pow(r,2)*pow(ssr,2)) + 1024*pow(Bep,3)*pow(Qr,2)*pow(r,3)*ssr*(-1 + \
+//pow(r,2)*pow(ssr,2)) + 192*pow(Bep,2)*pow(r,3)*pow(ssr,2)*P + \
+//768*pow(Bep,3)*Qr*pow(r,3)*pow(ssr,2)*(-2 + pow(r,2)*pow(ssr,2))*P - \
+//512*pow(Bep,3)*pow(r,3)*pow(ssr,3)*pow(P,2)) + \
+//8*Bep*pow(r,5)*pow(ssr,2)*V - 64*pow(Bep,2)*Qr*pow(r,5)*pow(ssr,2)*V \
+//- 32*pow(Bep,2)*pow(r,5)*pow(ssr,3)*P*V) + \
+//r_Der_ss*(-4*Bep*pow(Qr,2)*pow(r,6)*ssr*nn + \
+//6*Al*Bep*pow(Qr,4)*pow(r,8)*ssr*nn - \
+//48*Al*pow(Bep,2)*pow(Qr,5)*pow(r,8)*ssr*nn - \
+//16*Bep*pow(r,4)*pow(ssr,3)*nn + \
+//160*pow(Bep,2)*Qr*pow(r,4)*pow(ssr,3)*nn - \
+//256*pow(Bep,3)*Qr*pow(r,4)*r_Der_Q*pow(ssr,3)*nn - \
+//32*pow(Bep,2)*pow(Qr,3)*pow(r,4)*ssr*(-pow(r,2) + \
+//8*Bepp*pow(r,2)*pow(ssr,2))*nn - 24*Bep*Qr*pow(r,4)*nn*P - \
+//8*Al*Bep*pow(Qr,3)*pow(r,6)*nn*P - \
+//64*Bep*Bepp*Qr*pow(r,4)*pow(ssr,2)*nn*P - \
+//24*Al*pow(Bep,2)*pow(Qr,4)*pow(r,8)*pow(ssr,2)*nn*P + \
+//96*pow(Bep,2)*pow(r,4)*pow(ssr,4)*nn*P + \
+//pow(Qr,2)*pow(r,2)*(128*pow(Bep,2)*pow(r,2) + Al*pow(r,4) + \
+//512*pow(Bep,2)*Bepp*pow(r,2)*pow(ssr,2) + \
+//16*pow(Bep,2)*pow(r,4)*pow(ssr,2))*nn*P - \
+//20*Bep*pow(r,4)*ssr*nn*pow(P,2) - \
+//20*Al*Bep*pow(Qr,2)*pow(r,6)*ssr*nn*pow(P,2) + \
+//128*Al*pow(Bep,2)*pow(Qr,3)*pow(r,6)*ssr*nn*pow(P,2) - \
+//128*Bep*Bepp*pow(r,4)*pow(ssr,3)*nn*pow(P,2) + \
+//64*pow(Bep,2)*Qr*pow(r,2)*ssr*(3*pow(r,2) + \
+//20*Bepp*pow(r,2)*pow(ssr,2))*nn*pow(P,2) + (Al*pow(r,4) - \
+//24*Al*Bep*Qr*pow(r,4) + 128*Al*pow(Bep,2)*pow(Qr,2)*pow(r,4) + \
+//80*pow(Bep,2)*pow(r,4)*pow(ssr,2) + \
+//80*Al*pow(Bep,2)*pow(Qr,2)*pow(r,6)*pow(ssr,2) + \
+//768*pow(Bep,2)*Bepp*pow(r,4)*pow(ssr,4))*nn*pow(P,3) + \
+//2*Al*Bep*pow(r,3)*(-9*r + 88*Bep*Qr*r)*ssr*nn*pow(P,4) + \
+//72*Al*pow(Bep,2)*pow(r,4)*pow(ssr,2)*nn*pow(P,5) + \
+//r_Der_P*(512*pow(Bep,3)*Qr*pow(r,3)*pow(ssr,2)*nn - \
+//1024*pow(Bep,3)*Qr*pow(r,5)*pow(ssr,4)*nn + \
+//64*pow(Bep,2)*pow(r,3)*pow(ssr,2)*(-1 + 2*pow(r,2)*pow(ssr,2))*nn - \
+//256*pow(Bep,3)*pow(r,3)*pow(ssr,3)*(-1 + 3*pow(r,2)*pow(ssr,2))*nn*P) \
+//+ 8*Bep*pow(r,4)*ssr*nn*V - 64*pow(Bep,2)*Qr*pow(r,4)*ssr*nn*V - \
+//32*pow(Bep,2)*pow(r,4)*pow(ssr,2)*nn*P*V)
+//   ;
+//
+//   double Pi_k= 
+//      -1./tau*(Pi - (1./Ac - 1./A)*F - 1./Ac*f)
+//   ;
+//   return Pi_k;
+//}
 /*===========================================================================*/
 inline double EdGB::compute_S_free_k(
    const double r,
