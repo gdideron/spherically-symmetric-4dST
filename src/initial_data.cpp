@@ -19,7 +19,8 @@ void set_initial_data(
    const Sim_params &sp,
    const vector<double> &rvec,
    Field &N,Field &S,
-   Field &f, Field &p, Field &q)
+   Field &f, Field &p, Field &q,
+   Field &pi)
 {
    double bh_mass= sp.bh_mass;
 /*-------------------------------------------------------------------------*/
@@ -46,10 +47,12 @@ void set_initial_data(
             +	pow(r_u-r,2)
             -	pow(r-r_l,2)
             )*bump;
+	    pi.n[i]= f.n[i];
          } else {
             f.n[i]= 0;
             p.n[i]= 0;
             q.n[i]= 0;
+	    pi.n[i]= 0;
          }
          max_vN= (fabs(f.n[i])>max_vN) ? fabs(f.n[i]) : max_vN;
 
@@ -61,6 +64,7 @@ void set_initial_data(
          f.n[i]*= amp/max_vN;
          q.n[i]*= amp/max_vN;
          p.n[i]*= amp/max_vN;
+	 pi.n[i] *= amp/max_vN;
       }
 /*-------------------------------------------------------------------------*/
    } else 	
@@ -88,6 +92,11 @@ void set_initial_data(
       q.inter_3[i]= q.n[i];
       q.inter_4[i]= q.n[i];
       q.np1[i]=     q.n[i];
+
+      pi.inter_2[i]= pi.n[i];
+      pi.inter_3[i]= pi.n[i];
+      pi.inter_4[i]= pi.n[i];
+      pi.np1[i]=     pi.n[i];
 
       N.inter_2[i]= N.n[i];
       N.inter_3[i]= N.n[i];

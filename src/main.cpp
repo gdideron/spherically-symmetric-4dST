@@ -52,12 +52,14 @@ int main(int argc, char **argv)
    Field phi_f("phi_f",sp.nx,0);
    Field phi_q("phi_q",sp.nx,0);
    Field phi_p("phi_p",sp.nx,0);
+   Field phi_pi("phi_pi",sp.nx,0);
 
    Field N("N",sp.nx,1);
    Field S("S",sp.nx,0);
 
    Field res_q( "res_q",  sp.nx,0);
    Field eom_rr("res_rr", sp.nx,0);
+   Field res_pi("res_pi", sp.nx,0);
 
    Field  ingoing_c( "ingoing_c",sp.nx,0);
    Field outgoing_c("outgoing_c",sp.nx,0);
@@ -67,7 +69,7 @@ int main(int argc, char **argv)
 /*--------------------------------------------------------------------------*/		
 /* initial data */
 /*--------------------------------------------------------------------------*/		
-   set_initial_data(sp, rp.r, N, S, phi_f, phi_p, phi_q);
+   set_initial_data(sp, rp.r, N, S, phi_f, phi_p, phi_q, phi_pi);
 
    edgb.solve_metric_fields(
       sp.initial_exc_i,
@@ -93,6 +95,7 @@ int main(int argc, char **argv)
    out.write(grid_time, phi_f);
    out.write(grid_time, phi_p);
    out.write(grid_time, phi_q);
+   out.write(grid_time, phi_pi);
 
    out.write(grid_time, N);
    out.write(grid_time, S);
@@ -227,6 +230,7 @@ int main(int argc, char **argv)
          out.write(grid_time, phi_f);
          out.write(grid_time, phi_p);
          out.write(grid_time, phi_q);
+	 out.write(grid_time, phi_pi);
 
          out.write(grid_time, N);
          out.write(grid_time, S);

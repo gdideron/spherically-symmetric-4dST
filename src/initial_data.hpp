@@ -12,8 +12,8 @@ void set_initial_data(
    const Sim_params &sp,
    const std::vector<double> &rvec,
    Field &N,Field &S,
-   Field &f, Field &p, Field &q
-);
+   Field &f, Field &p, Field &q,
+   Field &pi);
 /*===========================================================================*/
 void time_symmetric(EdGB &edgb,
    const Sim_params &sp,
