@@ -168,7 +168,7 @@ int main(int argc, char **argv)
          phi_p.np1, phi_q.np1,
          ingoing_c.np1, outgoing_c.np1
       );
-      edgb.time_step(exc_i, N, S, phi_f, phi_p, phi_q);
+      edgb.time_step(exc_i, N, S, phi_f, phi_p, phi_q,phi_pi);
 
       if (tC%(sp.t_step_save)==0) {
 /*--------------------------------------------------------------------------*/		
@@ -177,6 +177,7 @@ int main(int argc, char **argv)
          phi_f.check_isfinite(grid_time);
          phi_p.check_isfinite(grid_time);
          phi_q.check_isfinite(grid_time);
+         phi_pi.check_isfinite(grid_time);
 /*--------------------------------------------------------------------------*/		
          compute_indep_res_q(
             exc_i,
@@ -213,6 +214,7 @@ int main(int argc, char **argv)
          phi_f.set_to_val(0,exc_i-1,0);
          phi_p.set_to_val(0,exc_i-1,0);
          phi_q.set_to_val(0,exc_i-1,0);
+         phi_pi.set_to_val(0,exc_i-1,0);
 
          N.set_to_val(0,exc_i-1,0);
          S.set_to_val(0,exc_i-1,0);
@@ -253,6 +255,7 @@ int main(int argc, char **argv)
       phi_f.shift_time_step();
       phi_p.shift_time_step();
       phi_q.shift_time_step();
+      phi_pi.shift_time_step();
 
       N.shift_time_step();
       S.shift_time_step();

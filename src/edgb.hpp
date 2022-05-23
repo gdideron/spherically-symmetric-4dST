@@ -22,7 +22,8 @@ public:
 
    void time_step(
       const int exc_i,
-      Field &N, Field &S, Field &phi_f, Field &phi_p, Field &phi_q
+      Field &N, Field &S, Field &phi_f, Field &phi_p, Field &phi_q,
+      Field &pi
    );
    void solve_metric_fields(
       const int exc_i,
@@ -97,18 +98,22 @@ private:
    std::vector<double> f_k1;
    std::vector<double> p_k1;
    std::vector<double> q_k1;
+   std::vector<double> pi_k1;
 
    std::vector<double> f_k2;
    std::vector<double> p_k2;
    std::vector<double> q_k2;
+   std::vector<double> pi_k2;
 
    std::vector<double> f_k3;
    std::vector<double> p_k3;
    std::vector<double> q_k3;
+   std::vector<double> pi_k3;
 
    std::vector<double> f_k4;
    std::vector<double> p_k4;
    std::vector<double> q_k4;
+   std::vector<double> pi_k4;
 
    std::vector<double> res_n_v;
    std::vector<double> res_s_v;
@@ -155,6 +160,11 @@ private:
       const double r_Der_S,
       const double r_Der_P,
       const double r_Der_Q
+   ) const;
+   double compute_pi_k(
+      const double r,
+      const double Pi,
+      const double r_Der_Pi
    ) const;
    double compute_S_free_k(
       const double r,
@@ -205,9 +215,11 @@ private:
       const std::vector<double> &S,
       const std::vector<double> &p, 
       const std::vector<double> &q,
+      const std::vector<double> &pi,
       std::vector<double> &f_k,
       std::vector<double> &p_k,
       std::vector<double> &q_k,
+      std::vector<double> &pi_k,
       double &S_free_k
    );
 
@@ -486,20 +498,11 @@ r_Der_P*(512*pow(Bep,3)*Qr*pow(r,3)*pow(ssr,2)*nn - \
 }
 ///*===========================================================================*/
 //// Both p_k and Pi_k compute F and A, maybe compute both once?
-//inline double EdGB::compute_Pi_k(
-//   const double r,
-//   const double N, const double S,
-//   const double P, const double Q,
-//   const double Pi,
-//   const double V, const double Vp, 
-//   const double Al,  const double Alp,
-//   const double Bep, const double Bepp,
-//   const double tau,
-//   const double r_Der_N,
-//   const double r_Der_S,
-//   const double r_Der_P,
-//   const double r_Der_Q) const
-//{
+inline double EdGB::compute_pi_k(
+   const double r,
+   const double Pi,
+   const double r_Der_Pi) const
+{
 //   double Qr= Q/r;
 //   double Sr= S/r;
 //
@@ -718,11 +721,12 @@ r_Der_P*(512*pow(Bep,3)*Qr*pow(r,3)*pow(ssr,2)*nn - \
 //32*pow(Bep,2)*pow(r,4)*pow(ssr,2)*nn*P*V)
 //   ;
 //
-//   double Pi_k= 
-//      -1./tau*(Pi - (1./Ac - 1./A)*F - 1./Ac*f)
-//   ;
-//   return Pi_k;
-//}
+   double Pi_k= 
+      -r_Der_Pi;
+      //-1./tau*(Pi - (1./Ac - 1./A)*F - 1./Ac*f)
+   ;
+   return Pi_k;
+}
 /*===========================================================================*/
 inline double EdGB::compute_S_free_k(
    const double r,

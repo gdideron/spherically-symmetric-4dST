@@ -61,18 +61,22 @@ EdGB::EdGB(
   f_k1(nx,0),
   p_k1(nx,0),
   q_k1(nx,0),
+  pi_k1(nx,0),
 
   f_k2(nx,0),
   p_k2(nx,0),
   q_k2(nx,0),
+  pi_k2(nx,0),
 
   f_k3(nx,0),
   p_k3(nx,0),
   q_k3(nx,0),
+  pi_k3(nx,0),
 
   f_k4(nx,0),
   p_k4(nx,0),
   q_k4(nx,0),
+  pi_k4(nx,0),
 
   ingoing_c{0},
   outgoing_c{0},
@@ -292,9 +296,11 @@ void EdGB::compute_fpqS_ki(
    const vector<double> &s_v,
    const vector<double> &p_v, 
    const vector<double> &q_v,
+   const vector<double> &pi_v,
    vector<double> &f_k,
    vector<double> &p_k,
    vector<double> &q_k,
+   vector<double> &pi_k,
    double &S_free_k)
 {
 /*---------------------------------------------------------------------------*/
@@ -305,6 +311,7 @@ void EdGB::compute_fpqS_ki(
       double r_Der_s= pow(cf,2)*Dx_ptc_4th(s_v[i+2],s_v[i+1],s_v[i-1],s_v[i-2],dx);
       double r_Der_p= pow(cf,2)*Dx_ptc_4th(p_v[i+2],p_v[i+1],p_v[i-1],p_v[i-2],dx);
       double r_Der_q= pow(cf,2)*Dx_ptc_4th(q_v[i+2],q_v[i+1],q_v[i-1],q_v[i-2],dx);
+      double r_Der_pi= pow(cf,2)*Dx_ptc_4th(pi_v[i+2],pi_v[i+1],pi_v[i-1],pi_v[i-2],dx);
 
       f_k[i]= 
          n_v[i]*(p_v[i]+s_v[i]*q_v[i])
@@ -328,6 +335,11 @@ void EdGB::compute_fpqS_ki(
          n_v[i-2]*(p_v[i-2]+s_v[i-2]*q_v[i-2]),
          dx
       );
+      pi_k[i]= compute_pi_k(
+	 r_v[i],
+	 pi_v[i],
+	 r_Der_pi
+      );
    }
 /*---------------------------------------------------------------------------*/
    int i= exc_i+1;
@@ -337,6 +349,7 @@ void EdGB::compute_fpqS_ki(
    double r_Der_s= pow(cf,2)*Dx_ptp1_4th(s_v[i+3],s_v[i+2],s_v[i+1],s_v[i],s_v[i-1],dx);
    double r_Der_p= pow(cf,2)*Dx_ptp1_4th(p_v[i+3],p_v[i+2],p_v[i+1],p_v[i],p_v[i-1],dx);
    double r_Der_q= pow(cf,2)*Dx_ptp1_4th(q_v[i+3],q_v[i+2],q_v[i+1],q_v[i],q_v[i-1],dx);
+   double r_Der_pi= pow(cf,2)*Dx_ptp1_4th(pi_v[i+3],pi_v[i+2],pi_v[i+1],pi_v[i],pi_v[i-1],dx);
 
    f_k[i]=
       n_v[i]*(p_v[i]+s_v[i]*q_v[i])
@@ -359,6 +372,11 @@ void EdGB::compute_fpqS_ki(
       n_v[i-1]*(p_v[i-1]+s_v[i-1]*q_v[i-1]),
       dx
    );
+   pi_k[i]= compute_pi_k(
+      r_v[i],
+      pi_v[i],
+      r_Der_pi
+   );
 /*---------------------------------------------------------------------------*/
 /* if excising then freely evolve p, q, and s */
 /*---------------------------------------------------------------------------*/
@@ -370,6 +388,7 @@ void EdGB::compute_fpqS_ki(
       r_Der_s= pow(cf,2)*Dx_ptp0_4th(s_v[i+4],s_v[i+3],s_v[i+2],s_v[i+1],s_v[i],dx);
       r_Der_p= pow(cf,2)*Dx_ptp0_4th(p_v[i+4],p_v[i+3],p_v[i+2],p_v[i+1],p_v[i],dx);
       r_Der_q= pow(cf,2)*Dx_ptp0_4th(q_v[i+4],q_v[i+3],q_v[i+2],q_v[i+1],q_v[i],dx);
+      r_Der_pi= pow(cf,2)*Dx_ptp0_4th(pi_v[i+4],pi_v[i+3],pi_v[i+2],pi_v[i+1],pi_v[i],dx);
 
       f_k[i]=
          n_v[i]*(p_v[i]+s_v[i]*q_v[i])
@@ -392,6 +411,11 @@ void EdGB::compute_fpqS_ki(
          n_v[i  ]*(p_v[i]  +s_v[i  ]*q_v[i  ]),
          dx
       );
+      pi_k[i]= compute_pi_k(
+         r_v[i],
+         pi_v[i],
+         r_Der_pi
+      );
       S_free_k= compute_S_free_k(
          r_v[i],
          n_v[i], s_v[i],
@@ -411,6 +435,7 @@ void EdGB::compute_fpqS_ki(
    r_Der_s= pow(cf,2)*Dx_ptm1_4th(s_v[i+1],s_v[i],s_v[i-1],s_v[i-2],s_v[i-3],dx);
    r_Der_p= pow(cf,2)*Dx_ptm1_4th(p_v[i+1],p_v[i],p_v[i-1],p_v[i-2],p_v[i-3],dx);
    r_Der_q= pow(cf,2)*Dx_ptm1_4th(q_v[i+1],q_v[i],q_v[i-1],q_v[i-2],q_v[i-3],dx);
+   r_Der_pi= pow(cf,2)*Dx_ptm1_4th(pi_v[i+1],pi_v[i],pi_v[i-1],pi_v[i-2],pi_v[i-3],dx);
 
    f_k[i]=
       n_v[i]*(p_v[i]+s_v[i]*q_v[i])
@@ -434,12 +459,18 @@ void EdGB::compute_fpqS_ki(
       n_v[i-3]*(p_v[i-3]+s_v[i-3]*q_v[i-3]),
       dx
    );
+   pi_k[i]= compute_pi_k(
+      r_v[i],
+      pi_v[i],
+      r_Der_pi
+   );
 /*---------------------------------------------------------------------------*/
 /* regularity condition at spatin infinity: no evolution */
 /*---------------------------------------------------------------------------*/
    f_k[nx-1]= 0;
    p_k[nx-1]= 0;
    q_k[nx-1]= 0; 
+   pi_k[nx-1]= 0; 
 /*---------------------------------------------------------------------------*/
 /* set the k vectors for RK4 method */
 /*---------------------------------------------------------------------------*/
@@ -447,6 +478,7 @@ void EdGB::compute_fpqS_ki(
       f_k[i]= dt*f_k[i];
       p_k[i]= dt*p_k[i];
       q_k[i]= dt*q_k[i];
+      pi_k[i]= dt*pi_k[i];
    }
    S_free_k= dt*S_free_k;
 /*---------------------------------------------------------------------------*/
@@ -456,29 +488,32 @@ void EdGB::compute_fpqS_ki(
 /* evolve with RK4 method */
 /*===========================================================================*/
 void EdGB::time_step(const int exc_i, 
-   Field &n, Field &s, Field &f, Field &p, Field &q)
+   Field &n, Field &s, Field &f, Field &p, Field &q, Field &pi)
 {
    KO_filter(exc_i,nx,"even",f.n);
    KO_filter(exc_i,nx,"even",p.n);
    KO_filter(exc_i,nx,"odd" ,q.n);
+   KO_filter(exc_i,nx,"even",pi.n);
 /*---------------------------------------------------------------------------*/
    int start_i= (exc_i>0) ? exc_i : 1;
 /*---------------------------------------------------------------------------*/
    compute_potentials(f.n);
 
    compute_fpqS_ki(exc_i,
-      n.n, s.n, p.n, q.n,
-      f_k1, p_k1, q_k1, S_free_k1
+      n.n, s.n, p.n, q.n, pi.n,
+      f_k1, p_k1, q_k1, pi_k1, S_free_k1
    );
    for (int i=start_i; i<nx; ++i) {
       f.inter_2[i]= f.n[i]+0.5*f_k1[i];
       p.inter_2[i]= p.n[i]+0.5*p_k1[i];
       q.inter_2[i]= q.n[i]+0.5*q_k1[i];
+      pi.inter_2[i]= pi.n[i]+0.5*pi_k1[i];
    }
    if (exc_i==0) {
       f.inter_2[0]= make_Dx_zero(f.inter_2[4], f.inter_2[3], f.inter_2[2], f.inter_2[1]);
       p.inter_2[0]= make_Dx_zero(p.inter_2[4], p.inter_2[3], p.inter_2[2], p.inter_2[1]);
       q.inter_2[0]= 0; 
+      pi.inter_2[0]= make_Dx_zero(pi.inter_2[4], pi.inter_2[3], pi.inter_2[2], pi.inter_2[1]);
    } else {
       s.inter_2[exc_i]= s.n[exc_i]+0.5*S_free_k1;
    }
@@ -489,22 +524,25 @@ void EdGB::time_step(const int exc_i,
    KO_filter(exc_i,nx,"even",f.inter_2);
    KO_filter(exc_i,nx,"even",p.inter_2);
    KO_filter(exc_i,nx,"odd" ,q.inter_2);
+   KO_filter(exc_i,nx,"even",pi.inter_2);
 /*---------------------------------------------------------------------------*/
    compute_potentials(f.inter_2);
 
    compute_fpqS_ki(exc_i,
-      n.inter_2, s.inter_2, p.inter_2, q.inter_2,
-      f_k2, p_k2, q_k2, S_free_k2 
+      n.inter_2, s.inter_2, p.inter_2, q.inter_2, pi.inter_2,
+      f_k2, p_k2, q_k2, pi_k2, S_free_k2 
    );
    for (int i=start_i; i<nx; ++i) {
       f.inter_3[i]= f.n[i]+0.5*f_k2[i];
       p.inter_3[i]= p.n[i]+0.5*p_k2[i];
       q.inter_3[i]= q.n[i]+0.5*q_k2[i];
+      pi.inter_3[i]= pi.n[i]+0.5*pi_k2[i];
    }
    if (exc_i==0) {
       f.inter_3[0]= make_Dx_zero(f.inter_3[4], f.inter_3[3], f.inter_3[2], f.inter_3[1]);
       p.inter_3[0]= make_Dx_zero(p.inter_3[4], p.inter_3[3], p.inter_3[2], p.inter_3[1]);
       q.inter_3[0]= 0; 
+      pi.inter_3[0]= make_Dx_zero(pi.inter_3[4], pi.inter_3[3], pi.inter_3[2], pi.inter_3[1]);
    } else {
       s.inter_3[exc_i]= s.n[exc_i]+0.5*S_free_k2;
    }
@@ -515,22 +553,25 @@ void EdGB::time_step(const int exc_i,
    KO_filter(exc_i,nx,"even",f.inter_3);
    KO_filter(exc_i,nx,"even",p.inter_3);
    KO_filter(exc_i,nx,"odd" ,q.inter_3);
+   KO_filter(exc_i,nx,"even",pi.inter_3);
 /*---------------------------------------------------------------------------*/
    compute_potentials(f.inter_3);
 
    compute_fpqS_ki(exc_i,
-      n.inter_3, s.inter_3, p.inter_3, q.inter_3,
-      f_k3, p_k3, q_k3, S_free_k3
+      n.inter_3, s.inter_3, p.inter_3, q.inter_3, pi.inter_3,
+      f_k3, p_k3, q_k3, pi_k3, S_free_k3
    );
    for (int i=start_i; i<nx; ++i) {
       f.inter_4[i]= f.n[i]+f_k3[i];
       p.inter_4[i]= p.n[i]+p_k3[i];
       q.inter_4[i]= q.n[i]+q_k3[i];
+      pi.inter_4[i]= pi.n[i]+pi_k3[i];
    }
    if (exc_i==0) {
       f.inter_4[0]= make_Dx_zero(f.inter_4[4], f.inter_4[3], f.inter_4[2], f.inter_4[1]);
       p.inter_4[0]= make_Dx_zero(p.inter_4[4], p.inter_4[3], p.inter_4[2], p.inter_4[1]);
       q.inter_4[0]= 0; 
+      pi.inter_4[0]= make_Dx_zero(pi.inter_4[4], pi.inter_4[3], pi.inter_4[2], pi.inter_4[1]);
    } else {
       s.inter_4[exc_i]= s.n[exc_i]+S_free_k3;
    }
@@ -541,22 +582,25 @@ void EdGB::time_step(const int exc_i,
    KO_filter(exc_i,nx,"even",f.inter_4);
    KO_filter(exc_i,nx,"even",p.inter_4);
    KO_filter(exc_i,nx,"odd" ,q.inter_4);
+   KO_filter(exc_i,nx,"even",pi.inter_4);
 /*---------------------------------------------------------------------------*/
    compute_potentials(f.inter_4);
 
    compute_fpqS_ki(exc_i,
-      n.inter_4, s.inter_4, p.inter_4, q.inter_4,
+      n.inter_4, s.inter_4, p.inter_4, q.inter_4, q.inter_4, pi.inter_4,
       f_k4, p_k4, q_k4, S_free_k4 
    );
    for (int i=start_i; i<nx; ++i) {
       f.np1[i]= f.n[i] + (f_k1[i]+2.*f_k2[i]+2.*f_k3[i]+f_k4[i])/6.;
       p.np1[i]= p.n[i] + (p_k1[i]+2.*p_k2[i]+2.*p_k3[i]+p_k4[i])/6.;
       q.np1[i]= q.n[i] + (q_k1[i]+2.*q_k2[i]+2.*q_k3[i]+q_k4[i])/6.;
+      pi.np1[i]= pi.n[i] + (pi_k1[i]+2.*pi_k2[i]+2.*pi_k3[i]+pi_k4[i])/6.;
    }
    if (exc_i==0) {
       f.np1[0]= make_Dx_zero(f.np1[4], f.np1[3], f.np1[2], f.np1[1]);
       p.np1[0]= make_Dx_zero(p.np1[4], p.np1[3], p.np1[2], p.np1[1]);
       q.np1[0]= 0; 
+      pi.np1[0]= make_Dx_zero(pi.np1[4], pi.np1[3], pi.np1[2], pi.np1[1]);
    } else {
       s.np1[exc_i]= s.n[exc_i]+(S_free_k1+2.*S_free_k2+2.*S_free_k3+S_free_k4)/6.;
    }
