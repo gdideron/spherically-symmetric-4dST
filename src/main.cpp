@@ -168,7 +168,7 @@ int main(int argc, char **argv)
          phi_p.np1, phi_q.np1,
          ingoing_c.np1, outgoing_c.np1
       );
-      edgb.time_step(exc_i, N, S, phi_f, phi_p, phi_q,phi_pi);
+      edgb.time_step(exc_i, N, S, phi_f, phi_p, phi_q, phi_pi);
 
       if (tC%(sp.t_step_save)==0) {
 /*--------------------------------------------------------------------------*/		

@@ -7,6 +7,7 @@
 ##
 import sys, time, os, subprocess
 from sim_class import Sim
+from lib.sdfprocess import convergence_order
 #=============================================================================
 args= sys.argv
 #=============================================================================
@@ -18,7 +19,7 @@ sim.binary= 'default.run'
 #-----------------------------------------------------------------------------
 sim.compactification_length= float(100) 
 #-----------------------------------------------------------------------------
-sim.evolve_time=   float(200)  ### in units of initial black hole mass for ze field 
+sim.evolve_time=   float(5)  ### in units of initial black hole mass for ze field 
 sim.num_saved_times= int(500)
 sim.cfl= 0.2
 #-----------------------------------------------------------------------------
@@ -58,11 +59,11 @@ sim.bh_mass= float(5.0)
 #sim.initial_data_type= str("bump")
 sim.initial_data_type= str("bump_with_bh")
 
-sim.amp= float(0.01)
-sim.r_l= float(12.0)
-sim.r_u= float(26.0)
+sim.amp= float(1.0e-2)
+sim.r_l= float(2.4*sim.bh_mass)
+sim.r_u= float(5.2*sim.bh_mass)
 #-----------------------------------------------------------------------------
-sim.nx= pow(2,12)+1 
+sim.nx= pow(2,11)+1 
 #-----------------------------------------------------------------------------
 sim.set_derived_params()
 #=============================================================================
@@ -113,9 +114,16 @@ elif (sim.run_type == 'scan'):
 #=============================================================================
 elif (sim.run_type == 'res_study'):
    num_res= int(input('number of resolutions '))
+   sim.data_dir= os.path.join(sim.data_dir,f"res_stufy_{sim.nx}_{num_res}")
    for i in range(num_res):	
       sim.launch()
       sim.nx= 2*(sim.nx-1)+1 
+   pi_files = []
+   for root, dirs, files in os.walk(sim.data_dir):
+       for name in dirs:
+           pi_files.append(os.path.join(root,name,"phi_pi.sdf"))
+   pi_files = sorted(pi_files)
+   convergence_order(pi_files,check_time=False,output_file=f'{sim.data_dir}/conv_order.sdf')
 #=============================================================================
 ### varying eta with a fixed initial phi amplitude
 #=============================================================================

@@ -721,10 +721,10 @@ inline double EdGB::compute_pi_k(
 //32*pow(Bep,2)*pow(r,4)*pow(ssr,2)*nn*P*V)
 //   ;
 //
+
    double Pi_k= 
       -r_Der_Pi;
       //-1./tau*(Pi - (1./Ac - 1./A)*F - 1./Ac*f)
-   ;
    return Pi_k;
 }
 /*===========================================================================*/
