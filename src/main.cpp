@@ -232,7 +232,7 @@ int main(int argc, char **argv)
          out.write(grid_time, phi_f);
          out.write(grid_time, phi_p);
          out.write(grid_time, phi_q);
-	 out.write(grid_time, phi_pi);
+	 out.write(tC*sp.dt, phi_pi);
 
          out.write(grid_time, N);
          out.write(grid_time, S);
