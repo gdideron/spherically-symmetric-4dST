@@ -88,6 +88,7 @@ int main(int argc, char **argv)
 /* write to file */
 /*--------------------------------------------------------------------------*/		
    Sdf out(output_dir,rp.r);
+   Sdf out_pi(output_dir,rp.x);
    //Csv out(output_dir);
 
    double grid_time= 0;
@@ -95,7 +96,7 @@ int main(int argc, char **argv)
    out.write(grid_time, phi_f);
    out.write(grid_time, phi_p);
    out.write(grid_time, phi_q);
-   out.write(grid_time, phi_pi);
+   out_pi.write(grid_time, phi_pi);
 
    out.write(grid_time, N);
    out.write(grid_time, S);
@@ -232,7 +233,7 @@ int main(int argc, char **argv)
          out.write(grid_time, phi_f);
          out.write(grid_time, phi_p);
          out.write(grid_time, phi_q);
-	 out.write(tC*sp.dt, phi_pi);
+	 out_pi.write(tC*sp.dt, phi_pi);
 
          out.write(grid_time, N);
          out.write(grid_time, S);

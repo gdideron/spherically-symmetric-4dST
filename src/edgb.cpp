@@ -311,7 +311,7 @@ void EdGB::compute_fpqS_ki(
       double r_Der_s= pow(cf,2)*Dx_ptc_4th(s_v[i+2],s_v[i+1],s_v[i-1],s_v[i-2],dx);
       double r_Der_p= pow(cf,2)*Dx_ptc_4th(p_v[i+2],p_v[i+1],p_v[i-1],p_v[i-2],dx);
       double r_Der_q= pow(cf,2)*Dx_ptc_4th(q_v[i+2],q_v[i+1],q_v[i-1],q_v[i-2],dx);
-      double r_Der_pi= pow(cf,2)*Dx_ptc_4th(pi_v[i+2],pi_v[i+1],pi_v[i-1],pi_v[i-2],dx);
+      double r_Der_pi= Dx_ptc_4th(pi_v[i+2],pi_v[i+1],pi_v[i-1],pi_v[i-2],dx);
 
       f_k[i]= 
          n_v[i]*(p_v[i]+s_v[i]*q_v[i])
@@ -335,11 +335,12 @@ void EdGB::compute_fpqS_ki(
          n_v[i-2]*(p_v[i-2]+s_v[i-2]*q_v[i-2]),
          dx
       );
-      pi_k[i]= compute_pi_k(
-	 r_v[i],
-	 pi_v[i],
-	 r_Der_pi
-      );
+      pi_k[i]= - r_Der_pi;
+//	      compute_pi_k(
+//	 r_v[i],
+//	 pi_v[i],
+//	 r_Der_pi
+//      );
    }
 /*---------------------------------------------------------------------------*/
    int i= exc_i+1;
@@ -349,7 +350,7 @@ void EdGB::compute_fpqS_ki(
    double r_Der_s= pow(cf,2)*Dx_ptp1_4th(s_v[i+3],s_v[i+2],s_v[i+1],s_v[i],s_v[i-1],dx);
    double r_Der_p= pow(cf,2)*Dx_ptp1_4th(p_v[i+3],p_v[i+2],p_v[i+1],p_v[i],p_v[i-1],dx);
    double r_Der_q= pow(cf,2)*Dx_ptp1_4th(q_v[i+3],q_v[i+2],q_v[i+1],q_v[i],q_v[i-1],dx);
-   double r_Der_pi= pow(cf,2)*Dx_ptp1_4th(pi_v[i+3],pi_v[i+2],pi_v[i+1],pi_v[i],pi_v[i-1],dx);
+   double r_Der_pi= Dx_ptp1_4th(pi_v[i+3],pi_v[i+2],pi_v[i+1],pi_v[i],pi_v[i-1],dx);
 
    f_k[i]=
       n_v[i]*(p_v[i]+s_v[i]*q_v[i])
@@ -388,7 +389,7 @@ void EdGB::compute_fpqS_ki(
       r_Der_s= pow(cf,2)*Dx_ptp0_4th(s_v[i+4],s_v[i+3],s_v[i+2],s_v[i+1],s_v[i],dx);
       r_Der_p= pow(cf,2)*Dx_ptp0_4th(p_v[i+4],p_v[i+3],p_v[i+2],p_v[i+1],p_v[i],dx);
       r_Der_q= pow(cf,2)*Dx_ptp0_4th(q_v[i+4],q_v[i+3],q_v[i+2],q_v[i+1],q_v[i],dx);
-      r_Der_pi= pow(cf,2)*Dx_ptp0_4th(pi_v[i+4],pi_v[i+3],pi_v[i+2],pi_v[i+1],pi_v[i],dx);
+      r_Der_pi= Dx_ptp0_4th(pi_v[i+4],pi_v[i+3],pi_v[i+2],pi_v[i+1],pi_v[i],dx);
 
       f_k[i]=
          n_v[i]*(p_v[i]+s_v[i]*q_v[i])
@@ -435,7 +436,7 @@ void EdGB::compute_fpqS_ki(
    r_Der_s= pow(cf,2)*Dx_ptm1_4th(s_v[i+1],s_v[i],s_v[i-1],s_v[i-2],s_v[i-3],dx);
    r_Der_p= pow(cf,2)*Dx_ptm1_4th(p_v[i+1],p_v[i],p_v[i-1],p_v[i-2],p_v[i-3],dx);
    r_Der_q= pow(cf,2)*Dx_ptm1_4th(q_v[i+1],q_v[i],q_v[i-1],q_v[i-2],q_v[i-3],dx);
-   r_Der_pi= pow(cf,2)*Dx_ptm1_4th(pi_v[i+1],pi_v[i],pi_v[i-1],pi_v[i-2],pi_v[i-3],dx);
+   r_Der_pi= Dx_ptm1_4th(pi_v[i+1],pi_v[i],pi_v[i-1],pi_v[i-2],pi_v[i-3],dx);
 
    f_k[i]=
       n_v[i]*(p_v[i]+s_v[i]*q_v[i])
